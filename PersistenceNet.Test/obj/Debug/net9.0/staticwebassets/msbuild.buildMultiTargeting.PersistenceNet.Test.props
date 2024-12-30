@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\PersistenceNet.Test.props" />
+</Project>

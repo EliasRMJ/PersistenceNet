@@ -12,3 +12,4 @@ C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet\obj\Debug\net9.0\refi
 C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet\obj\Debug\net9.0\PersistenceNet.pdb
 C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet\obj\Debug\net9.0\PersistenceNet.genruntimeconfig.cache
 C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet\obj\Debug\net9.0\ref\PersistenceNet.dll
+C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet\obj\Debug\net9.0\PersistenceNet.sourcelink.json

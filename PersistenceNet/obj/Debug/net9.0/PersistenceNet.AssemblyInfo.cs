@@ -13,11 +13,15 @@ using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("PersistenceNet")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyCopyrightAttribute("MIT")]
+[assembly: System.Reflection.AssemblyDescriptionAttribute("Component responsible for managing data persistence.")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.2.11")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.2+e14eece8d4ec399198bac41bf54c79994f897d07")]
 [assembly: System.Reflection.AssemblyProductAttribute("PersistenceNet")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PersistenceNet")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("1.0.2.11")]
+[assembly: System.Reflection.AssemblyMetadataAttribute("RepositoryUrl", "https://github.com/EliasRMJ/PersistenceNet")]
+[assembly: System.Resources.NeutralResourcesLanguageAttribute("en")]
 
 // Gerado pela classe WriteCodeFragment do MSBuild.
 

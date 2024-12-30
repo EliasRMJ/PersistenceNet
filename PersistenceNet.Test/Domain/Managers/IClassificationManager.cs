@@ -6,7 +6,7 @@ namespace PersistenceNet.Test.Domain.Managers
     public interface IClassificationManager
     {
         Task<OperationReturn> CreateOrReplace(ClassificationView classification);
-        Task<ClassificationView> Get(int id);
-        Task<ClassificationView[]> List();
+        Task<ClassificationView?> Get(int id);
+        Task<IEnumerable<ClassificationView>> List();
     }
 }

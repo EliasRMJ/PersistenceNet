@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>PersistenceNet</id>
+    <version>1.0.2</version>
+    <title>Persistence NET</title>
+    <authors>PersistenceNet</authors>
+    <icon>service-now-circle-128x128.png</icon>
+    <readme>readme.md</readme>
+    <description>Component responsible for managing data persistence.</description>
+    <releaseNotes>Create package of the manager persistence data!</releaseNotes>
+    <copyright>MIT</copyright>
+    <tags>persistence,net,data,dbcontext</tags>
+    <repository type="git" url="https://github.com/EliasRMJ/PersistenceNet" commit="da98b22215b1486ebfe8146efb44a60ebc99548c" />
+    <dependencies>
+      <group targetFramework="net9.0">
+        <dependency id="EntityFramework" version="6.5.1" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.EntityFrameworkCore" version="8.0.11" exclude="Build,Analyzers" />
+        <dependency id="Newtonsoft.Json" version="13.0.3" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet\bin\Release\net9.0\PersistenceNet.runtimeconfig.json" target="lib\net9.0\PersistenceNet.runtimeconfig.json" />
+    <file src="C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet\bin\Release\net9.0\PersistenceNet.dll" target="lib\net9.0\PersistenceNet.dll" />
+    <file src="C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet\readme.md" target="\readme.md" />
+    <file src="C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet\service-now-circle-128x128.png" target="\service-now-circle-128x128.png" />
+  </files>
+</package>

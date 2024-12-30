@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCopyrightAttribute("MIT")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Component responsible for managing data persistence.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.2.11")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.2+cabae996eb920ab4ae34226231e11eddbd78a991")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.2+da98b22215b1486ebfe8146efb44a60ebc99548c")]
 [assembly: System.Reflection.AssemblyProductAttribute("PersistenceNet")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PersistenceNet")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.2.11")]

@@ -282,7 +282,7 @@ namespace PersistenceNet
             return _return;
         }
 
-        private async Task<OperationReturn> UpdateListEntity(IElement mainElement)
+        protected virtual async Task<OperationReturn> UpdateListEntity(IElement mainElement)
         {
             var operationReturn = new OperationReturn { ReturnType = ReturnTypeEnum.Success };
 
@@ -301,11 +301,7 @@ namespace PersistenceNet
                     var propertyName = foreignKey?.PrincipalEntityType.Name.Split('.').Last();
                     var propertyPrimaryForeignKey = mainElement.GetType().GetProperty(propertyName!);
                     if (propertyPrimaryForeignKey == null)
-                    {
-                        operationReturn.ReturnType = ReturnTypeEnum.Error;
-                        operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = "-1", Text = $"Property '{propertyName}' not found!" });
-                        return operationReturn;
-                    }
+                        continue;
 
                     var entityProperty = _persistenceContext.Model.FindEntityType(propertyPrimaryForeignKey?.ToString()!.Split(' ')[0]!);
                     var propertiesElement = entityProperty!.GetDeclaredMembers();
@@ -395,16 +391,7 @@ namespace PersistenceNet
                     var propertyName = foreignKey!.PrincipalEntityType.Name.Split('.').Last();
                     var propertyForeignKey = element.GetType().GetProperty(propertyName);
                     if (propertyForeignKey == null)
-                    {
-                        operationReturn.ReturnType = ReturnTypeEnum.Error;
-                        operationReturn.Messages.Add(new()
-                        {
-                            ReturnType = ReturnTypeEnum.Error,
-                            Code = Codes._ERROR,
-                            Text = $"Property '{propertyName}' not found!"
-                        });
-                        return operationReturn;
-                    }
+                        continue;
 
                     var elementBase = propertyForeignKey.GetValue(element, null) as IElement;
 

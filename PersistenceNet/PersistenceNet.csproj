@@ -8,14 +8,16 @@
     <Title>Persistence NET</Title>
     <Description>Component responsible for managing data persistence.</Description>
     <Copyright>MIT</Copyright>
-    <PackageIcon></PackageIcon>
+    <PackageIcon>service-now-circle-128x128.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <PackageTags>persistence,net,data,dbcontext</PackageTags>
     <PackageReleaseNotes>Create package of the manager persistence data!</PackageReleaseNotes>
     <NeutralLanguage>en</NeutralLanguage>
-    <AssemblyVersion>1.0.0.14</AssemblyVersion>
-    <FileVersion>1.0.0.14</FileVersion>
+    <Version>1.0.2</Version>
+    <AssemblyVersion>1.0.2.11</AssemblyVersion>
+    <FileVersion>1.0.2.11</FileVersion>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/EliasRMJ/PersistenceNet</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,6 +28,10 @@
 
   <ItemGroup>
     <None Update="readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="service-now-circle-128x128.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

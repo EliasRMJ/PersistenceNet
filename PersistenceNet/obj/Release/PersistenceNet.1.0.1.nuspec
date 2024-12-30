@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>PersistenceNet</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <title>Persistence NET</title>
     <authors>PersistenceNet</authors>
     <icon>service-now-circle-128x128.png</icon>

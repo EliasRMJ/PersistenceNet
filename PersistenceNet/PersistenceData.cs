@@ -22,7 +22,7 @@ namespace PersistenceNet
             if (element == null)
             {
                 _return.ReturnType = ReturnTypeEnum.Error;
-                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = "The entity is void!" });
+                _return.Messages.Add(new() { ReturnType = _return.ReturnType, Code = Codes._ERROR, Text = "The entity is void!" });
                 return _return;
             }
 

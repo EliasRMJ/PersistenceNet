@@ -20,6 +20,7 @@
     5.Extensions
     <ul>
       <li>5.1.DescriptionEnumAttribute </li>
+      <li>5.2.CollectionsExtension </li>
     </ul>
   </li>
   <li>

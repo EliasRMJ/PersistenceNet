@@ -3,6 +3,12 @@
   "WorkspaceRootPath": "C:\\Meus Projetos GUI\\SGS V_W\\PersistenceNet\\PersistenceNet\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{78B3B3E6-0E18-46B8-A00B-D048307C8C11}|..\\PersistenceNet.Test\\PersistenceNet.Test.csproj|c:\\meus projetos gui\\sgs v_w\\persistencenet\\persistencenet.test\\domain\\managers\\classificationmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78B3B3E6-0E18-46B8-A00B-D048307C8C11}|..\\PersistenceNet.Test\\PersistenceNet.Test.csproj|c:\\meus projetos gui\\sgs v_w\\persistencenet\\persistencenet.test\\domain\\repositorys\\classificationrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{3333C23B-4E93-4025-8D1D-814D5A0049DF}|PersistenceNet.csproj|c:\\meus projetos gui\\sgs v_w\\persistencenet\\persistencenet\\persistencedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3333C23B-4E93-4025-8D1D-814D5A0049DF}|PersistenceNet.csproj|solutionrelative:persistencedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -51,14 +57,40 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "ClassificationManager.cs",
+              "DocumentMoniker": "C:\\Meus Projetos GUI\\SGS V_W\\PersistenceNet\\PersistenceNet.Test\\Domain\\Managers\\ClassificationManager.cs",
+              "RelativeDocumentMoniker": "..\\PersistenceNet.Test\\Domain\\Managers\\ClassificationManager.cs",
+              "ToolTip": "C:\\Meus Projetos GUI\\SGS V_W\\PersistenceNet\\PersistenceNet.Test\\Domain\\Managers\\ClassificationManager.cs",
+              "RelativeToolTip": "..\\PersistenceNet.Test\\Domain\\Managers\\ClassificationManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-31T17:56:29.316Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ClassificationRepository.cs",
+              "DocumentMoniker": "C:\\Meus Projetos GUI\\SGS V_W\\PersistenceNet\\PersistenceNet.Test\\Domain\\Repositorys\\ClassificationRepository.cs",
+              "RelativeDocumentMoniker": "..\\PersistenceNet.Test\\Domain\\Repositorys\\ClassificationRepository.cs",
+              "ToolTip": "C:\\Meus Projetos GUI\\SGS V_W\\PersistenceNet\\PersistenceNet.Test\\Domain\\Repositorys\\ClassificationRepository.cs",
+              "RelativeToolTip": "..\\PersistenceNet.Test\\Domain\\Repositorys\\ClassificationRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-31T17:52:51.876Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "PersistenceData.cs",
               "DocumentMoniker": "C:\\Meus Projetos GUI\\SGS V_W\\PersistenceNet\\PersistenceNet\\PersistenceData.cs",
               "RelativeDocumentMoniker": "PersistenceData.cs",
               "ToolTip": "C:\\Meus Projetos GUI\\SGS V_W\\PersistenceNet\\PersistenceNet\\PersistenceData.cs",
               "RelativeToolTip": "PersistenceData.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGkBAABYAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAADcCAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-31T13:25:47.626Z",
+              "WhenOpened": "2024-12-31T17:48:33.815Z",
               "EditorCaption": ""
             }
           ]

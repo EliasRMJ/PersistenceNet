@@ -13,7 +13,12 @@ namespace PersistenceNet
         protected readonly PersistenceContext _persistenceContext = persistenceContext;
         protected readonly DbSet<IElement> _dbSet = persistenceContext.Set<IElement>();
 
-        protected virtual void EntityHierarchy(IElement element) { }
+        public virtual async Task<OperationReturn> NewOrUpdate(IElement element)
+        {
+            return element.ElementStates == ElementStatesEnum.New ?
+                await NewAsync(element) :
+                await UpdateAsync(element);
+        }
 
         protected virtual async Task<OperationReturn> NewAsync(IElement element)
         {
@@ -558,6 +563,8 @@ namespace PersistenceNet
 
             return await Task.FromResult(operationReturn);
         }
+
+        protected virtual void EntityHierarchy(IElement element) { }
 
         private static Dictionary<string, int> GetMaxLengthAttributeForPropertie(PropertyInfo propertyInfo)
         {

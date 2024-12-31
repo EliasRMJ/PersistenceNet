@@ -13,9 +13,9 @@
     <PackageTags>persistence,net,data,db,context,extersions</PackageTags>
     <PackageReleaseNotes>A project was made available that implements in practice the use of existing resources in the package!</PackageReleaseNotes>
     <NeutralLanguage>en</NeutralLanguage>
-    <Version>1.0.3</Version>
-    <AssemblyVersion>1.0.3.56</AssemblyVersion>
-    <FileVersion>1.0.3.56</FileVersion>
+    <Version>1.0.4</Version>
+    <AssemblyVersion>1.0.4.17</AssemblyVersion>
+    <FileVersion>1.0.4.17</FileVersion>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/EliasRMJ/PersistenceNet</RepositoryUrl>
   </PropertyGroup>

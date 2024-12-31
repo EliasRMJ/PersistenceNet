@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v9.0": {
-      "PersistenceNet/1.0.3": {
+      "PersistenceNet/1.0.4": {
         "dependencies": {
           "EntityFramework": "6.5.1",
           "Microsoft.EntityFrameworkCore": "8.0.11",
@@ -337,7 +337,7 @@
     }
   },
   "libraries": {
-    "PersistenceNet/1.0.3": {
+    "PersistenceNet/1.0.4": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -1,6 +1,7 @@
 ﻿using PersistenceNet.Test.Domain.Entitys;
 using Microsoft.EntityFrameworkCore;
 using PersistenceNet.Structs;
+using PersistenceNet.Enuns;
 
 namespace PersistenceNet.Test.Domain.Repositorys
 {
@@ -20,7 +21,7 @@ namespace PersistenceNet.Test.Domain.Repositorys
         {
             return await this._contextTest.Classifications
                    .AsNoTrackingWithIdentityResolution()
-                   .Where(c => c.Active == "S")
+                   .Where(c => c.Active == ActiveEnum.S)
                    .ToListAsync();
         }
 
@@ -33,5 +34,15 @@ namespace PersistenceNet.Test.Domain.Repositorys
         {
             return UpdateAsync(classification);
         }
+
+        /* Method used only when there is a need to write inherited understood.
+        protected override void EntityHierarchy(IElement element)
+        {
+            if (element.ElementStates == ElementStatesEnum.New)
+                this._contextTest.Classifications.Add((Classification)element);
+            else
+                this._contextTest.Classifications.UpdateRange((Classification)element);
+        }
+        */
     }
 }

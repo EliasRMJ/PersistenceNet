@@ -1,4 +1,5 @@
-﻿using PersistenceNet.Test.Domain.Entitys;
+﻿using PersistenceNet.Enuns;
+using PersistenceNet.Test.Domain.Entitys;
 using PersistenceNet.Views;
 
 namespace PersistenceNet.Test.Domain.Views
@@ -10,11 +11,11 @@ namespace PersistenceNet.Test.Domain.Views
 
         public string? Name { get; set; }
 
-        public override object ConvertTo(object gDomain)
+        public override object? ConvertTo(object? gDomain)
         {
             var classification = (gDomain == null) ? new() { Id = this.Id } : (Classification)gDomain;
             classification.Name = this.Name;
-            classification.Active = IsActive ? "S" : "N";
+            classification.Active = IsActive ? ActiveEnum.S : ActiveEnum.S;
 
             return classification;
         }

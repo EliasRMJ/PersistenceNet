@@ -11,7 +11,7 @@ namespace PersistenceNet
     public class PersistenceData<T>(PersistenceContext persistenceContext) where T : IElement
     {
         protected readonly PersistenceContext _persistenceContext = persistenceContext;
-        protected DbSet<IElement> _dbSet = persistenceContext.Set<IElement>();
+        protected readonly DbSet<IElement> _dbSet = persistenceContext.Set<IElement>();
 
         protected virtual void EntityHierarchy(IElement element) { }
 
@@ -26,7 +26,7 @@ namespace PersistenceNet
                 return _return;
             }
 
-            _return = this.EntityValidation(element);
+            _return = await this.EntityValidation(element);
             if (_return.Messages.Count > 0)
                 return _return;
 
@@ -115,7 +115,7 @@ namespace PersistenceNet
                 return _return;
             }
 
-            _return = this.EntityValidation(element);
+            _return = await this.EntityValidation(element);
             if (_return.Messages.Count > 0)
                 return _return;
 
@@ -359,7 +359,7 @@ namespace PersistenceNet
             return operationReturn;
         }
 
-        private OperationReturn EntityValidation(IElement element)
+        protected virtual async Task<OperationReturn> EntityValidation(IElement element)
         {
             var operationReturn = new OperationReturn { ReturnType = ReturnTypeEnum.Warning };
 
@@ -367,180 +367,196 @@ namespace PersistenceNet
             {
                 operationReturn.Key = "0";
                 operationReturn.EntityName = "[unknown]";
+                operationReturn.ReturnType = ReturnTypeEnum.Error;
                 operationReturn.Messages.Add(new()
                 {
-                    ReturnType = ReturnTypeEnum.Error,
+                    ReturnType = operationReturn.ReturnType,
                     Code = Codes._ERROR,
                     Text = "Entity cannot be null!"
                 });
+
                 return operationReturn;
             }
 
             var entityName = GetDisplayName(element);
             var key = GetKeyValue(element);
+
             operationReturn.EntityName = entityName;
             operationReturn.Key = key;
             var entityCurrent = _persistenceContext.Model.FindEntityType(element.GetType());
-            var properties = entityCurrent!.GetProperties();
 
-            foreach (var property in properties)
+            if (entityCurrent is not null)
             {
-                if (property.IsPrimaryKey() && property.IsForeignKey())
+                var properties = entityCurrent!.GetProperties();
+
+                foreach (var property in properties)
                 {
-                    var foreignKey = property.GetContainingForeignKeys().FirstOrDefault();
-                    var propertyName = foreignKey!.PrincipalEntityType.Name.Split('.').Last();
-                    var propertyForeignKey = element.GetType().GetProperty(propertyName);
-                    if (propertyForeignKey == null)
-                        continue;
-
-                    var elementBase = propertyForeignKey.GetValue(element, null) as IElement;
-
-                    if (elementBase is not null)
+                    if (property.IsPrimaryKey() && property.IsForeignKey())
                     {
-                        var orMessages = EntityValidation(elementBase);
-                        if (!orMessages.IsSuccess)
+                        var foreignKey = property.GetContainingForeignKeys().FirstOrDefault();
+                        var propertyName = foreignKey!.PrincipalEntityType.Name.Split('.').Last();
+                        var propertyForeignKey = element.GetType().GetProperty(propertyName);
+                        if (propertyForeignKey == null)
+                            continue;
+
+                        var elementBase = propertyForeignKey.GetValue(element, null) as IElement;
+
+                        if (elementBase is not null)
                         {
-                            operationReturn.ReturnType = orMessages.ReturnType;
-                            foreach (var message in orMessages.Messages)
-                                operationReturn.Messages.Add(message);
+                            var orMessages = await this.EntityValidation(elementBase);
+                            if (!orMessages.IsSuccess)
+                            {
+                                operationReturn.ReturnType = orMessages.ReturnType;
+                                foreach (var message in orMessages.Messages)
+                                    operationReturn.Messages.Add(message);
+                            }
                         }
                     }
-                }
 
-                var value = property!.PropertyInfo!.GetValue(element, null);
+                    var value = property!.PropertyInfo!.GetValue(element, null);
 
-                if (!property.IsNullable)
-                {
-                    if (value is null or (object)"")
+                    if (!property.IsNullable)
                     {
-                        if (property.PropertyInfo.CustomAttributes.Any() &&
-                            property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.Count > 0)
+                        if (value is null or (object)"")
                         {
-                            var argument = property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.ElementAt(0);
-                            var message = argument.TypedValue.Value?.ToString();
-
-                            operationReturn.Messages.Add(new()
+                            if (property.PropertyInfo.CustomAttributes.Any() &&
+                                property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.Count > 0)
                             {
-                                ReturnType = ReturnTypeEnum.Warning,
-                                Code = Codes._ERROR,
-                                Text = message
-                            });
-                        }
-                        else
-                        {
-                            operationReturn.Messages.Add(new()
-                            {
-                                ReturnType = ReturnTypeEnum.Warning,
-                                Code = Codes._ERROR,
-                                Text = $"'{property.Name}' required, but no message configured on the entity!"
-                            });
-                        }
-                    }
-                    else if ((property.PropertyInfo.PropertyType == typeof(int)) &&
-                              int.Parse(value?.ToString()!) == 0 &&
-                              !property.IsPrimaryKey())
-                    {
-                        if (property.PropertyInfo.CustomAttributes.Any() &&
-                            property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.Count > 0)
-                        {
-                            var argument = property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.ElementAt(0);
-
-                            if (argument.MemberName == Codes._ERRORMESSAGE)
-                            {
+                                var argument = property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.ElementAt(0);
                                 var message = argument.TypedValue.Value?.ToString();
-                                operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+
+                                operationReturn.Messages.Add(new()
+                                {
+                                    ReturnType = ReturnTypeEnum.Warning,
+                                    Code = Codes._WARNING,
+                                    Text = message
+                                });
+                            }
+                            else
+                            {
+                                operationReturn.Messages.Add(new()
+                                {
+                                    ReturnType = ReturnTypeEnum.Warning,
+                                    Code = Codes._WARNING,
+                                    Text = $"'{property.Name}' required, but no message configured on the entity!"
+                                });
                             }
                         }
-                        else
+                        else if ((property.PropertyInfo.PropertyType == typeof(int)) &&
+                                  int.Parse(value?.ToString()!) == 0 &&
+                                  !property.IsPrimaryKey())
                         {
-                            operationReturn.Messages.Add(new()
+                            if (property.PropertyInfo.CustomAttributes.Any() &&
+                                property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.Count > 0)
                             {
-                                ReturnType = ReturnTypeEnum.Warning,
-                                Code = Codes._WARNING,
-                                Text = $"'{property.Name}' required, but no message configured on the entity!"
-                            });
+                                var argument = property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.ElementAt(0);
+
+                                if (argument.MemberName == Codes._ERRORMESSAGE)
+                                {
+                                    var message = argument.TypedValue.Value?.ToString();
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                }
+                            }
+                            else
+                            {
+                                operationReturn.Messages.Add(new()
+                                {
+                                    ReturnType = ReturnTypeEnum.Warning,
+                                    Code = Codes._WARNING,
+                                    Text = $"'{property.Name}' required, but no message configured on the entity!"
+                                });
+                            }
+                        }
+                        else if ((property.PropertyInfo.PropertyType == typeof(double)) &&
+                                  double.Parse(value?.ToString()!) == 0 &&
+                                  !property.IsPrimaryKey())
+                        {
+                            if (property.PropertyInfo.CustomAttributes.Any() &&
+                                property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.Count > 0)
+                            {
+                                var argument = property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.ElementAt(0);
+
+                                if (argument.MemberName == Codes._ERRORMESSAGE)
+                                {
+                                    var message = argument.TypedValue.Value?.ToString();
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                }
+                            }
+                            else
+                            {
+                                operationReturn.Messages.Add(new()
+                                {
+                                    ReturnType = ReturnTypeEnum.Warning,
+                                    Code = Codes._WARNING,
+                                    Text = $"'{property.Name}' required, but no message configured on the entity!"
+                                });
+                            }
+                        }
+                        else if ((property.PropertyInfo.PropertyType == typeof(decimal)) &&
+                                  decimal.Parse(value?.ToString()!) == 0 &&
+                                  !property.IsPrimaryKey())
+                        {
+                            if (property.PropertyInfo.CustomAttributes.Any() &&
+                                property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.Count > 0)
+                            {
+                                var argument = property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.ElementAt(0);
+
+                                if (argument.MemberName == Codes._ERRORMESSAGE)
+                                {
+                                    var message = argument.TypedValue.Value?.ToString();
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                }
+                            }
+                            else
+                            {
+                                operationReturn.Messages.Add(new()
+                                {
+                                    ReturnType = ReturnTypeEnum.Warning,
+                                    Code = Codes._WARNING,
+                                    Text = $"'{property.Name}' required, but no message configured on the entity!"
+                                });
+                            }
                         }
                     }
-                    else if ((property.PropertyInfo.PropertyType == typeof(double)) &&
-                              double.Parse(value?.ToString()!) == 0 &&
-                              !property.IsPrimaryKey())
+
+                    if (value != null && property.PropertyInfo.PropertyType == typeof(string))
                     {
-                        if (property.PropertyInfo.CustomAttributes.Any() &&
-                            property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.Count > 0)
+                        var maxResult = GetMaxLengthAttributeForPropertie(property.PropertyInfo);
+                        if (maxResult.Count > 0)
                         {
-                            var argument = property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.ElementAt(0);
+                            var maxValue = value!.ToString()!.Length;
+                            var maxLenProperty = maxResult.ElementAt(0).Value;
+                            if (maxValue > maxLenProperty)
+                            {
+                                var argument1 = property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.ElementAt(0);
+                                if (argument1.MemberName == Codes._ERRORMESSAGE)
+                                {
+                                    var message = argument1.TypedValue.Value?.ToString();
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                }
 
-                            if (argument.MemberName == Codes._ERRORMESSAGE)
-                            {
-                                var message = argument.TypedValue.Value?.ToString();
-                                operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
-                            }
-                        }
-                        else
-                        {
-                            operationReturn.Messages.Add(new()
-                            {
-                                ReturnType = ReturnTypeEnum.Warning,
-                                Code = Codes._WARNING,
-                                Text = $"'{property.Name}' required, but no message configured on the entity!"
-                            });
-                        }
-                    }
-                    else if ((property.PropertyInfo.PropertyType == typeof(decimal)) &&
-                              decimal.Parse(value?.ToString()!) == 0 &&
-                              !property.IsPrimaryKey())
-                    {
-                        if (property.PropertyInfo.CustomAttributes.Any() &&
-                            property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.Count > 0)
-                        {
-                            var argument = property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.ElementAt(0);
-
-                            if (argument.MemberName == Codes._ERRORMESSAGE)
-                            {
-                                var message = argument.TypedValue.Value?.ToString();
-                                operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
-                            }
-                        }
-                        else
-                        {
-                            operationReturn.Messages.Add(new()
-                            {
-                                ReturnType = ReturnTypeEnum.Warning,
-                                Code = Codes._WARNING,
-                                Text = $"'{property.Name}' required, but no message configured on the entity!"
-                            });
-                        }
-                    }
-                }
-
-                if (value != null && property.PropertyInfo.PropertyType == typeof(string))
-                {
-                    var maxResult = GetMaxLengthAttributeForPropertie(property.PropertyInfo);
-                    if (maxResult.Count > 0)
-                    {
-                        var maxValue = value!.ToString()!.Length;
-                        var maxLenProperty = maxResult.ElementAt(0).Value;
-                        if (maxValue > maxLenProperty)
-                        {
-                            var argument1 = property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.ElementAt(0);
-                            if (argument1.MemberName == Codes._ERRORMESSAGE)
-                            {
-                                var message = argument1.TypedValue.Value?.ToString();
-                                operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
-                            }
-
-                            var argument2 = property.PropertyInfo.CustomAttributes.ElementAt(1).NamedArguments.ElementAt(0);
-                            if (argument2.MemberName == Codes._ERRORMESSAGE)
-                            {
-                                var message = argument2.TypedValue.Value?.ToString();
-                                operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                var argument2 = property.PropertyInfo.CustomAttributes.ElementAt(1).NamedArguments.ElementAt(0);
+                                if (argument2.MemberName == Codes._ERRORMESSAGE)
+                                {
+                                    var message = argument2.TypedValue.Value?.ToString();
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                }
                             }
                         }
                     }
                 }
             }
+            else
+            {
+                operationReturn.Messages.Add(new()
+                {
+                    ReturnType = ReturnTypeEnum.Warning,
+                    Code = Codes._WARNING,
+                    Text = $"Entity '{element.GetType()}' not found!"
+                });
+            }
 
-            return operationReturn;
+            return await Task.FromResult(operationReturn);
         }
 
         private static Dictionary<string, int> GetMaxLengthAttributeForPropertie(PropertyInfo propertyInfo)
@@ -549,6 +565,7 @@ namespace PersistenceNet
             var maxLength = propertyInfo.GetCustomAttribute<MaxLengthAttribute>()?.Length;
             if (maxLength != null)
                 results.Add(propertyInfo.Name, (int)maxLength);
+            
             return results;
         }
 
@@ -558,8 +575,10 @@ namespace PersistenceNet
 
             var entityType = _persistenceContext.Model.FindEntityType(element.GetType());
             if (entityType == null) return string.Empty;
+            
             var keysName = entityType!.FindPrimaryKey()!.Properties.Select(x => x.Name);
             var key = string.Empty;
+            
             foreach (var keyValuePair in keysName)
                 key += $"{element!.GetType()!.GetProperty(keyValuePair!)!.GetValue(element, null)} | ";
 
@@ -572,8 +591,10 @@ namespace PersistenceNet
 
             var entityType = _persistenceContext.Model.FindEntityType(element?.GetType()!);
             if (entityType == null) return string.Empty;
+            
             var keysName = entityType.FindPrimaryKey()!.Properties.Select(x => x.Name);
             var keyNames = string.Empty;
+            
             foreach (var keyValuePair in keysName)
                 keyNames += $"{keyValuePair} | ";
 
@@ -586,6 +607,7 @@ namespace PersistenceNet
 
             var entityType = _persistenceContext.Model.FindEntityType(element?.GetType()!);
             if (entityType == null) return string.Empty;
+
             var tableName = entityType.ConstructorBinding!.RuntimeType.CustomAttributes?.ElementAt(1).ConstructorArguments?.ElementAt(0).Value;
 
             return tableName?.ToString()!;

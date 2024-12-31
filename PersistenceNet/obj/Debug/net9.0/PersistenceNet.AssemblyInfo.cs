@@ -14,12 +14,13 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PersistenceNet")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyCopyrightAttribute("MIT")]
-[assembly: System.Reflection.AssemblyDescriptionAttribute("Component responsible for managing data persistence.")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.2.11")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.2+8898f4785334fcf56ba3d8e1765210add15cba6b")]
+[assembly: System.Reflection.AssemblyDescriptionAttribute("Package created to facilitate the development of applications using features that" +
+    " are usually repetitive and generic for developers.")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.3.56")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.3+65bffaedb772a048b59d4a805d9bcd3c80a018e5")]
 [assembly: System.Reflection.AssemblyProductAttribute("PersistenceNet")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PersistenceNet")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.0.2.11")]
+[assembly: System.Reflection.AssemblyVersionAttribute("1.0.3.56")]
 [assembly: System.Reflection.AssemblyMetadataAttribute("RepositoryUrl", "https://github.com/EliasRMJ/PersistenceNet")]
 [assembly: System.Resources.NeutralResourcesLanguageAttribute("en")]
 

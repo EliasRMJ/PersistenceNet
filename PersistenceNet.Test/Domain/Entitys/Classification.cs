@@ -26,7 +26,7 @@ namespace PersistenceNet.Test.Domain.Entitys
         [Required(ErrorMessage = "Informe 'S' para ativo ou 'N' para inativo!")]
         [MaxLength(1, ErrorMessage = "Active não pode conter mais de 1 caracteres!")]
         [Column("active", Order = 3)]
-        public string? Active { get; set; }
+        public ActiveEnum Active { get; set; }
 
         [NotMapped]
         public ElementStatesEnum ElementStates { get => Id.Equals(0) ? ElementStatesEnum.New : ElementStatesEnum.Update; set { } }

@@ -16,7 +16,7 @@ namespace PersistenceNet.Views
 
         public string ViewId => $"{Id.ToString().PadLeft(7, '0')}";
 
-        public virtual object ConvertTo(object gDomain)
+        public virtual object? ConvertTo(object? gDomain = null)
         {
             return gDomain;
         }

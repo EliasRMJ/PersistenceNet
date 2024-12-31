@@ -2,6 +2,6 @@
 {
     public interface IViewConvert
     {
-        object ConvertTo(object gDomain);
+        object? ConvertTo(object? gDomain);
     }
 }

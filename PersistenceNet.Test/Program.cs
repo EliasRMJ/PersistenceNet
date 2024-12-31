@@ -3,17 +3,21 @@ using Microsoft.OpenApi.Models;
 using PersistenceNet.Constants;
 using PersistenceNet.Enuns;
 using PersistenceNet.Structs;
+using PersistenceNet.Extensions;
 using PersistenceNet.Test.Domain;
 using PersistenceNet.Test.Domain.Managers;
 using PersistenceNet.Test.Domain.Views;
 
 var builder = WebApplication.CreateBuilder(args);
 
+/* NOTE: Create a local database and run a migration to create the table used in 'ContextTest' before starting the application. */
 builder.Services.AddDbContext<ContextTest>(options =>
 {
+    /* The example here uses MySQL, but can be changed... */
     options.UseMySql(builder.Configuration.GetConnectionString("connName")
         , ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("connName")));
 });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -40,7 +44,7 @@ else
 
 app.UseHttpsRedirection();
 
-app.MapPost("/classification/createorreplace", async (
+app.MapPost("/classifications/createorreplace", async (
     ContextTest contextTest,
     ClassificationView classification) =>
 {
@@ -55,16 +59,16 @@ app.MapPost("/classification/createorreplace", async (
 .WithName("PostClassification")
 .WithTags("Classification");
 
-app.MapGet("/classification/{id}", async (
+app.MapGet("/classifications/{id}", async (
     int id,
     ContextTest contextTest) =>
 {
     var classificationManager = new ClassificationManager(contextTest);
     var objReturn = await classificationManager.Get(id);
 
-    if (objReturn.Id.Equals(0))
+    if (objReturn is not null)
     {
-        var operationReturn = new OperationReturn { EntityName = "Classification", ReturnType = ReturnTypeEnum.Empty, Key = $"{id}", Field = "id" };
+        OperationReturn operationReturn = new() { EntityName = "Classification", ReturnType = ReturnTypeEnum.Empty, Key = $"{id}", Field = "id" };
         operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Empty, Code = Codes._WARNING, Text = $"Classification '{id}' not found!" });
         return Results.BadRequest(operationReturn);
     }
@@ -77,15 +81,15 @@ app.MapGet("/classification/{id}", async (
 .WithName("GetClassification")
 .WithTags("Classification");
 
-app.MapGet("/classification/all", async (
+app.MapGet("/classifications", async (
     ContextTest contextTest) =>
 {
     var classificationManager = new ClassificationManager(contextTest);
     var listReturn = await classificationManager.List();
 
-    if (listReturn.Length.Equals(0))
+    if (listReturn.IsNullOrZero())
     {
-        var operationReturn = new OperationReturn { EntityName = "Classification", ReturnType = ReturnTypeEnum.Empty };
+        OperationReturn operationReturn = new() { EntityName = "Classification", ReturnType = ReturnTypeEnum.Empty };
         operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Empty, Code = Codes._WARNING, Text = "No classification was found!" });
         return Results.BadRequest(operationReturn);
     }

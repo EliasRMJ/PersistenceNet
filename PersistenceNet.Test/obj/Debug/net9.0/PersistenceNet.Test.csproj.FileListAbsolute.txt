@@ -55,3 +55,11 @@ C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test\obj\Debug\net9.0
 C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test\obj\Debug\net9.0\PersistenceNet.Test.pdb
 C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test\obj\Debug\net9.0\PersistenceNet.Test.genruntimeconfig.cache
 C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test\obj\Debug\net9.0\ref\PersistenceNet.Test.dll
+C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test\obj\Debug\net9.0\PersistenceNet.Test.MvcApplicationPartsAssemblyInfo.cs
+C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test\bin\Debug\net9.0\Microsoft.OpenApi.dll
+C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test\bin\Debug\net9.0\MySqlConnector.dll
+C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test\bin\Debug\net9.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll

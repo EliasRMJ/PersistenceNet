@@ -6,16 +6,16 @@
     <Nullable>enable</Nullable>
     <IsPackable>true</IsPackable>
     <Title>Persistence NET</Title>
-    <Description>Component responsible for managing data persistence.</Description>
+    <Description>Package created to facilitate the development of applications using features that are usually repetitive and generic for developers.</Description>
     <Copyright>MIT</Copyright>
     <PackageIcon>service-now-circle-128x128.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>persistence,net,data,dbcontext</PackageTags>
-    <PackageReleaseNotes>Create package of the manager persistence data!</PackageReleaseNotes>
+    <PackageTags>persistence,net,data,db,context,extersions</PackageTags>
+    <PackageReleaseNotes>A project was made available that implements in practice the use of existing resources in the package!</PackageReleaseNotes>
     <NeutralLanguage>en</NeutralLanguage>
-    <Version>1.0.2</Version>
-    <AssemblyVersion>1.0.2.11</AssemblyVersion>
-    <FileVersion>1.0.2.11</FileVersion>
+    <Version>1.0.3</Version>
+    <AssemblyVersion>1.0.3.56</AssemblyVersion>
+    <FileVersion>1.0.3.56</FileVersion>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/EliasRMJ/PersistenceNet</RepositoryUrl>
   </PropertyGroup>

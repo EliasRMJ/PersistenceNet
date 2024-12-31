@@ -1,5 +1,9 @@
 # PersistenceNet
 
+<p>
+  The 'PersistenceNet' package is intended to make it easier to implement your project's persistence context. It provides some features following current development patterns. Below, some of these features will be described for a better understanding.  
+</p>
+
 <ul>
   <li>1.PersistenceData</li>
   <li>2.PersistenceContext</li>

@@ -218,7 +218,7 @@ namespace PersistenceNet
 
             try
             {
-                this._persistenceContext.Entry(element).State = EntityState.Deleted;
+                this._persistenceContext.Remove(element);
                 var retorno = await this._persistenceContext.SaveChangesAsync();
 
                 if (retorno > 0)

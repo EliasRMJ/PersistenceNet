@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>PersistenceNet</id>
+    <version>1.0.4</version>
+    <title>Persistence NET</title>
+    <authors>PersistenceNet</authors>
+    <icon>persistence-net.png</icon>
+    <readme>readme.md</readme>
+    <description>Package created to facilitate the development of applications using features that are usually repetitive and generic for developers.</description>
+    <releaseNotes>A project was made available that implements in practice the use of existing resources in the package!</releaseNotes>
+    <copyright>MIT</copyright>
+    <tags>persistence,net,data,db,context,extersions</tags>
+    <repository type="git" url="https://github.com/EliasRMJ/PersistenceNet" commit="d1ef20cf64e138afe7c049be1c07f188ff2ffdad" />
+    <dependencies>
+      <group targetFramework="net9.0">
+        <dependency id="EntityFramework" version="6.5.1" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.EntityFrameworkCore" version="8.0.11" exclude="Build,Analyzers" />
+        <dependency id="Newtonsoft.Json" version="13.0.3" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <contentFiles>
+      <files include="any/net9.0/persistence-net.ico" buildAction="Content" />
+    </contentFiles>
+  </metadata>
+  <files>
+    <file src="C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet\bin\Release\net9.0\PersistenceNet.runtimeconfig.json" target="lib\net9.0\PersistenceNet.runtimeconfig.json" />
+    <file src="C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet\bin\Release\net9.0\PersistenceNet.dll" target="lib\net9.0\PersistenceNet.dll" />
+    <file src="C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet\persistence-net.ico" target="content\persistence-net.ico" />
+    <file src="C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet\persistence-net.ico" target="contentFiles\any\net9.0\persistence-net.ico" />
+    <file src="C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet\persistence-net.png" target="\persistence-net.png" />
+    <file src="C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet\readme.md" target="\readme.md" />
+  </files>
+</package>

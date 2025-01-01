@@ -473,7 +473,7 @@ namespace PersistenceNet
                             }
                         }
                         else if ((property.PropertyInfo.PropertyType == typeof(double)) &&
-                                  double.Parse(value?.ToString()!) == 0 &&
+                                  double.Parse(value?.ToString()!) == 0D &&
                                   !property.IsPrimaryKey())
                         {
                             if (property.PropertyInfo.CustomAttributes.Any() &&
@@ -498,7 +498,132 @@ namespace PersistenceNet
                             }
                         }
                         else if ((property.PropertyInfo.PropertyType == typeof(decimal)) &&
-                                  decimal.Parse(value?.ToString()!) == 0 &&
+                                  decimal.Parse(value?.ToString()!) == 0M &&
+                                  !property.IsPrimaryKey())
+                        {
+                            if (property.PropertyInfo.CustomAttributes.Any() &&
+                                property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.Count > 0)
+                            {
+                                var argument = property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.ElementAt(0);
+
+                                if (argument.MemberName == Codes._ERRORMESSAGE)
+                                {
+                                    var message = argument.TypedValue.Value?.ToString();
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                }
+                            }
+                            else
+                            {
+                                operationReturn.Messages.Add(new()
+                                {
+                                    ReturnType = ReturnTypeEnum.Warning,
+                                    Code = Codes._WARNING,
+                                    Text = $"'{property.Name}' required, but no message configured on the entity!"
+                                });
+                            }
+                        }
+                        else if ((property.PropertyInfo.PropertyType == typeof(bool)) &&
+                                  bool.Parse(value?.ToString()!) &&
+                                  !property.IsPrimaryKey())
+                        {
+                            if (property.PropertyInfo.CustomAttributes.Any() &&
+                                property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.Count > 0)
+                            {
+                                var argument = property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.ElementAt(0);
+
+                                if (argument.MemberName == Codes._ERRORMESSAGE)
+                                {
+                                    var message = argument.TypedValue.Value?.ToString();
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                }
+                            }
+                            else
+                            {
+                                operationReturn.Messages.Add(new()
+                                {
+                                    ReturnType = ReturnTypeEnum.Warning,
+                                    Code = Codes._WARNING,
+                                    Text = $"'{property.Name}' required, but no message configured on the entity!"
+                                });
+                            }
+                        }
+                        else if ((property.PropertyInfo.PropertyType == typeof(float)) &&
+                                  float.Parse(value?.ToString()!) == 0F &&
+                                  !property.IsPrimaryKey())
+                        {
+                            if (property.PropertyInfo.CustomAttributes.Any() &&
+                                property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.Count > 0)
+                            {
+                                var argument = property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.ElementAt(0);
+
+                                if (argument.MemberName == Codes._ERRORMESSAGE)
+                                {
+                                    var message = argument.TypedValue.Value?.ToString();
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                }
+                            }
+                            else
+                            {
+                                operationReturn.Messages.Add(new()
+                                {
+                                    ReturnType = ReturnTypeEnum.Warning,
+                                    Code = Codes._WARNING,
+                                    Text = $"'{property.Name}' required, but no message configured on the entity!"
+                                });
+                            }
+                        }
+                        else if ((property.PropertyInfo.PropertyType == typeof(long)) &&
+                                  long.Parse(value?.ToString()!) == 0 &&
+                                  !property.IsPrimaryKey())
+                        {
+                            if (property.PropertyInfo.CustomAttributes.Any() &&
+                                property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.Count > 0)
+                            {
+                                var argument = property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.ElementAt(0);
+
+                                if (argument.MemberName == Codes._ERRORMESSAGE)
+                                {
+                                    var message = argument.TypedValue.Value?.ToString();
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                }
+                            }
+                            else
+                            {
+                                operationReturn.Messages.Add(new()
+                                {
+                                    ReturnType = ReturnTypeEnum.Warning,
+                                    Code = Codes._WARNING,
+                                    Text = $"'{property.Name}' required, but no message configured on the entity!"
+                                });
+                            }
+                        }
+                        else if ((property.PropertyInfo.PropertyType == typeof(DateOnly)) &&
+                                  DateOnly.Parse(value?.ToString()!) == default &&
+                                  !property.IsPrimaryKey())
+                        {
+                            if (property.PropertyInfo.CustomAttributes.Any() &&
+                                property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.Count > 0)
+                            {
+                                var argument = property.PropertyInfo.CustomAttributes.ElementAt(0).NamedArguments.ElementAt(0);
+
+                                if (argument.MemberName == Codes._ERRORMESSAGE)
+                                {
+                                    var message = argument.TypedValue.Value?.ToString();
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                }
+                            }
+                            else
+                            {
+                                operationReturn.Messages.Add(new()
+                                {
+                                    ReturnType = ReturnTypeEnum.Warning,
+                                    Code = Codes._WARNING,
+                                    Text = $"'{property.Name}' required, but no message configured on the entity!"
+                                });
+                            }
+                        }
+                        else if ((property.PropertyInfo.PropertyType == typeof(DateTime)) &&
+                                  DateTime.Parse(value?.ToString()!) == default &&
                                   !property.IsPrimaryKey())
                         {
                             if (property.PropertyInfo.CustomAttributes.Any() &&

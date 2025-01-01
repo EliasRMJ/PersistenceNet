@@ -4,23 +4,23 @@ The `**PersistenceNet**` package is intended to make it easier to implement your
 > NOTE: Create a local database and run a migration to create the table used in 'ContextTest' before starting the application.
 
 ## Features 
-1. PersistenceData
-2. PersistenceContext
-3. Enuns
-    3.1. ElementStatesEnum
-    3.2. ReturnTypeEnum
-    3.3. ActiveEnum
-4. Constants
-    4.1. Codes
-5. Extensions
-    5.1. DescriptionEnumAttribute
-    5.2. CollectionsExtension
-6. Interface
-    6.1. IElement
-    6.2. IViewConvert
-7. Structs
-    7.1. OperationReturn
-8. Views
-    8.1. ViewBase
++ PersistenceData
++ PersistenceContext
++ Enuns
+    - ElementStatesEnum
+    - ReturnTypeEnum
+    - ActiveEnum
++ Constants
+    - Codes
++ Extensions
+    - DescriptionEnumAttribute
+    - CollectionsExtension
++ Interface
+    - IElement
+    - IViewConvert
++ Structs
+    - OperationReturn
++ Views
+    - ViewBase
 
 https://github.com/EliasRMJ/PersistenceNet

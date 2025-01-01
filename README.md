@@ -23,4 +23,4 @@ The `PersistenceNet` package is intended to make it easier to implement your pro
 + Views
     - ViewBase
 
-[https://github.com/EliasRMJ/PersistenceNet](https://www.nuget.org/packages/PersistenceNet#readme-body-tab)
+[View Package](https://www.nuget.org/packages/PersistenceNet#readme-body-tab)

@@ -8,7 +8,7 @@
     <Title>Persistence NET</Title>
     <Description>Package created to facilitate the development of applications using features that are usually repetitive and generic for developers.</Description>
     <Copyright>MIT</Copyright>
-    <PackageIcon>service-now-circle-128x128.png</PackageIcon>
+    <PackageIcon>persistence-net.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <PackageTags>persistence,net,data,db,context,extersions</PackageTags>
     <PackageReleaseNotes>A project was made available that implements in practice the use of existing resources in the package!</PackageReleaseNotes>
@@ -18,7 +18,12 @@
     <FileVersion>1.0.4.17</FileVersion>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/EliasRMJ/PersistenceNet</RepositoryUrl>
+    <ApplicationIcon>persistence-net.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="persistence-net.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.5.1" />
@@ -27,11 +32,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="readme.md">
+    <None Update="persistence-net.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Update="service-now-circle-128x128.png">
+    <None Update="readme.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

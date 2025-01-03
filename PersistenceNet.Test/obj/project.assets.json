@@ -709,7 +709,7 @@
           }
         }
       },
-      "PersistenceNet/1.0.4": {
+      "PersistenceNet/1.0.5": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
@@ -2232,7 +2232,7 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "PersistenceNet/1.0.4": {
+    "PersistenceNet/1.0.5": {
       "type": "project",
       "path": "../PersistenceNet/PersistenceNet.csproj",
       "msbuildProject": "../PersistenceNet/PersistenceNet.csproj"
@@ -2241,7 +2241,7 @@
   "projectFileDependencyGroups": {
     "net9.0": [
       "Microsoft.EntityFrameworkCore >= 8.0.11",
-      "PersistenceNet >= 1.0.4",
+      "PersistenceNet >= 1.0.5",
       "Pomelo.EntityFrameworkCore.MySql >= 8.0.2",
       "Swashbuckle.AspNetCore >= 7.2.0"
     ]

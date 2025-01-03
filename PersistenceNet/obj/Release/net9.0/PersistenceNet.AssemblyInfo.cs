@@ -16,11 +16,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCopyrightAttribute("MIT")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Package created to facilitate the development of applications using features that" +
     " are usually repetitive and generic for developers.")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.4.17")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.4+d1ef20cf64e138afe7c049be1c07f188ff2ffdad")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.5.10")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.5+3bb34a62cf11bfbdffe632643dabf13d15ed50bc")]
 [assembly: System.Reflection.AssemblyProductAttribute("PersistenceNet")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PersistenceNet")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.0.4.17")]
+[assembly: System.Reflection.AssemblyVersionAttribute("1.0.5.10")]
 [assembly: System.Reflection.AssemblyMetadataAttribute("RepositoryUrl", "https://github.com/EliasRMJ/PersistenceNet")]
 [assembly: System.Resources.NeutralResourcesLanguageAttribute("en")]
 

@@ -13,16 +13,16 @@
     <PackageTags>persistence,net,data,db,context,extersions</PackageTags>
     <PackageReleaseNotes>A project was made available that implements in practice the use of existing resources in the package!</PackageReleaseNotes>
     <NeutralLanguage>en</NeutralLanguage>
-    <Version>1.0.4</Version>
-    <AssemblyVersion>1.0.4.17</AssemblyVersion>
-    <FileVersion>1.0.4.17</FileVersion>
+    <Version>1.0.5</Version>
+    <AssemblyVersion>1.0.5.10</AssemblyVersion>
+    <FileVersion>1.0.5.10</FileVersion>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/EliasRMJ/PersistenceNet</RepositoryUrl>
-    <ApplicationIcon>persistence-net.ico</ApplicationIcon>
+    <ApplicationIcon>persistence-net-ico.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="persistence-net.ico" />
+    <Content Include="persistence-net-ico.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,10 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="persistence-net.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
     <None Update="readme.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>

@@ -18,13 +18,13 @@ namespace PersistenceNet.Test.Domain.Entitys
         [Key, Column("id", Order = 1)]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Informe a descrição do tipo de classificação!")]
-        [MaxLength(60, ErrorMessage = "Nome do tipo de classificação não pode conter mais de 60 caracteres!")]
+        [Required(ErrorMessage = "Enter the description of the classification type!")]
+        [MaxLength(60, ErrorMessage = "Classification type name cannot contain more than 60 characters!")]
         [Column("name", Order = 2)]
         public string? Name { get; set; }
 
-        [Required(ErrorMessage = "Informe 'S' para ativo ou 'N' para inativo!")]
-        [MaxLength(1, ErrorMessage = "Active não pode conter mais de 1 caracteres!")]
+        [Required(ErrorMessage = "Enter 'S' for active or 'N' for inactive!")]
+        [MaxLength(1, ErrorMessage = "Active cannot contain more than 1 character!")]
         [Column("active", Order = 3)]
         public ActiveEnum Active { get; set; }
 

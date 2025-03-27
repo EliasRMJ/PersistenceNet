@@ -2,6 +2,22 @@
   "version": 3,
   "targets": {
     "net9.0": {
+      "AutoMapper/14.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Options": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0/AutoMapper.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/AutoMapper.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "EntityFramework/6.5.1": {
         "type": "package",
         "dependencies": {
@@ -30,6 +46,15 @@
         "build": {
           "buildTransitive/net6.0/EntityFramework.props": {},
           "buildTransitive/net6.0/EntityFramework.targets": {}
+        }
+      },
+      "Flunt/2.0.5": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Flunt.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Flunt.dll": {}
         }
       },
       "Microsoft.CSharp/4.7.0": {
@@ -553,6 +578,21 @@
     }
   },
   "libraries": {
+    "AutoMapper/14.0.0": {
+      "sha512": "OC+1neAPM4oCCqQj3g2GJ2shziNNhOkxmNB9cVS8jtx4JbgmRzLcUOxB9Tsz6cVPHugdkHgCaCrTjjSI0Z5sCQ==",
+      "type": "package",
+      "path": "automapper/14.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "automapper.14.0.0.nupkg.sha512",
+        "automapper.nuspec",
+        "icon.png",
+        "lib/net8.0/AutoMapper.dll",
+        "lib/net8.0/AutoMapper.xml"
+      ]
+    },
     "EntityFramework/6.5.1": {
       "sha512": "sQRP2lWg1i3aAGWqdliAM8zrGx7LHMUk+9/MoxUjwfTZYGMXvZ2JYZTlyTm1PqDxvn3c9E3U76TWDON7Y5+CVA==",
       "type": "package",
@@ -613,6 +653,19 @@
         "tools/net6.0/any/ef6.dll",
         "tools/net6.0/any/ef6.pdb",
         "tools/net6.0/any/ef6.runtimeconfig.json"
+      ]
+    },
+    "Flunt/2.0.5": {
+      "sha512": "CMgq8FUYjkHzyZT3PhkUwZyy79mudON+EL4b0SAT7BfIOJ2CNypwnbdA0cPHAM2CYQfO2L8ubNJCiBHQOIv2pA==",
+      "type": "package",
+      "path": "flunt/2.0.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "flunt.2.0.5.nupkg.sha512",
+        "flunt.nuspec",
+        "icon.png",
+        "lib/netstandard2.0/Flunt.dll"
       ]
     },
     "Microsoft.CSharp/4.7.0": {
@@ -1641,7 +1694,9 @@
   },
   "projectFileDependencyGroups": {
     "net9.0": [
+      "AutoMapper >= 14.0.0",
       "EntityFramework >= 6.5.1",
+      "Flunt >= 2.0.5",
       "Microsoft.EntityFrameworkCore >= 8.0.11",
       "Newtonsoft.Json >= 13.0.3"
     ]
@@ -1691,15 +1746,23 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net9.0": {
         "targetAlias": "net9.0",
         "dependencies": {
+          "AutoMapper": {
+            "target": "Package",
+            "version": "[14.0.0, )"
+          },
           "EntityFramework": {
             "target": "Package",
             "version": "[6.5.1, )"
+          },
+          "Flunt": {
+            "target": "Package",
+            "version": "[2.0.5, )"
           },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
@@ -1726,7 +1789,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

@@ -1,26 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using PersistenceNet.Constants;
 using PersistenceNet.Enuns;
 using PersistenceNet.Interfaces;
 using PersistenceNet.Structs;
 using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
 using System.Reflection;
 
-namespace PersistenceNet
+namespace PersistenceNet.Repositorys
 {
-    public class PersistenceData<T>(PersistenceContext persistenceContext) where T : IElement
+    public class PersistenceData<TDatabaseContext, IElement>(TDatabaseContext persistenceContext
+                                                           , ILogger<PersistenceData<TDatabaseContext, IElement>> logger) 
+        : IRepositoryBase<IElement>
+        where TDatabaseContext : PersistenceContext
     {
-        protected readonly PersistenceContext _persistenceContext = persistenceContext;
-        protected readonly DbSet<IElement> _dbSet = persistenceContext.Set<IElement>();
-
-        public virtual async Task<OperationReturn> NewOrUpdate(IElement element)
+        #region Métodos públicos
+        public virtual async Task<OperationReturn> CreateOrUpdateAsync(IElement element)
         {
+            logger.LogInformation($"NewOrUpdate: {element.GetType().Name} - {GetKeyValue(element)}");
             return element.ElementStates == ElementStatesEnum.New ?
-                await NewAsync(element) :
+                await CreateAsync(element) :
                 await UpdateAsync(element);
         }
 
-        protected virtual async Task<OperationReturn> NewAsync(IElement element)
+        public virtual async Task<OperationReturn> CreateAsync(IElement element)
         {
             OperationReturn _return = new() { ReturnType = ReturnTypeEnum.Success };
 
@@ -31,9 +35,12 @@ namespace PersistenceNet
                 return _return;
             }
 
-            _return = await this.EntityValidation(element);
+            _return = await EntityValidation(element);
             if (_return.Messages.Count > 0)
+            {
+                logger.LogWarning($"NewAsync: {element.GetType().Name} - {GetKeyValue(element)} - {_return.FormatMessage}");
                 return _return;
+            }
 
             var nameEntity = GetDisplayName(element);
 
@@ -43,18 +50,22 @@ namespace PersistenceNet
 
             try
             {
-                this.EntityHierarchy(element);
-                this._persistenceContext.Entry(element).State = EntityState.Added;
+                EntityHierarchy(element);
 
-                int retorno = await this._persistenceContext.SaveChangesAsync();
+                persistenceContext.Entry(element).State = EntityState.Added;
+
+                logger.LogInformation($"NewAsync: {element.GetType().Name} - {GetKeyValue(element)} - {nameEntity} - SaveChangesAsync");
+                int retorno = await persistenceContext.SaveChangesAsync();
 
                 if (retorno > 0)
                 {
+                    logger.LogInformation($"'{nameEntity}' successfully added!");
                     _return.ReturnType = ReturnTypeEnum.Success;
                     _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Success, Code = Codes._SUCCESS, Text = $"'{nameEntity}' successfully added!" });
                 }
                 else
                 {
+                    logger.LogWarning($"Ops, something went wrong by including the entity '{nameEntity}'!");
                     _return.ReturnType = ReturnTypeEnum.Error;
                     _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = $"Ops, something went wrong by including the entity '{nameEntity}'!" });
                 }
@@ -73,6 +84,8 @@ namespace PersistenceNet
                     possuiInnerException = ex2?.InnerException != null;
                     ex2 = ex2?.InnerException;
                 }
+
+                logger.LogError($"ERROR (01): {_return.FormatMessage}");
             }
             catch (DbUpdateException ex)
             {
@@ -88,6 +101,8 @@ namespace PersistenceNet
                     possuiInnerException = ex2?.InnerException != null;
                     ex2 = ex2?.InnerException;
                 }
+
+                logger.LogError($"ERROR (02): {_return.FormatMessage}");
             }
             catch (Exception ex)
             {
@@ -103,12 +118,14 @@ namespace PersistenceNet
                     possuiInnerException = ex2?.InnerException != null;
                     ex2 = ex2?.InnerException;
                 }
+
+                logger.LogError($"ERROR (03): {_return.FormatMessage}");
             }
 
             return _return;
         }
 
-        protected virtual async Task<OperationReturn> UpdateAsync(IElement element)
+        public virtual async Task<OperationReturn> UpdateAsync(IElement element)
         {
             OperationReturn _return = new() { ReturnType = ReturnTypeEnum.Success };
 
@@ -120,9 +137,12 @@ namespace PersistenceNet
                 return _return;
             }
 
-            _return = await this.EntityValidation(element);
+            _return = await EntityValidation(element);
             if (_return.Messages.Count > 0)
+            {
+                logger.LogWarning($"UpdateAsync: {element.GetType().Name} - {GetKeyValue(element)} - {_return.FormatMessage}");
                 return _return;
+            }
 
             var nameEntity = GetDisplayName(element);
 
@@ -132,20 +152,23 @@ namespace PersistenceNet
 
             try
             {
-                this.EntityHierarchy(element);
+                EntityHierarchy(element);
 
-                this._persistenceContext.Attach(element);
-                this._persistenceContext.Entry(element).State = EntityState.Modified;
+                persistenceContext.Attach(element);
+                persistenceContext.Entry(element).State = EntityState.Modified;
 
-                var returnSave = await this._persistenceContext.SaveChangesAsync();
+                logger.LogInformation($"UpdateAsync: {element.GetType().Name} - {GetKeyValue(element)} - {nameEntity} - SaveChangesAsync");
+                var returnSave = await persistenceContext.SaveChangesAsync();
 
                 if (returnSave > 0)
                 {
+                    logger.LogInformation($"'{nameEntity}' successfully added!");
                     _return.ReturnType = ReturnTypeEnum.Success;
                     _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Success, Code = Codes._SUCCESS, Text = $"'{nameEntity}' updated successfully!" });
                 }
                 else
                 {
+                    logger.LogWarning($"Ops, something went wrong by including the entity '{nameEntity}'!");
                     _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = $"Ops, something went wrong updating the entity '{nameEntity}'!" });
                 }
             }
@@ -163,6 +186,8 @@ namespace PersistenceNet
                     possuiInnerException = ex2?.InnerException != null;
                     ex2 = ex2?.InnerException;
                 }
+
+                logger.LogError($"ERROR (01): {_return.FormatMessage}");
             }
             catch (DbUpdateException ex)
             {
@@ -178,6 +203,8 @@ namespace PersistenceNet
                     possuiInnerException = ex2?.InnerException != null;
                     ex2 = ex2?.InnerException;
                 }
+
+                logger.LogError($"ERROR (02): {_return.FormatMessage}");
             }
             catch (Exception ex)
             {
@@ -193,12 +220,14 @@ namespace PersistenceNet
                     possuiInnerException = ex2?.InnerException != null;
                     ex2 = ex2?.InnerException;
                 }
+
+                logger.LogError($"ERROR (03): {_return.FormatMessage}");
             }
 
             return _return;
         }
 
-        protected virtual async Task<OperationReturn> DeleteAsync(IElement element)
+        public virtual async Task<OperationReturn> DeleteAsync(IElement element)
         {
             OperationReturn _return = new() { ReturnType = ReturnTypeEnum.Success };
 
@@ -218,8 +247,8 @@ namespace PersistenceNet
 
             try
             {
-                this._persistenceContext.Remove(element);
-                var retorno = await this._persistenceContext.SaveChangesAsync();
+                persistenceContext.Remove(element);
+                var retorno = await persistenceContext.SaveChangesAsync();
 
                 if (retorno > 0)
                 {
@@ -246,6 +275,7 @@ namespace PersistenceNet
                     possuiInnerException = ex2?.InnerException != null;
                     ex2 = ex2?.InnerException;
                 }
+                logger.LogError($"ERROR (01): {_return.FormatMessage}");
             }
             catch (DbUpdateException ex)
             {
@@ -261,6 +291,7 @@ namespace PersistenceNet
                     possuiInnerException = ex2?.InnerException != null;
                     ex2 = ex2?.InnerException;
                 }
+                logger.LogError($"ERROR (02): {_return.FormatMessage}");
             }
             catch (Exception ex)
             {
@@ -282,33 +313,38 @@ namespace PersistenceNet
                     possuiInnerException = ex2?.InnerException != null;
                     ex2 = ex2?.InnerException;
                 }
+                logger.LogError($"ERROR (03): {_return.FormatMessage}");
             }
 
             return _return;
         }
 
-        protected virtual async Task<OperationReturn> UpdateListEntity(IElement mainElement)
+        public virtual async Task<OperationReturn> UpdateList(IElement mainElement)
         {
             var operationReturn = new OperationReturn { ReturnType = ReturnTypeEnum.Success };
 
             var entityName = GetDisplayName(mainElement);
             var key = GetKeyValue(mainElement);
+
             operationReturn.EntityName = entityName;
             operationReturn.Key = key;
-            var entityCurrent = _persistenceContext.Model.FindEntityType(mainElement.GetType());
+
+            var entityCurrent = persistenceContext.Model.FindEntityType(mainElement.GetType());
             var properties = entityCurrent!.GetProperties();
 
             foreach (var property in properties)
             {
+                logger.LogInformation($"Checks if property '{property}' it's a first or foreign key!");
                 if (property.IsPrimaryKey() && property.IsForeignKey())
                 {
                     var foreignKey = property.GetContainingForeignKeys().FirstOrDefault();
                     var propertyName = foreignKey?.PrincipalEntityType.Name.Split('.').Last();
                     var propertyPrimaryForeignKey = mainElement.GetType().GetProperty(propertyName!);
+
                     if (propertyPrimaryForeignKey == null)
                         continue;
 
-                    var entityProperty = _persistenceContext.Model.FindEntityType(propertyPrimaryForeignKey?.ToString()!.Split(' ')[0]!);
+                    var entityProperty = persistenceContext.Model.FindEntityType(propertyPrimaryForeignKey?.ToString()!.Split(' ')[0]!);
                     var propertiesElement = entityProperty!.GetDeclaredMembers();
 
                     foreach (var propertyElement in propertiesElement)
@@ -322,7 +358,7 @@ namespace PersistenceNet
                                 {
                                     if (elementDelete.ElementStates == ElementStatesEnum.Delete)
                                     {
-                                        var orMessages = await UpdateListEntity(elementDelete);
+                                        var orMessages = await UpdateList(elementDelete);
                                         if (!orMessages.IsSuccess)
                                         {
                                             operationReturn.ReturnType = orMessages.ReturnType;
@@ -364,7 +400,125 @@ namespace PersistenceNet
             return operationReturn;
         }
 
-        protected virtual async Task<OperationReturn> EntityValidation(IElement element)
+        public virtual void EntityHierarchy(IElement element) { }
+
+        public virtual async Task<IEnumerable<IElement>> Filter(Expression<Func<IElement, bool>> filter
+           , params Expression<Func<IElement, object>>[] includes)
+        {
+            var query = persistenceContext.Set<IElement>()
+                    .AsNoTrackingWithIdentityResolution();
+
+            if (includes is not null && includes.Length > 0)
+            {
+                foreach (var include in includes)
+                    query = query.Include(include);
+            }
+
+            return await query.Where(filter)
+                    .ToListAsync();
+        }
+
+        public virtual async Task<IEnumerable<IElement>> Filter(Expression<Func<IElement, bool>> filter)
+        {
+            return await persistenceContext.Set<IElement>()
+                    .AsNoTrackingWithIdentityResolution()
+                    .Where(filter)
+                    .ToListAsync();
+        }
+
+        public virtual async Task<IEnumerable<IElement>> Filter(Expression<Func<IElement, bool>> filter
+            , int pageNumber, int pageSize, params Expression<Func<IElement, object>>[] includes)
+        {
+            var query = persistenceContext.Set<IElement>()
+                    .AsNoTrackingWithIdentityResolution();
+
+            if (includes is not null && includes.Length > 0)
+            {
+                foreach (var include in includes)
+                    query = query.Include(include);
+            }
+
+            return await query.Where(filter)
+                    .Skip(pageSize * (pageNumber - 1))
+                    .Take(pageSize)
+                    .ToListAsync();
+        }
+
+        public virtual async Task<IEnumerable<IElement>> Filter(Expression<Func<IElement, bool>> filter
+            , int pageNumber, int pageSize)
+        {
+            return await persistenceContext.Set<IElement>()
+                    .AsNoTrackingWithIdentityResolution()
+                    .Where(filter)
+                    .Skip(pageSize * (pageNumber - 1))
+                    .Take(pageSize)
+                    .ToListAsync();
+        }
+
+        public virtual async Task<IEnumerable<IElement>> Paginate(int pageNumber, int pageSize
+            , params Expression<Func<IElement, object>>[] includes)
+        {
+            var query = persistenceContext.Set<IElement>()
+                    .AsNoTrackingWithIdentityResolution();
+
+            if (includes is not null && includes.Length > 0)
+            {
+                foreach (var include in includes)
+                    query = query.Include(include);
+            }
+
+            return await query.Skip(pageSize * (pageNumber - 1))
+                    .Take(pageSize)
+                    .ToListAsync();
+        }
+
+        public virtual async Task<IEnumerable<IElement>> Paginate(int pageNumber, int pageSize)
+        {
+            var query = persistenceContext.Set<IElement>()
+                    .AsNoTrackingWithIdentityResolution();
+
+            return await query.Skip(pageSize * (pageNumber - 1))
+                    .Take(pageSize)
+                    .ToListAsync();
+        }
+
+        public virtual async Task<IElement> GetEntityTrackingByIdAsync(long id)
+        {
+#pragma warning disable CS8603 // Possível retorno de referência nula.
+            return await persistenceContext.Set<IElement>()
+                    .AsTracking()
+                    .FirstOrDefaultAsync(find => find.Id == id);
+#pragma warning restore CS8603 // Possível retorno de referência nula.
+        }
+
+        public virtual async Task<IElement> GetEntityByIdAsync(long id)
+        {
+#pragma warning disable CS8603 // Possível retorno de referência nula.
+            return await persistenceContext.Set<IElement>()
+                    .AsNoTrackingWithIdentityResolution()
+                    .FirstOrDefaultAsync(find => find.Id == id);
+#pragma warning restore CS8603 // Possível retorno de referência nula.
+        }
+
+        public virtual async Task<IElement> GetEntityByIdAsync(long id, params Expression<Func<IElement, object>>[] includes)
+        {
+            var query = persistenceContext.Set<IElement>()
+                .AsNoTrackingWithIdentityResolution();
+
+            if (includes is not null && includes.Length > 0)
+            {
+                foreach (var include in includes)
+                    query = query.Include(include);
+            }
+
+#pragma warning disable CS8603 // Possível retorno de referência nula.
+            return await query.FirstOrDefaultAsync(find => find.Id == id);
+#pragma warning restore CS8603 // Possível retorno de referência nula.
+        }
+        #endregion
+
+        #region Métodos privados
+        private async Task<OperationReturn> EntityValidation(IElement element)
         {
             var operationReturn = new OperationReturn { ReturnType = ReturnTypeEnum.Warning };
 
@@ -388,7 +542,7 @@ namespace PersistenceNet
 
             operationReturn.EntityName = entityName;
             operationReturn.Key = key;
-            var entityCurrent = _persistenceContext.Model.FindEntityType(element.GetType());
+            var entityCurrent = persistenceContext.Model.FindEntityType(element.GetType());
 
             if (entityCurrent is not null)
             {
@@ -408,7 +562,7 @@ namespace PersistenceNet
 
                         if (elementBase is not null)
                         {
-                            var orMessages = await this.EntityValidation(elementBase);
+                            var orMessages = await EntityValidation(elementBase);
                             if (!orMessages.IsSuccess)
                             {
                                 operationReturn.ReturnType = orMessages.ReturnType;
@@ -447,7 +601,7 @@ namespace PersistenceNet
                                 });
                             }
                         }
-                        else if ((property.PropertyInfo.PropertyType == typeof(int)) &&
+                        else if (property.PropertyInfo.PropertyType == typeof(int) &&
                                   int.Parse(value?.ToString()!) == 0 &&
                                   !property.IsPrimaryKey())
                         {
@@ -472,7 +626,7 @@ namespace PersistenceNet
                                 });
                             }
                         }
-                        else if ((property.PropertyInfo.PropertyType == typeof(double)) &&
+                        else if (property.PropertyInfo.PropertyType == typeof(double) &&
                                   double.Parse(value?.ToString()!) == 0D &&
                                   !property.IsPrimaryKey())
                         {
@@ -497,7 +651,7 @@ namespace PersistenceNet
                                 });
                             }
                         }
-                        else if ((property.PropertyInfo.PropertyType == typeof(decimal)) &&
+                        else if (property.PropertyInfo.PropertyType == typeof(decimal) &&
                                   decimal.Parse(value?.ToString()!) == 0M &&
                                   !property.IsPrimaryKey())
                         {
@@ -522,7 +676,7 @@ namespace PersistenceNet
                                 });
                             }
                         }
-                        else if ((property.PropertyInfo.PropertyType == typeof(bool)) &&
+                        else if (property.PropertyInfo.PropertyType == typeof(bool) &&
                                   bool.Parse(value?.ToString()!) &&
                                   !property.IsPrimaryKey())
                         {
@@ -547,7 +701,7 @@ namespace PersistenceNet
                                 });
                             }
                         }
-                        else if ((property.PropertyInfo.PropertyType == typeof(float)) &&
+                        else if (property.PropertyInfo.PropertyType == typeof(float) &&
                                   float.Parse(value?.ToString()!) == 0F &&
                                   !property.IsPrimaryKey())
                         {
@@ -572,7 +726,7 @@ namespace PersistenceNet
                                 });
                             }
                         }
-                        else if ((property.PropertyInfo.PropertyType == typeof(long)) &&
+                        else if (property.PropertyInfo.PropertyType == typeof(long) &&
                                   long.Parse(value?.ToString()!) == 0 &&
                                   !property.IsPrimaryKey())
                         {
@@ -597,7 +751,7 @@ namespace PersistenceNet
                                 });
                             }
                         }
-                        else if ((property.PropertyInfo.PropertyType == typeof(DateOnly)) &&
+                        else if (property.PropertyInfo.PropertyType == typeof(DateOnly) &&
                                   DateOnly.Parse(value?.ToString()!) == default &&
                                   !property.IsPrimaryKey())
                         {
@@ -622,7 +776,7 @@ namespace PersistenceNet
                                 });
                             }
                         }
-                        else if ((property.PropertyInfo.PropertyType == typeof(DateTime)) &&
+                        else if (property.PropertyInfo.PropertyType == typeof(DateTime) &&
                                   DateTime.Parse(value?.ToString()!) == default &&
                                   !property.IsPrimaryKey())
                         {
@@ -689,8 +843,6 @@ namespace PersistenceNet
             return await Task.FromResult(operationReturn);
         }
 
-        protected virtual void EntityHierarchy(IElement element) { }
-
         private static Dictionary<string, int> GetMaxLengthAttributeForPropertie(PropertyInfo propertyInfo)
         {
             var results = new Dictionary<string, int>();
@@ -705,7 +857,7 @@ namespace PersistenceNet
         {
             if (element is null) return string.Empty;
 
-            var entityType = _persistenceContext.Model.FindEntityType(element.GetType());
+            var entityType = persistenceContext.Model.FindEntityType(element.GetType());
             if (entityType == null) return string.Empty;
             
             var keysName = entityType!.FindPrimaryKey()!.Properties.Select(x => x.Name);
@@ -721,7 +873,7 @@ namespace PersistenceNet
         {
             if (element is null) return string.Empty;
 
-            var entityType = _persistenceContext.Model.FindEntityType(element?.GetType()!);
+            var entityType = persistenceContext.Model.FindEntityType(element?.GetType()!);
             if (entityType == null) return string.Empty;
             
             var keysName = entityType.FindPrimaryKey()!.Properties.Select(x => x.Name);
@@ -737,12 +889,13 @@ namespace PersistenceNet
         {
             if (element is null) return string.Empty;
 
-            var entityType = _persistenceContext.Model.FindEntityType(element?.GetType()!);
+            var entityType = persistenceContext.Model.FindEntityType(element?.GetType()!);
             if (entityType == null) return string.Empty;
 
             var tableName = entityType.ConstructorBinding!.RuntimeType.CustomAttributes?.ElementAt(1).ConstructorArguments?.ElementAt(0).Value;
 
             return tableName?.ToString()!;
         }
+        #endregion
     }
 }

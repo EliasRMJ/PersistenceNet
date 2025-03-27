@@ -6,14 +6,27 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v9.0": {
-      "PersistenceNet/1.0.3": {
+      "PersistenceNet/1.0.5": {
         "dependencies": {
+          "AutoMapper": "14.0.0",
           "EntityFramework": "6.5.1",
+          "Flunt": "2.0.5",
           "Microsoft.EntityFrameworkCore": "8.0.11",
           "Newtonsoft.Json": "13.0.3"
         },
         "runtime": {
           "PersistenceNet.dll": {}
+        }
+      },
+      "AutoMapper/14.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Options": "8.0.2"
+        },
+        "runtime": {
+          "lib/net8.0/AutoMapper.dll": {
+            "assemblyVersion": "14.0.0.0",
+            "fileVersion": "14.0.0.0"
+          }
         }
       },
       "EntityFramework/6.5.1": {
@@ -32,6 +45,14 @@
           "lib/netstandard2.1/EntityFramework.dll": {
             "assemblyVersion": "6.0.0.0",
             "fileVersion": "6.500.124.31603"
+          }
+        }
+      },
+      "Flunt/2.0.5": {
+        "runtime": {
+          "lib/netstandard2.0/Flunt.dll": {
+            "assemblyVersion": "2.0.5.0",
+            "fileVersion": "2.0.5.0"
           }
         }
       },
@@ -337,10 +358,17 @@
     }
   },
   "libraries": {
-    "PersistenceNet/1.0.3": {
+    "PersistenceNet/1.0.5": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "AutoMapper/14.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OC+1neAPM4oCCqQj3g2GJ2shziNNhOkxmNB9cVS8jtx4JbgmRzLcUOxB9Tsz6cVPHugdkHgCaCrTjjSI0Z5sCQ==",
+      "path": "automapper/14.0.0",
+      "hashPath": "automapper.14.0.0.nupkg.sha512"
     },
     "EntityFramework/6.5.1": {
       "type": "package",
@@ -348,6 +376,13 @@
       "sha512": "sha512-sQRP2lWg1i3aAGWqdliAM8zrGx7LHMUk+9/MoxUjwfTZYGMXvZ2JYZTlyTm1PqDxvn3c9E3U76TWDON7Y5+CVA==",
       "path": "entityframework/6.5.1",
       "hashPath": "entityframework.6.5.1.nupkg.sha512"
+    },
+    "Flunt/2.0.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-CMgq8FUYjkHzyZT3PhkUwZyy79mudON+EL4b0SAT7BfIOJ2CNypwnbdA0cPHAM2CYQfO2L8ubNJCiBHQOIv2pA==",
+      "path": "flunt/2.0.5",
+      "hashPath": "flunt.2.0.5.nupkg.sha512"
     },
     "Microsoft.CSharp/4.7.0": {
       "type": "package",

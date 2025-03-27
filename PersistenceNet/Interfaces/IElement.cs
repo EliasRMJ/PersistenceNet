@@ -1,11 +1,10 @@
 ﻿using PersistenceNet.Enuns;
-using PersistenceNet.Views;
 
 namespace PersistenceNet.Interfaces
 {
     public interface IElement
     {
+        int Id { get; set; }
         ElementStatesEnum ElementStates { get; set; }
-        ViewBase GetView();
     }
 }

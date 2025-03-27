@@ -1,4 +1,4 @@
-﻿namespace PersistenceNet.Interface
+﻿namespace PersistenceNet.Interfaces
 {
     public interface IViewConvert
     {

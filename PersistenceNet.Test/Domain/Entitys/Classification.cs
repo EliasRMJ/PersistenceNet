@@ -1,7 +1,5 @@
 ﻿using PersistenceNet.Enuns;
 using PersistenceNet.Interfaces;
-using PersistenceNet.Test.Domain.Views;
-using PersistenceNet.Views;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -30,18 +28,5 @@ namespace PersistenceNet.Test.Domain.Entitys
 
         [NotMapped]
         public ElementStatesEnum ElementStates { get => Id.Equals(0) ? ElementStatesEnum.New : ElementStatesEnum.Update; set { } }
-
-        public ViewBase GetView()
-        {
-            return new ClassificationView
-            {
-                Id = this.Id,
-                Name = this.Name,
-                IdentifyObject = Guid.NewGuid(),
-                IsActive = true,
-                IsDelete = false,
-                IsCheck = false
-            };
-        }
     }
 }

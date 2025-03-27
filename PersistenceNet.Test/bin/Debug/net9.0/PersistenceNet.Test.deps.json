@@ -9,7 +9,7 @@
       "PersistenceNet.Test/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "8.0.11",
-          "PersistenceNet": "1.0.3",
+          "PersistenceNet": "1.0.5",
           "Pomelo.EntityFrameworkCore.MySql": "8.0.2",
           "Swashbuckle.AspNetCore": "7.2.0"
         },
@@ -372,7 +372,7 @@
           }
         }
       },
-      "PersistenceNet/1.0.3": {
+      "PersistenceNet/1.0.5": {
         "dependencies": {
           "EntityFramework": "6.5.1",
           "Microsoft.EntityFrameworkCore": "8.0.11",
@@ -380,8 +380,8 @@
         },
         "runtime": {
           "PersistenceNet.dll": {
-            "assemblyVersion": "1.0.3",
-            "fileVersion": "1.0.3.56"
+            "assemblyVersion": "1.0.5.10",
+            "fileVersion": "1.0.5.10"
           }
         }
       }
@@ -673,7 +673,7 @@
       "path": "system.windows.extensions/6.0.0",
       "hashPath": "system.windows.extensions.6.0.0.nupkg.sha512"
     },
-    "PersistenceNet/1.0.3": {
+    "PersistenceNet/1.0.5": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -3,20 +3,32 @@ using Microsoft.OpenApi.Models;
 using PersistenceNet.Constants;
 using PersistenceNet.Enuns;
 using PersistenceNet.Structs;
-using PersistenceNet.Extensions;
 using PersistenceNet.Test.Domain;
-using PersistenceNet.Test.Domain.Managers;
-using PersistenceNet.Test.Domain.Views;
+using PersistenceNet.Test.Domain.ViewModels;
+using PersistenceNet.Test.Domain.Repositorys;
+using PersistenceNet.Test.Domain.Services;
+using PersistenceNet.Test.Domain.AppServices;
+using PersistenceNet.Test.Domain.Mapper;
+using PersistenceNet.CrossCutting.Logging;
+using PersistenceNet.Test.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-/* NOTE: Create a local database and run a migration to create the table used in 'ContextTest' before starting the application. */
 builder.Services.AddDbContext<ContextTest>(options =>
 {
     /* The example here uses MySQL, but can be changed... */
     options.UseMySql(builder.Configuration.GetConnectionString("connName")
         , ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("connName")));
 });
+
+builder.Services.AddScoped(typeof(IClassificationRepository), typeof(ClassificationRepository));
+builder.Services.AddScoped(typeof(IClassificationService), typeof(ClassificationService));
+builder.Services.AddScoped(typeof(IClassificationAppService), typeof(ClassificationAppService));
+
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
+builder.Logging.ClearProviders();
+builder.Logging.AddProvider(new FileLoggerProvider("Logs"));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -42,14 +54,14 @@ else
     app.UseHsts();
 }
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 
 app.MapPost("/classifications/createorreplace", async (
-    ContextTest contextTest,
-    ClassificationView classification) =>
+    IClassificationAppService classificationAppService,
+    ClassificationViewModel classification) =>
 {
-    var classificationManager = new ClassificationManager(contextTest);
-    var operationReturn = await classificationManager.CreateOrReplace(classification);
+    var operationReturn = await classificationAppService.CreateOrUpdateAsync(classification);
 
     return operationReturn.IsSuccess ? Results.Ok(operationReturn) : Results.BadRequest(operationReturn);
 })
@@ -61,10 +73,9 @@ app.MapPost("/classifications/createorreplace", async (
 
 app.MapGet("/classifications/{id}", async (
     int id,
-    ContextTest contextTest) =>
+    IClassificationAppService classificationAppService) =>
 {
-    var classificationManager = new ClassificationManager(contextTest);
-    var objReturn = await classificationManager.Get(id);
+    var objReturn = await classificationAppService.GetEntityByIdAsync(id);
 
     if (objReturn is not null)
     {
@@ -75,17 +86,18 @@ app.MapGet("/classifications/{id}", async (
 
     return Results.Ok(objReturn);
 })
-.Produces<ClassificationView>(StatusCodes.Status200OK)
+.Produces<ClassificationViewModel>(StatusCodes.Status200OK)
 .Produces<OperationReturn>(StatusCodes.Status400BadRequest)
 .Produces(StatusCodes.Status500InternalServerError)
 .WithName("GetClassification")
 .WithTags("Classification");
 
-app.MapGet("/classifications", async (
-    ContextTest contextTest) =>
+app.MapGet("/classifications/{page}/{pageSize}", async (
+    int page,
+    int pageSize,
+    IClassificationAppService classificationAppService) =>
 {
-    var classificationManager = new ClassificationManager(contextTest);
-    var listReturn = await classificationManager.List();
+    var listReturn = await classificationAppService.Paginate(page, pageSize);
 
     if (listReturn.IsNullOrZero())
     {
@@ -96,7 +108,7 @@ app.MapGet("/classifications", async (
 
     return Results.Ok(listReturn);
 })
-.Produces<ClassificationView[]>(StatusCodes.Status200OK)
+.Produces<ClassificationViewModel[]>(StatusCodes.Status200OK)
 .Produces<OperationReturn>(StatusCodes.Status400BadRequest)
 .Produces(StatusCodes.Status500InternalServerError)
 .WithName("GetClassificationAll")

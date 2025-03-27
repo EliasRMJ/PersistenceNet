@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PersistenceNet.Constants;
+using PersistenceNet.Entitys;
 using PersistenceNet.Enuns;
 using PersistenceNet.Interfaces;
 using PersistenceNet.Structs;
@@ -10,13 +11,14 @@ using System.Reflection;
 
 namespace PersistenceNet.Repositorys
 {
-    public class PersistenceData<TDatabaseContext, IElement>(TDatabaseContext persistenceContext
-                                                           , ILogger<PersistenceData<TDatabaseContext, IElement>> logger) 
-        : IRepositoryBase<IElement>
+    public class PersistenceData<TDatabaseContext, TEntity>(TDatabaseContext persistenceContext
+                                                          , ILogger<PersistenceData<TDatabaseContext, TEntity>> logger) 
+        : IRepositoryBase<TEntity>
+        where TEntity : EntityBase
         where TDatabaseContext : PersistenceContext
     {
         #region Métodos públicos
-        public virtual async Task<OperationReturn> CreateOrUpdateAsync(IElement element)
+        public virtual async Task<OperationReturn> CreateOrUpdateAsync(TEntity element)
         {
             logger.LogInformation($"NewOrUpdate: {element.GetType().Name} - {GetKeyValue(element)}");
             return element.ElementStates == ElementStatesEnum.New ?
@@ -24,7 +26,7 @@ namespace PersistenceNet.Repositorys
                 await UpdateAsync(element);
         }
 
-        public virtual async Task<OperationReturn> CreateAsync(IElement element)
+        public virtual async Task<OperationReturn> CreateAsync(TEntity element)
         {
             OperationReturn _return = new() { ReturnType = ReturnTypeEnum.Success };
 
@@ -125,7 +127,7 @@ namespace PersistenceNet.Repositorys
             return _return;
         }
 
-        public virtual async Task<OperationReturn> UpdateAsync(IElement element)
+        public virtual async Task<OperationReturn> UpdateAsync(TEntity element)
         {
             OperationReturn _return = new() { ReturnType = ReturnTypeEnum.Success };
 
@@ -227,7 +229,7 @@ namespace PersistenceNet.Repositorys
             return _return;
         }
 
-        public virtual async Task<OperationReturn> DeleteAsync(IElement element)
+        public virtual async Task<OperationReturn> DeleteAsync(TEntity element)
         {
             OperationReturn _return = new() { ReturnType = ReturnTypeEnum.Success };
 
@@ -319,7 +321,7 @@ namespace PersistenceNet.Repositorys
             return _return;
         }
 
-        public virtual async Task<OperationReturn> UpdateList(IElement mainElement)
+        public virtual async Task<OperationReturn> UpdateList(TEntity mainElement)
         {
             var operationReturn = new OperationReturn { ReturnType = ReturnTypeEnum.Success };
 
@@ -351,7 +353,7 @@ namespace PersistenceNet.Repositorys
                     {
                         if (propertyElement!.PropertyInfo!.IsCollectible)
                         {
-                            var elementsDelete = propertyElement.PropertyInfo.GetValue(entityProperty.GetType(), null) as ICollection<IElement>;
+                            var elementsDelete = propertyElement.PropertyInfo.GetValue(entityProperty.GetType(), null) as ICollection<TEntity>;
                             if (elementsDelete is not null)
                             {
                                 foreach (var elementDelete in elementsDelete)
@@ -374,7 +376,7 @@ namespace PersistenceNet.Repositorys
                     }
                 }
 
-                var elements = property!.PropertyInfo!.GetValue(mainElement, null) as ICollection<IElement>;
+                var elements = property!.PropertyInfo!.GetValue(mainElement, null) as ICollection<TEntity>;
 
                 if (elements is not null)
                 {
@@ -400,12 +402,12 @@ namespace PersistenceNet.Repositorys
             return operationReturn;
         }
 
-        public virtual void EntityHierarchy(IElement element) { }
+        public virtual void EntityHierarchy(TEntity element) { }
 
-        public virtual async Task<IEnumerable<IElement>> Filter(Expression<Func<IElement, bool>> filter
-           , params Expression<Func<IElement, object>>[] includes)
+        public virtual async Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter
+           , params Expression<Func<TEntity, object>>[] includes)
         {
-            var query = persistenceContext.Set<IElement>()
+            var query = persistenceContext.Set<TEntity>()
                     .AsNoTrackingWithIdentityResolution();
 
             if (includes is not null && includes.Length > 0)
@@ -418,18 +420,18 @@ namespace PersistenceNet.Repositorys
                     .ToListAsync();
         }
 
-        public virtual async Task<IEnumerable<IElement>> Filter(Expression<Func<IElement, bool>> filter)
+        public virtual async Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter)
         {
-            return await persistenceContext.Set<IElement>()
+            return await persistenceContext.Set<TEntity>()
                     .AsNoTrackingWithIdentityResolution()
                     .Where(filter)
                     .ToListAsync();
         }
 
-        public virtual async Task<IEnumerable<IElement>> Filter(Expression<Func<IElement, bool>> filter
-            , int pageNumber, int pageSize, params Expression<Func<IElement, object>>[] includes)
+        public virtual async Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter
+            , int pageNumber, int pageSize, params Expression<Func<TEntity, object>>[] includes)
         {
-            var query = persistenceContext.Set<IElement>()
+            var query = persistenceContext.Set<TEntity>()
                     .AsNoTrackingWithIdentityResolution();
 
             if (includes is not null && includes.Length > 0)
@@ -444,10 +446,10 @@ namespace PersistenceNet.Repositorys
                     .ToListAsync();
         }
 
-        public virtual async Task<IEnumerable<IElement>> Filter(Expression<Func<IElement, bool>> filter
+        public virtual async Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter
             , int pageNumber, int pageSize)
         {
-            return await persistenceContext.Set<IElement>()
+            return await persistenceContext.Set<TEntity>()
                     .AsNoTrackingWithIdentityResolution()
                     .Where(filter)
                     .Skip(pageSize * (pageNumber - 1))
@@ -455,10 +457,10 @@ namespace PersistenceNet.Repositorys
                     .ToListAsync();
         }
 
-        public virtual async Task<IEnumerable<IElement>> Paginate(int pageNumber, int pageSize
-            , params Expression<Func<IElement, object>>[] includes)
+        public virtual async Task<IEnumerable<TEntity>> Paginate(int pageNumber, int pageSize
+            , params Expression<Func<TEntity, object>>[] includes)
         {
-            var query = persistenceContext.Set<IElement>()
+            var query = persistenceContext.Set<TEntity>()
                     .AsNoTrackingWithIdentityResolution();
 
             if (includes is not null && includes.Length > 0)
@@ -472,9 +474,9 @@ namespace PersistenceNet.Repositorys
                     .ToListAsync();
         }
 
-        public virtual async Task<IEnumerable<IElement>> Paginate(int pageNumber, int pageSize)
+        public virtual async Task<IEnumerable<TEntity>> Paginate(int pageNumber, int pageSize)
         {
-            var query = persistenceContext.Set<IElement>()
+            var query = persistenceContext.Set<TEntity>()
                     .AsNoTrackingWithIdentityResolution();
 
             return await query.Skip(pageSize * (pageNumber - 1))
@@ -482,27 +484,27 @@ namespace PersistenceNet.Repositorys
                     .ToListAsync();
         }
 
-        public virtual async Task<IElement> GetEntityTrackingByIdAsync(long id)
+        public virtual async Task<TEntity> GetEntityTrackingByIdAsync(long id)
         {
 #pragma warning disable CS8603 // Possível retorno de referência nula.
-            return await persistenceContext.Set<IElement>()
+            return await persistenceContext.Set<TEntity>()
                     .AsTracking()
                     .FirstOrDefaultAsync(find => find.Id == id);
 #pragma warning restore CS8603 // Possível retorno de referência nula.
         }
 
-        public virtual async Task<IElement> GetEntityByIdAsync(long id)
+        public virtual async Task<TEntity> GetEntityByIdAsync(long id)
         {
 #pragma warning disable CS8603 // Possível retorno de referência nula.
-            return await persistenceContext.Set<IElement>()
+            return await persistenceContext.Set<TEntity>()
                     .AsNoTrackingWithIdentityResolution()
                     .FirstOrDefaultAsync(find => find.Id == id);
 #pragma warning restore CS8603 // Possível retorno de referência nula.
         }
 
-        public virtual async Task<IElement> GetEntityByIdAsync(long id, params Expression<Func<IElement, object>>[] includes)
+        public virtual async Task<TEntity> GetEntityByIdAsync(long id, params Expression<Func<TEntity, object>>[] includes)
         {
-            var query = persistenceContext.Set<IElement>()
+            var query = persistenceContext.Set<TEntity>()
                 .AsNoTrackingWithIdentityResolution();
 
             if (includes is not null && includes.Length > 0)
@@ -518,7 +520,7 @@ namespace PersistenceNet.Repositorys
         #endregion
 
         #region Métodos privados
-        private async Task<OperationReturn> EntityValidation(IElement element)
+        private async Task<OperationReturn> EntityValidation(TEntity element)
         {
             var operationReturn = new OperationReturn { ReturnType = ReturnTypeEnum.Warning };
 
@@ -558,7 +560,7 @@ namespace PersistenceNet.Repositorys
                         if (propertyForeignKey == null)
                             continue;
 
-                        var elementBase = propertyForeignKey.GetValue(element, null) as IElement;
+                        var elementBase = propertyForeignKey.GetValue(element, null) as TEntity;
 
                         if (elementBase is not null)
                         {
@@ -853,7 +855,7 @@ namespace PersistenceNet.Repositorys
             return results;
         }
 
-        private string GetKeyValue(IElement element)
+        private string GetKeyValue(TEntity element)
         {
             if (element is null) return string.Empty;
 
@@ -869,7 +871,7 @@ namespace PersistenceNet.Repositorys
             return !string.IsNullOrEmpty(key) ? key[..^2] : string.Empty;
         }
 
-        private string GetKeyName(IElement element)
+        private string GetKeyName(TEntity element)
         {
             if (element is null) return string.Empty;
 
@@ -885,7 +887,7 @@ namespace PersistenceNet.Repositorys
             return !string.IsNullOrEmpty(keyNames) ? keyNames[..^2] : string.Empty;
         }
 
-        private string GetDisplayName(IElement element)
+        private string GetDisplayName(TEntity element)
         {
             if (element is null) return string.Empty;
 

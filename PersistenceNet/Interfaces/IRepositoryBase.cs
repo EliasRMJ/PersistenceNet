@@ -1,26 +1,27 @@
-﻿using PersistenceNet.Structs;
+﻿using PersistenceNet.Entitys;
+using PersistenceNet.Structs;
 using System.Linq.Expressions;
 
 namespace PersistenceNet.Interfaces
 {
-    public interface IRepositoryBase<IElement> where IElement : class
+    public interface IRepositoryBase<TEntity> where TEntity : EntityBase
     {
-        Task<OperationReturn> CreateOrUpdateAsync(IElement element);
-        Task<OperationReturn> CreateAsync(IElement element);
-        Task<OperationReturn> UpdateAsync(IElement element);
-        Task<OperationReturn> DeleteAsync(IElement element);
-        Task<OperationReturn> UpdateList(IElement mainElement);
-        void EntityHierarchy(IElement element);
+        Task<OperationReturn> CreateOrUpdateAsync(TEntity element);
+        Task<OperationReturn> CreateAsync(TEntity element);
+        Task<OperationReturn> UpdateAsync(TEntity element);
+        Task<OperationReturn> DeleteAsync(TEntity element);
+        Task<OperationReturn> UpdateList(TEntity mainElement);
+        void EntityHierarchy(TEntity element);
 
-        Task<IEnumerable<IElement>> Filter(Expression<Func<IElement, bool>> filter, params Expression<Func<IElement, object>>[] includes);
-        Task<IEnumerable<IElement>> Filter(Expression<Func<IElement, bool>> filter);
-        Task<IEnumerable<IElement>> Filter(Expression<Func<IElement, bool>> filter, int pageNumber, int pageSize, params Expression<Func<IElement, object>>[] includes);
-        Task<IEnumerable<IElement>> Filter(Expression<Func<IElement, bool>> filter, int pageNumber, int pageSize);
-        Task<IEnumerable<IElement>> Paginate(int pageNumber, int pageSize, params Expression<Func<IElement, object>>[] includes);
-        Task<IEnumerable<IElement>> Paginate(int pageNumber, int pageSize);
+        Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes);
+        Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter);
+        Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter, int pageNumber, int pageSize, params Expression<Func<TEntity, object>>[] includes);
+        Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter, int pageNumber, int pageSize);
+        Task<IEnumerable<TEntity>> Paginate(int pageNumber, int pageSize, params Expression<Func<TEntity, object>>[] includes);
+        Task<IEnumerable<TEntity>> Paginate(int pageNumber, int pageSize);
 
-        Task<IElement> GetEntityTrackingByIdAsync(long id);
-        Task<IElement> GetEntityByIdAsync(long id);
-        Task<IElement> GetEntityByIdAsync(long id, params Expression<Func<IElement, object>>[] includes);
+        Task<TEntity> GetEntityTrackingByIdAsync(long id);
+        Task<TEntity> GetEntityByIdAsync(long id);
+        Task<TEntity> GetEntityByIdAsync(long id, params Expression<Func<TEntity, object>>[] includes);
     }
 }

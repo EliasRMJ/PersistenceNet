@@ -11,6 +11,8 @@ using PersistenceNet.Test.Domain.AppServices;
 using PersistenceNet.Test.Domain.Mapper;
 using PersistenceNet.CrossCutting.Logging;
 using PersistenceNet.Test.Middleware;
+using PersistenceNet.Interfaces;
+using PersistenceNet.Test.Domain.Transaction;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,9 +23,13 @@ builder.Services.AddDbContext<ContextTest>(options =>
         , ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("connName")));
 });
 
+builder.Services.AddSingleton(typeof(IDatabaseContext), typeof(ContextTest));
+
+builder.Services.AddHttpClient();
 builder.Services.AddScoped(typeof(IClassificationRepository), typeof(ClassificationRepository));
 builder.Services.AddScoped(typeof(IClassificationService), typeof(ClassificationService));
 builder.Services.AddScoped(typeof(IClassificationAppService), typeof(ClassificationAppService));
+builder.Services.AddScoped(typeof(ITransactionWork), typeof(TransactionWork));
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
@@ -77,7 +83,7 @@ app.MapGet("/classifications/{id}", async (
 {
     var objReturn = await classificationAppService.GetEntityByIdAsync(id);
 
-    if (objReturn is not null)
+    if (objReturn is null)
     {
         OperationReturn operationReturn = new() { EntityName = "Classification", ReturnType = ReturnTypeEnum.Empty, Key = $"{id}", Field = "id" };
         operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Empty, Code = Codes._WARNING, Text = $"Classification '{id}' not found!" });
@@ -99,7 +105,7 @@ app.MapGet("/classifications/{page}/{pageSize}", async (
 {
     var listReturn = await classificationAppService.Paginate(page, pageSize);
 
-    if (listReturn.IsNullOrZero())
+    if (listReturn is null)
     {
         OperationReturn operationReturn = new() { EntityName = "Classification", ReturnType = ReturnTypeEnum.Empty };
         operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Empty, Code = Codes._WARNING, Text = "No classification was found!" });

@@ -4,7 +4,7 @@ namespace PersistenceNet.Interfaces
 {
     public interface IElement
     {
-        int Id { get; set; }
+        long Id { get; set; }
         ElementStatesEnum ElementStates { get; set; }
     }
 }

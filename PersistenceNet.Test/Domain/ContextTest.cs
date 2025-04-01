@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Flunt.Notifications;
+using Microsoft.EntityFrameworkCore;
 using PersistenceNet.Enuns;
 using PersistenceNet.Test.Domain.Entitys;
 
@@ -11,6 +12,8 @@ namespace PersistenceNet.Test.Domain
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<Notification>();
+
             modelBuilder.Entity<Classification>(cla => cla.Property(cla => cla.Active)
                 .HasConversion(cla => (int)cla, cla => (ActiveEnum)cla));
 

@@ -34,57 +34,52 @@ namespace PersistenceNet.Services
             return await repository.DeleteAsync(element);
         }
 
-        public virtual void EntityHierarchy(TEntity element)
-        {
-            repository.EntityHierarchy(element);
-        }
-
-        public async Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter
+        public virtual async Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter
             , params Expression<Func<TEntity, object>>[] includes)
         {
             return await repository.Filter(filter, includes);
         }
 
-        public async Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter)
+        public virtual async Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter)
         {
             return await repository.Filter(filter);
         }
 
-        public Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter
+        public virtual async Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter
             , int pageNumber, int pageSize, params Expression<Func<TEntity, object>>[] includes)
         {
-            return repository.Filter(filter, pageNumber, pageSize, includes);
+            return await repository.Filter(filter, pageNumber, pageSize, includes);
         }
 
-        public Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter, int pageNumber, int pageSize)
+        public virtual async Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter, int pageNumber, int pageSize)
         {
-            return repository.Filter(filter, pageNumber, pageSize); 
+            return await repository.Filter(filter, pageNumber, pageSize); 
         }
 
-        public Task<IEnumerable<TEntity>> Paginate(int pageNumber, int pageSize
+        public virtual async Task<IEnumerable<TEntity>> Paginate(int pageNumber, int pageSize
             , params Expression<Func<TEntity, object>>[] includes)
         {
-            return repository.Paginate(pageNumber, pageSize, includes);
+            return await repository.Paginate(pageNumber, pageSize, includes);
         }
 
-        public Task<IEnumerable<TEntity>> Paginate(int pageNumber, int pageSize)
+        public virtual async Task<IEnumerable<TEntity>> Paginate(int pageNumber, int pageSize)
         {
-            return repository.Paginate(pageNumber, pageSize);
+            return await repository.Paginate(pageNumber, pageSize);
         }
 
-        public Task<TEntity> GetEntityByIdAsync(long id)
+        public virtual async Task<TEntity> GetEntityByIdAsync(long id)
         {
-            return repository.GetEntityByIdAsync(id);
+            return await repository.GetEntityByIdAsync(id);
         }
 
-        public Task<TEntity> GetEntityByIdAsync(long id, params Expression<Func<TEntity, object>>[] includes)
+        public virtual async Task<TEntity> GetEntityByIdAsync(long id, params Expression<Func<TEntity, object>>[] includes)
         {
-            return repository.GetEntityByIdAsync(id, includes);
+            return await repository.GetEntityByIdAsync(id, includes);
         }
 
-        public Task<TEntity> GetEntityTrackingByIdAsync(long id)
+        public virtual async Task<TEntity> GetEntityTrackingByIdAsync(long id)
         {
-            return repository.GetEntityTrackingByIdAsync(id);
+            return await repository.GetEntityTrackingByIdAsync(id);
         }
     }
 }

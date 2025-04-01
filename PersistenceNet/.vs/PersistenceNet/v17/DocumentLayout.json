@@ -3,8 +3,14 @@
   "WorkspaceRootPath": "C:\\Meus Projetos GUI\\SGS V_W\\PersistenceNet\\PersistenceNet\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3333C23B-4E93-4025-8D1D-814D5A0049DF}|PersistenceNet.csproj|c:\\meus projetos gui\\sgs v_w\\persistencenet\\persistencenet\\entitys\\entitybase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3333C23B-4E93-4025-8D1D-814D5A0049DF}|PersistenceNet.csproj|solutionrelative:entitys\\entitybase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3333C23B-4E93-4025-8D1D-814D5A0049DF}|PersistenceNet.csproj|c:\\meus projetos gui\\sgs v_w\\persistencenet\\persistencenet\\persistencecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3333C23B-4E93-4025-8D1D-814D5A0049DF}|PersistenceNet.csproj|solutionrelative:persistencecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78B3B3E6-0E18-46B8-A00B-D048307C8C11}|..\\PersistenceNet.Test\\PersistenceNet.Test.csproj|c:\\meus projetos gui\\sgs v_w\\persistencenet\\persistencenet.test\\domain\\contexttest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{78B3B3E6-0E18-46B8-A00B-D048307C8C11}|..\\PersistenceNet.Test\\PersistenceNet.Test.csproj|c:\\meus projetos gui\\sgs v_w\\persistencenet\\persistencenet.test\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +20,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,15 +56,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "EntityBase.cs",
-              "DocumentMoniker": "C:\\Meus Projetos GUI\\SGS V_W\\PersistenceNet\\PersistenceNet\\Entitys\\EntityBase.cs",
-              "RelativeDocumentMoniker": "Entitys\\EntityBase.cs",
-              "ToolTip": "C:\\Meus Projetos GUI\\SGS V_W\\PersistenceNet\\PersistenceNet\\Entitys\\EntityBase.cs",
-              "RelativeToolTip": "Entitys\\EntityBase.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAbAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "ContextTest.cs",
+              "DocumentMoniker": "C:\\Meus Projetos GUI\\SGS V_W\\PersistenceNet\\PersistenceNet.Test\\Domain\\ContextTest.cs",
+              "RelativeDocumentMoniker": "..\\PersistenceNet.Test\\Domain\\ContextTest.cs",
+              "ToolTip": "C:\\Meus Projetos GUI\\SGS V_W\\PersistenceNet\\PersistenceNet.Test\\Domain\\ContextTest.cs",
+              "RelativeToolTip": "..\\PersistenceNet.Test\\Domain\\ContextTest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-27T13:54:06.881Z",
+              "WhenOpened": "2025-04-01T11:58:20.879Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PersistenceContext.cs",
+              "DocumentMoniker": "C:\\Meus Projetos GUI\\SGS V_W\\PersistenceNet\\PersistenceNet\\PersistenceContext.cs",
+              "RelativeDocumentMoniker": "PersistenceContext.cs",
+              "ToolTip": "C:\\Meus Projetos GUI\\SGS V_W\\PersistenceNet\\PersistenceNet\\PersistenceContext.cs",
+              "RelativeToolTip": "PersistenceContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-01T11:52:31.48Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Meus Projetos GUI\\SGS V_W\\PersistenceNet\\PersistenceNet.Test\\Program.cs",
+              "RelativeDocumentMoniker": "..\\PersistenceNet.Test\\Program.cs",
+              "ToolTip": "C:\\Meus Projetos GUI\\SGS V_W\\PersistenceNet\\PersistenceNet.Test\\Program.cs",
+              "RelativeToolTip": "..\\PersistenceNet.Test\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-27T14:04:33.182Z",
               "EditorCaption": ""
             }
           ]

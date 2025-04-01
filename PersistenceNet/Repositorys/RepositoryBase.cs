@@ -15,7 +15,7 @@ namespace PersistenceNet.Repositorys
         public abstract Task<OperationReturn> UpdateAsync(TEntity element);
         public abstract Task<OperationReturn> DeleteAsync(TEntity element);
         public abstract Task<OperationReturn> UpdateList(TEntity mainElement);
-        public abstract void EntityHierarchy(TEntity element);
+        public abstract Task EntityHierarchy(TEntity element);
 
         public abstract Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes);
         public abstract Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter);

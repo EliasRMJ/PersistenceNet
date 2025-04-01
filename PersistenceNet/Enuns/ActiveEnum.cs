@@ -4,9 +4,9 @@ namespace PersistenceNet.Enuns
 {
     public enum ActiveEnum
     {
-        [DescriptionEnumAttribute("Sim")]
+        [DescriptionEnumAttribute("Yes")]
         S = 0,
-        [DescriptionEnumAttribute("Não")]
+        [DescriptionEnumAttribute("No")]
         N = 1
     }
 }

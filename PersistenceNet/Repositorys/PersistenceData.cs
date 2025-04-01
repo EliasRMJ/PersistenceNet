@@ -52,7 +52,7 @@ namespace PersistenceNet.Repositorys
 
             try
             {
-                EntityHierarchy(element);
+                await EntityHierarchy(element);
 
                 persistenceContext.Entry(element).State = EntityState.Added;
 
@@ -154,7 +154,7 @@ namespace PersistenceNet.Repositorys
 
             try
             {
-                EntityHierarchy(element);
+                await EntityHierarchy(element);
 
                 persistenceContext.Attach(element);
                 persistenceContext.Entry(element).State = EntityState.Modified;
@@ -402,7 +402,10 @@ namespace PersistenceNet.Repositorys
             return operationReturn;
         }
 
-        public virtual void EntityHierarchy(TEntity element) { }
+        public virtual async Task EntityHierarchy(TEntity element) 
+        {
+            await Task.FromResult(true);
+        }
 
         public virtual async Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter
            , params Expression<Func<TEntity, object>>[] includes)

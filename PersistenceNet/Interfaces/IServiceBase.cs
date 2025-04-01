@@ -10,8 +10,7 @@ namespace PersistenceNet.Interfaces
         Task<OperationReturn> UpdateAsync(TEntity element);
         Task<OperationReturn> DeleteAsync(TEntity element);
         Task<OperationReturn> UpdateList(TEntity mainElement);
-        void EntityHierarchy(TEntity element);
-
+    
         Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter, params Expression<Func<TEntity, object>>[] includes);
         Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter);
         Task<IEnumerable<TEntity>> Filter(Expression<Func<TEntity, bool>> filter, int pageNumber, int pageSize, params Expression<Func<TEntity, object>>[] includes);

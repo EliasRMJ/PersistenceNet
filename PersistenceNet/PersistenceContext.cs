@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Flunt.Notifications;
+using Microsoft.EntityFrameworkCore;
 using PersistenceNet.Interfaces;
 
 namespace PersistenceNet
@@ -16,6 +17,13 @@ namespace PersistenceNet
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.EnableSensitiveDataLogging();
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Ignore<Notification>();
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

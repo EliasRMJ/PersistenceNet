@@ -11,23 +11,23 @@ namespace PersistenceNet.Utils
             if (sourceExpression.Parameters is null || sourceExpression.Parameters.Count.Equals(0))
                 throw new Exception("No parameters found. Check the Expression Filters!");
 
-            var conditions = new List<(string Property, object Value, string Operator)>();
+            var conditions = new List<(string property, object value, string operatorx)>();
             ParseExpression(sourceExpression.Body, conditions);
 
             var parameter = Expression.Parameter(typeof(TTarget), "find");
             Expression? finalExpression = null;
 
-            foreach (var condition in conditions)
+            foreach (var (property, value, operatorx) in conditions)
             {
-                var property = PropertyExist(parameter, condition.Property);
+                var propertyIn = PropertyExist(parameter, property);
 
-                if (property is null)
+                if (propertyIn is null)
                 {
                     var propertyRootClass = PropertyExist(parameter, findIn) ?? throw new Exception($"Property '{findIn}' not found!");
-                    property = Expression.Property(propertyRootClass!, condition.Property);
+                    propertyIn = Expression.Property(propertyRootClass!, property);
                 }
-                var constant = Expression.Constant(Convert.ChangeType(condition.Value, property.Type));
-                var comparison = Expression.Equal(property, constant);
+                var constant = Expression.Constant(Convert.ChangeType(value, propertyIn.Type));
+                var comparison = ParseExpression(propertyIn, constant, operatorx);
 
                 finalExpression = finalExpression == null ? comparison : Expression.AndAlso(finalExpression, comparison);
             }
@@ -92,11 +92,12 @@ namespace PersistenceNet.Utils
             return null;
         }
 
-        private static void ParseExpression(Expression expression, List<(string Property, object Value, string Operator)> conditions)
+        private static void ParseExpression(Expression expression, List<(string property, object value, string operatorx)> conditions)
         {
             if (expression is BinaryExpression binaryExpression)
             {
-                if (binaryExpression.NodeType == ExpressionType.AndAlso || binaryExpression.NodeType == ExpressionType.OrElse)
+                if (binaryExpression.NodeType == ExpressionType.AndAlso || 
+                    binaryExpression.NodeType == ExpressionType.OrElse)
                 {
                     ParseExpression(binaryExpression.Left, conditions);
                     ParseExpression(binaryExpression.Right, conditions);
@@ -104,9 +105,9 @@ namespace PersistenceNet.Utils
                 else
                 {
                     string? propertyName = GetPropertyName(binaryExpression.Left);
-                    object? value = GetConstantValue(binaryExpression.Right);
                     string? operador = GetOperator(binaryExpression.NodeType);
-
+                    object? value = GetConstantValue(binaryExpression.Right);
+                   
                     if (!string.IsNullOrEmpty(propertyName) && value is not null)
                         conditions.Add((propertyName!, value!, operador));
                 }
@@ -132,6 +133,20 @@ namespace PersistenceNet.Utils
             }
 
             return null;
+        }
+
+        private static BinaryExpression ParseExpression(MemberExpression property, ConstantExpression constant, string operatorx)
+        {
+            return operatorx switch
+            {
+                "==" => Expression.Equal(property, constant),
+                "!=" => Expression.NotEqual(property, constant),
+                ">" => Expression.GreaterThan(property, constant),
+                ">=" => Expression.GreaterThanOrEqual(property, constant),
+                "<" => Expression.LessThan(property, constant),
+                "<=" => Expression.LessThanOrEqual(property, constant),
+                _ => throw new NotSupportedException($"Operator '{operatorx}' is not supported!")
+            };
         }
 
         private static string GetOperator(ExpressionType nodeType)

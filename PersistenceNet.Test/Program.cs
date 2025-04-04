@@ -98,6 +98,31 @@ app.MapGet("/classifications/{id}", async (
 .WithName("GetClassification")
 .WithTags("Classification");
 
+app.MapGet("/classifications/{page}/{pageSize}/descriptions/{name}", async (
+    int page,
+    int pageSize,
+    string name,
+    IClassificationAppService classificationAppService) =>
+{
+    var listReturn = await classificationAppService.Filter(find => find.Name!.Contains(name) && 
+                                                                   find.Active == ActiveEnum.S
+                                                          , page, pageSize);
+
+    if (listReturn is null)
+    {
+        OperationReturn operationReturn = new() { EntityName = "Classification", ReturnType = ReturnTypeEnum.Empty };
+        operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Empty, Code = Codes._WARNING, Text = "No classification was found!" });
+        return Results.BadRequest(operationReturn);
+    }
+
+    return Results.Ok(listReturn);
+})
+.Produces<ClassificationViewModel[]>(StatusCodes.Status200OK)
+.Produces<OperationReturn>(StatusCodes.Status400BadRequest)
+.Produces(StatusCodes.Status500InternalServerError)
+.WithName("GetClassificationAll")
+.WithTags("Classification");
+
 app.MapGet("/classifications/{page}/{pageSize}", async (
     int page,
     int pageSize,

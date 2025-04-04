@@ -3,24 +3,4 @@ The `PersistenceNet` package is intended to make it easier to implement your pro
 
 > NOTE: Create a local database and run a migration to create the table used in `ContextTest` before starting the application.
 
-## Features 
-+ PersistenceData
-+ PersistenceContext
-+ Enuns
-    - ElementStatesEnum
-    - ReturnTypeEnum
-    - ActiveEnum
-+ Constants
-    - Codes
-+ Extensions
-    - DescriptionEnumAttribute
-    - CollectionsExtension
-+ Interface
-    - IElement
-    - IViewConvert
-+ Structs
-    - OperationReturn
-+ Views
-    - ViewBase
-
 https://github.com/EliasRMJ/PersistenceNet

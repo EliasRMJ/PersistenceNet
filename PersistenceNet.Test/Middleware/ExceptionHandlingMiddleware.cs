@@ -1,17 +1,12 @@
 ﻿using System.Net;
+using System.Text.Json;
 
 namespace PersistenceNet.Test.Middleware
 {
-    public class ExceptionHandlingMiddleware
+    public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
     {
-        private readonly RequestDelegate _next;
-        private readonly ILogger<ExceptionHandlingMiddleware> _logger;
-
-        public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
-        {
-            _next = next;
-            _logger = logger;
-        }
+        private readonly RequestDelegate _next = next;
+        private readonly ILogger<ExceptionHandlingMiddleware> _logger = logger;
 
         public async Task InvokeAsync(HttpContext context)
         {
@@ -31,7 +26,6 @@ namespace PersistenceNet.Test.Middleware
 
             var response = exception switch
             {
-                Exception appEx => new ExceptionResponse((HttpStatusCode)appEx.StatusCode, appEx.Message),
                 ApplicationException => new ExceptionResponse(HttpStatusCode.BadRequest, "Application exception occurred."),
                 KeyNotFoundException => new ExceptionResponse(HttpStatusCode.NotFound, "The requested key was not found."),
                 UnauthorizedAccessException => new ExceptionResponse(HttpStatusCode.Unauthorized, "Unauthorized access."),

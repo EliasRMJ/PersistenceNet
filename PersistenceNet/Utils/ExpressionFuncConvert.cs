@@ -11,25 +11,25 @@ namespace PersistenceNet.Utils
             if (sourceExpression.Parameters is null || sourceExpression.Parameters.Count.Equals(0))
                 throw new Exception("No parameters found. Check the Expression Filters!");
 
-            var conditions = new List<(string property, object value, string operatorx)>();
-            ParseExpression(sourceExpression.Body, conditions);
+            var conditions = new List<(string property, ExpressionType operatorx, object? value, ExpressionType expressionType)>();
+            ParseExpression(sourceExpression.Body, conditions, ExpressionType.Default);
 
             var parameter = Expression.Parameter(typeof(TTarget), "find");
             Expression? finalExpression = null;
 
-            foreach (var (property, value, operatorx) in conditions)
+            foreach (var (property, operatorx, value, expressionType) in conditions)
             {
                 var propertyIn = PropertyExist(parameter, property);
-
                 if (propertyIn is null)
                 {
                     var propertyRootClass = PropertyExist(parameter, findIn) ?? throw new Exception($"Property '{findIn}' not found!");
                     propertyIn = Expression.Property(propertyRootClass!, property);
                 }
-                var constant = Expression.Constant(Convert.ChangeType(value, propertyIn.Type));
+
+                var constant = GetConstantValue(propertyIn, value);
                 var comparison = ParseExpression(propertyIn, constant, operatorx);
 
-                finalExpression = finalExpression == null ? comparison : Expression.AndAlso(finalExpression, comparison);
+                finalExpression = finalExpression == null ? comparison : CreateExpressionType(finalExpression, comparison, expressionType);
             }
 
             if (finalExpression is null)
@@ -92,31 +92,45 @@ namespace PersistenceNet.Utils
             return null;
         }
 
-        private static void ParseExpression(Expression expression, List<(string property, object value, string operatorx)> conditions)
+        private static void ParseExpression(Expression expression, List<(string property, ExpressionType operatorx, object? value, ExpressionType expressionType)> conditions
+            , ExpressionType expressionType)
         {
             if (expression is BinaryExpression binaryExpression)
             {
-                if (binaryExpression.NodeType == ExpressionType.AndAlso || 
+                if (binaryExpression.NodeType == ExpressionType.AndAlso ||
                     binaryExpression.NodeType == ExpressionType.OrElse)
                 {
-                    ParseExpression(binaryExpression.Left, conditions);
-                    ParseExpression(binaryExpression.Right, conditions);
+                    ParseExpression(binaryExpression.Left, conditions, binaryExpression.NodeType);
+                    ParseExpression(binaryExpression.Right, conditions, binaryExpression.NodeType);
                 }
                 else
                 {
                     string? propertyName = GetPropertyName(binaryExpression.Left);
-                    string? operador = GetOperator(binaryExpression.NodeType);
                     object? value = GetConstantValue(binaryExpression.Right);
-                   
-                    if (!string.IsNullOrEmpty(propertyName) && value is not null)
-                        conditions.Add((propertyName!, value!, operador));
+
+                    if (!string.IsNullOrEmpty(propertyName))
+                        conditions.Add((propertyName!, binaryExpression.NodeType, value ?? null, expressionType));
                 }
+            }
+            else if (expression is MethodCallExpression methodCall)
+            {
+                string? propertyName = GetPropertyName(methodCall.Object!);
+                object? value = methodCall.Arguments.Count > 0 ? GetConstantValue(methodCall.Arguments[0]) : null;
+
+                if (!string.IsNullOrEmpty(propertyName))
+                    conditions.Add((propertyName!, ExpressionType.Call, value, expressionType));
             }
         }
 
         private static string? GetPropertyName(Expression expression)
         {
-            return expression is MemberExpression memberExpression ? memberExpression.Member.Name : null;
+            if (expression is MemberExpression memberExpression)
+                return memberExpression.Member.Name;
+
+            if (expression is UnaryExpression unaryExpression && unaryExpression.Operand is MemberExpression innerMember)
+                return innerMember.Member.Name;
+
+            return null;
         }
 
         private static object? GetConstantValue(Expression expression)
@@ -135,32 +149,38 @@ namespace PersistenceNet.Utils
             return null;
         }
 
-        private static BinaryExpression ParseExpression(MemberExpression property, ConstantExpression constant, string operatorx)
+        private static ConstantExpression GetConstantValue(MemberExpression propertyIn, object? value)
+        {
+            if (value is null)
+                return Expression.Constant(value);
+
+            var targetType = propertyIn.Type;
+            object? typedValue = targetType.IsEnum ? Enum.ToObject(targetType, value!) : Convert.ChangeType(value, targetType);
+
+            return Expression.Constant(typedValue, targetType);
+        }
+
+        private static Expression ParseExpression(MemberExpression property, ConstantExpression constant, ExpressionType operatorx)
         {
             return operatorx switch
             {
-                "==" => Expression.Equal(property, constant),
-                "!=" => Expression.NotEqual(property, constant),
-                ">" => Expression.GreaterThan(property, constant),
-                ">=" => Expression.GreaterThanOrEqual(property, constant),
-                "<" => Expression.LessThan(property, constant),
-                "<=" => Expression.LessThanOrEqual(property, constant),
+                ExpressionType.Equal => Expression.Equal(property, constant),
+                ExpressionType.NotEqual => Expression.NotEqual(property, constant),
+                ExpressionType.GreaterThan => Expression.GreaterThan(property, constant),
+                ExpressionType.GreaterThanOrEqual => Expression.GreaterThanOrEqual(property, constant),
+                ExpressionType.LessThan => Expression.LessThan(property, constant),
+                ExpressionType.LessThanOrEqual => Expression.LessThanOrEqual(property, constant),
+                ExpressionType.Call => Expression.Call(property, typeof(string).GetMethod("Contains", [typeof(string)])!, constant),
                 _ => throw new NotSupportedException($"Operator '{operatorx}' is not supported!")
             };
         }
 
-        private static string GetOperator(ExpressionType nodeType)
+        private static BinaryExpression CreateExpressionType(Expression? finalExpression, Expression comparison, ExpressionType expressionType)
         {
-            return nodeType switch
-            {
-                ExpressionType.Equal => "==",
-                ExpressionType.NotEqual => "!=",
-                ExpressionType.GreaterThan => ">",
-                ExpressionType.GreaterThanOrEqual => ">=",
-                ExpressionType.LessThan => "<",
-                ExpressionType.LessThanOrEqual => "<=",
-                _ => nodeType.ToString()
-            };
+            return expressionType.Equals(ExpressionType.AndAlso) ? Expression.AndAlso(finalExpression!, comparison) :
+                   expressionType.Equals(ExpressionType.And) ? Expression.And(finalExpression!, comparison) :
+                   expressionType.Equals(ExpressionType.OrElse) ? Expression.OrElse(finalExpression!, comparison) :
+                    Expression.Or(finalExpression!, comparison);
         }
         #endregion
     }

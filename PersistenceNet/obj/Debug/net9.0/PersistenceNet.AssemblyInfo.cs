@@ -17,7 +17,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Package created to facilitate the development of applications using features that" +
     " are usually repetitive and generic for developers.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.5.10")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.5+eb0fc34d1e2edc43f9a0ad927d501298d8e9fbf7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.5+2c2a13cc8a42a2740074a230c98fbc9c23369a5f")]
 [assembly: System.Reflection.AssemblyProductAttribute("PersistenceNet")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PersistenceNet")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.5.10")]

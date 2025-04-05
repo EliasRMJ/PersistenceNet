@@ -1,0 +1,301 @@
+2025-04-05 08:29:54 [Information] Now listening on: https://localhost:7296
+2025-04-05 08:29:54 [Information] Now listening on: http://localhost:5249
+2025-04-05 08:29:54 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 08:29:54 [Information] Hosting environment: Development
+2025-04-05 08:29:54 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 08:31:24 [Information] Now listening on: https://localhost:7296
+2025-04-05 08:31:24 [Information] Now listening on: http://localhost:5249
+2025-04-05 08:31:25 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 08:31:25 [Information] Hosting environment: Development
+2025-04-05 08:31:25 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 08:32:48 [Information] Now listening on: https://localhost:7296
+2025-04-05 08:32:48 [Information] Now listening on: http://localhost:5249
+2025-04-05 08:32:49 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 08:32:49 [Information] Hosting environment: Development
+2025-04-05 08:32:49 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 08:39:34 [Information] Now listening on: https://localhost:7296
+2025-04-05 08:39:34 [Information] Now listening on: http://localhost:5249
+2025-04-05 08:39:35 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 08:39:35 [Information] Hosting environment: Development
+2025-04-05 08:39:35 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 08:40:05 [Information] Now listening on: https://localhost:7296
+2025-04-05 08:40:05 [Information] Now listening on: http://localhost:5249
+2025-04-05 08:40:05 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 08:40:05 [Information] Hosting environment: Development
+2025-04-05 08:40:05 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 09:32:57 [Information] Executed DbCommand (15ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+2025-04-05 09:32:57 [Information] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-05 09:32:57 [Information] Executed DbCommand (23ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-05 09:32:57 [Information] Executed DbCommand (10ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-05 09:32:57 [Information] Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+2025-04-05 09:32:57 [Information] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-05 09:32:57 [Information] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-05 09:32:57 [Information] Applying migration '20250405122619_StartMigration'.
+2025-04-05 09:32:57 [Information] Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+CREATE TABLE [classification] (
+    [Id] bigint NOT NULL IDENTITY,
+    [name] nvarchar(60) NOT NULL,
+    [active] int NOT NULL,
+    CONSTRAINT [PK_classification] PRIMARY KEY ([Id])
+);
+2025-04-05 09:32:57 [Information] Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20250405122619_StartMigration', N'9.0.3');
+2025-04-05 09:32:57 [Information] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
+2025-04-05 09:33:37 [Information] Now listening on: https://localhost:7296
+2025-04-05 09:33:37 [Information] Now listening on: http://localhost:5249
+2025-04-05 09:33:38 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 09:33:38 [Information] Hosting environment: Development
+2025-04-05 09:33:38 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 09:39:07 [Information] Now listening on: https://localhost:7296
+2025-04-05 09:39:07 [Information] Now listening on: http://localhost:5249
+2025-04-05 09:39:07 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 09:39:07 [Information] Hosting environment: Development
+2025-04-05 09:39:07 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 09:39:35 [Information] Now listening on: https://localhost:7296
+2025-04-05 09:39:35 [Information] Now listening on: http://localhost:5249
+2025-04-05 09:39:35 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 09:39:35 [Information] Hosting environment: Development
+2025-04-05 09:39:35 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 09:39:49 [Error] An unhandled exception has occurred while executing the request.
+2025-04-05 09:39:49 [Error] An unhandled exception has occurred while executing the request.
+2025-04-05 09:40:37 [Information] Now listening on: https://localhost:7296
+2025-04-05 09:40:37 [Information] Now listening on: http://localhost:5249
+2025-04-05 09:40:38 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 09:40:38 [Information] Hosting environment: Development
+2025-04-05 09:40:38 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 09:41:32 [Information] Now listening on: https://localhost:7296
+2025-04-05 09:41:32 [Information] Now listening on: http://localhost:5249
+2025-04-05 09:41:32 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 09:41:32 [Information] Hosting environment: Development
+2025-04-05 09:41:32 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 09:42:03 [Information] Now listening on: https://localhost:7296
+2025-04-05 09:42:03 [Information] Now listening on: http://localhost:5249
+2025-04-05 09:42:03 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 09:42:03 [Information] Hosting environment: Development
+2025-04-05 09:42:03 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 09:43:54 [Information] Now listening on: https://localhost:7296
+2025-04-05 09:43:54 [Information] Now listening on: http://localhost:5249
+2025-04-05 09:43:55 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 09:43:55 [Information] Hosting environment: Development
+2025-04-05 09:43:55 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 09:46:41 [Information] Now listening on: https://localhost:7296
+2025-04-05 09:46:41 [Information] Now listening on: http://localhost:5249
+2025-04-05 09:46:41 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 09:46:41 [Information] Hosting environment: Development
+2025-04-05 09:46:41 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 09:51:38 [Information] Now listening on: https://localhost:7296
+2025-04-05 09:51:38 [Information] Now listening on: http://localhost:5249
+2025-04-05 09:51:38 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 09:51:38 [Information] Hosting environment: Development
+2025-04-05 09:51:38 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 09:57:16 [Information] Now listening on: https://localhost:7296
+2025-04-05 09:57:16 [Information] Now listening on: http://localhost:5249
+2025-04-05 09:57:16 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 09:57:16 [Information] Hosting environment: Development
+2025-04-05 09:57:16 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 09:57:43 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 09:57:43 [Information] Hosting environment: Development
+2025-04-05 09:57:43 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 09:58:00 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 09:58:00 [Information] Hosting environment: Development
+2025-04-05 09:58:00 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 10:01:53 [Information] Now listening on: https://localhost:7191
+2025-04-05 10:01:53 [Information] Now listening on: http://localhost:5191
+2025-04-05 10:01:53 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 10:01:53 [Information] Hosting environment: Development
+2025-04-05 10:01:53 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 11:18:05 [Information] Now listening on: https://localhost:7191
+2025-04-05 11:18:05 [Information] Now listening on: http://localhost:5191
+2025-04-05 11:18:05 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 11:18:05 [Information] Hosting environment: Development
+2025-04-05 11:18:05 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 11:18:25 [Information] Executed DbCommand (81ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [c].[Id], [c].[active], [c].[name]
+FROM [classification] AS [c]
+WHERE [c].[Id] = @__id_0
+2025-04-05 11:18:25 [Error] An unexpected error occurred.
+2025-04-05 11:23:53 [Information] Now listening on: https://localhost:7191
+2025-04-05 11:23:53 [Information] Now listening on: http://localhost:5191
+2025-04-05 11:23:53 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 11:23:53 [Information] Hosting environment: Development
+2025-04-05 11:23:53 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 11:24:07 [Information] Executed DbCommand (97ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [c].[Id], [c].[active], [c].[name]
+FROM [classification] AS [c]
+WHERE [c].[Id] = @__id_0
+2025-04-05 11:28:07 [Information] Now listening on: https://localhost:7191
+2025-04-05 11:28:07 [Information] Now listening on: http://localhost:5191
+2025-04-05 11:28:08 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 11:28:08 [Information] Hosting environment: Development
+2025-04-05 11:28:08 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 11:29:56 [Information] Now listening on: https://localhost:7191
+2025-04-05 11:29:57 [Information] Now listening on: http://localhost:5191
+2025-04-05 11:29:57 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 11:29:57 [Information] Hosting environment: Development
+2025-04-05 11:29:57 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 11:33:55 [Information] Now listening on: https://localhost:7191
+2025-04-05 11:33:55 [Information] Now listening on: http://localhost:5191
+2025-04-05 11:33:55 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 11:33:55 [Information] Hosting environment: Development
+2025-04-05 11:33:55 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 11:37:20 [Information] Now listening on: https://localhost:7191
+2025-04-05 11:37:20 [Information] Now listening on: http://localhost:5191
+2025-04-05 11:37:21 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 11:37:21 [Information] Hosting environment: Development
+2025-04-05 11:37:21 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 11:43:10 [Information] Now listening on: https://localhost:7191
+2025-04-05 11:43:10 [Information] Now listening on: http://localhost:5191
+2025-04-05 11:43:11 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 11:43:11 [Information] Hosting environment: Development
+2025-04-05 11:43:11 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 11:46:31 [Information] Now listening on: https://localhost:7191
+2025-04-05 11:46:31 [Information] Now listening on: http://localhost:5191
+2025-04-05 11:46:32 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 11:46:32 [Information] Hosting environment: Development
+2025-04-05 11:46:32 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 11:50:31 [Information] Now listening on: https://localhost:7191
+2025-04-05 11:50:31 [Information] Now listening on: http://localhost:5191
+2025-04-05 11:50:31 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 11:50:31 [Information] Hosting environment: Development
+2025-04-05 11:50:31 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 11:51:59 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-05 11:51:59 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-05 11:51:59 [Information] Executed DbCommand (67ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[active], [c].[name]
+FROM [classification] AS [c]
+WHERE [c].[Id] = CAST(1 AS bigint)
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-04-05 11:56:37 [Information] Now listening on: https://localhost:7191
+2025-04-05 11:56:37 [Information] Now listening on: http://localhost:5191
+2025-04-05 11:56:37 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 11:56:37 [Information] Hosting environment: Development
+2025-04-05 11:56:37 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 12:06:27 [Information] Now listening on: https://localhost:7191
+2025-04-05 12:06:27 [Information] Now listening on: http://localhost:5191
+2025-04-05 12:06:27 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 12:06:27 [Information] Hosting environment: Development
+2025-04-05 12:06:27 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 12:07:08 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-05 12:07:08 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-05 12:07:09 [Information] Executed DbCommand (46ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[active], [c].[name]
+FROM [classification] AS [c]
+WHERE [c].[active] = 0
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-04-05 12:21:22 [Information] Now listening on: https://localhost:7191
+2025-04-05 12:21:22 [Information] Now listening on: http://localhost:5191
+2025-04-05 12:21:22 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-05 12:21:22 [Information] Hosting environment: Development
+2025-04-05 12:21:22 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-05 12:21:44 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-05 12:21:44 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-05 12:21:45 [Information] Executed DbCommand (70ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[active], [c].[name]
+FROM [classification] AS [c]
+WHERE [c].[name] LIKE N'%teste%' AND [c].[active] = 0
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-04-05 12:22:39 [Information] Starting the Object to Entity Conversion in the Method CreateOrUpdate.
+2025-04-05 12:22:39 [Information] Converting the Object to the Entity Successfully Performed in the Method CreateOrUpdate.
+2025-04-05 12:22:39 [Information] NewOrUpdate: Classification - 0 
+2025-04-05 12:22:39 [Information] NewAsync: Classification - 0  - 0 - SaveChangesAsync
+2025-04-05 12:22:39 [Information] Executed DbCommand (16ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (Size = 60)], CommandType='Text', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [classification] ([active], [name])
+OUTPUT INSERTED.[Id]
+VALUES (@p0, @p1);
+2025-04-05 12:22:39 [Information] '0' successfully added!
+2025-04-05 12:23:19 [Information] Starting the Object to Entity Conversion in the Method CreateOrUpdate.
+2025-04-05 12:23:19 [Information] Converting the Object to the Entity Successfully Performed in the Method CreateOrUpdate.
+2025-04-05 12:23:19 [Information] NewOrUpdate: Classification - 0 
+2025-04-05 12:23:19 [Information] NewAsync: Classification - 0  - 0 - SaveChangesAsync
+2025-04-05 12:23:19 [Information] Executed DbCommand (5ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (Size = 60)], CommandType='Text', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [classification] ([active], [name])
+OUTPUT INSERTED.[Id]
+VALUES (@p0, @p1);
+2025-04-05 12:23:19 [Information] '0' successfully added!
+2025-04-05 12:24:22 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-05 12:24:22 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-05 12:24:22 [Information] Executed DbCommand (7ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[active], [c].[name]
+FROM [classification] AS [c]
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-04-05 12:25:13 [Information] Starting the Object to Entity Conversion in the Method CreateOrUpdate.
+2025-04-05 12:25:13 [Information] Converting the Object to the Entity Successfully Performed in the Method CreateOrUpdate.
+2025-04-05 12:25:13 [Information] NewOrUpdate: Classification - 0 
+2025-04-05 12:25:13 [Information] NewAsync: Classification - 0  - 0 - SaveChangesAsync
+2025-04-05 12:25:13 [Information] Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (Size = 60)], CommandType='Text', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [classification] ([active], [name])
+OUTPUT INSERTED.[Id]
+VALUES (@p0, @p1);
+2025-04-05 12:25:13 [Information] '0' successfully added!
+2025-04-05 12:25:26 [Information] Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[active], [c].[name]
+FROM [classification] AS [c]
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-04-05 12:25:54 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-05 12:25:54 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-05 12:25:54 [Information] Executed DbCommand (8ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[active], [c].[name]
+FROM [classification] AS [c]
+WHERE [c].[name] LIKE N'%CA%' AND [c].[active] = 0
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-04-05 12:26:07 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-05 12:26:07 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-05 12:26:07 [Information] Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[active], [c].[name]
+FROM [classification] AS [c]
+WHERE [c].[name] LIKE N'%RES%' AND [c].[active] = 0
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-04-05 12:26:23 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-05 12:26:23 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-05 12:26:23 [Information] Executed DbCommand (3ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[active], [c].[name]
+FROM [classification] AS [c]
+WHERE [c].[name] LIKE N'%SDSD%' AND [c].[active] = 0
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+2025-04-05 12:26:49 [Information] Executed DbCommand (23ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [c].[Id], [c].[active], [c].[name]
+FROM [classification] AS [c]
+WHERE [c].[Id] = @__id_0
+2025-04-05 12:27:04 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-05 12:27:04 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-05 12:27:04 [Information] Executed DbCommand (8ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[active], [c].[name]
+FROM [classification] AS [c]
+WHERE [c].[name] LIKE N'%DES%' AND [c].[active] = 0
+ORDER BY (SELECT 1)
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY

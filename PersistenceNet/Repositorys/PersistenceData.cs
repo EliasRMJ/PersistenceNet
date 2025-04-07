@@ -45,7 +45,6 @@ namespace PersistenceNet.Repositorys
             }
 
             _return.EntityName = element.GetType().Name;
-            _return.Key = GetKeyValue(element);
             _return.Field = GetKeyName(element);
 
             try
@@ -60,8 +59,10 @@ namespace PersistenceNet.Repositorys
                 if (retorno > 0)
                 {
                     logger.LogInformation($"'{_return.EntityName}' successfully added!");
+
+                    _return.Key = $"{persistenceContext.Entry(element).Entity.Id}";
                     _return.ReturnType = ReturnTypeEnum.Success;
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Success, Code = Codes._SUCCESS, Text = $"'{_return.EntityName}' successfully added!" });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Success, Code = Codes._SUCCESS, Text = $"Registration of '{_return.EntityName}' successfully performed!" });
                 }
                 else
                 {
@@ -162,7 +163,7 @@ namespace PersistenceNet.Repositorys
                 {
                     logger.LogInformation($"'{_return.EntityName}' successfully added!");
                     _return.ReturnType = ReturnTypeEnum.Success;
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Success, Code = Codes._SUCCESS, Text = $"'{_return.EntityName}' updated successfully!" });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Success, Code = Codes._SUCCESS, Text = $"Updated the '{_return.EntityName}' successfully accomplished!" });
                 }
                 else
                 {

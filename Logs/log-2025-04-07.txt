@@ -183,3 +183,315 @@ FROM (
 ) AS [s0]
 LEFT JOIN [EmailPerson] AS [e] ON [s0].[Id] = [e].[PersonId]
 ORDER BY [s0].[ClientId], [s0].[Id]
+2025-04-07 08:47:35 [Information] Executed DbCommand (18ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+2025-04-07 08:47:35 [Information] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-07 08:47:36 [Information] Executed DbCommand (20ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-07 08:47:36 [Information] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-07 08:47:36 [Information] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+2025-04-07 08:47:36 [Information] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-07 08:47:36 [Information] Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-07 08:47:36 [Information] Applying migration '20250407114721_Update3ClientStruct'.
+2025-04-07 08:47:36 [Information] Executed DbCommand (21ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [Client] ADD [ClassificationId] bigint NOT NULL DEFAULT CAST(0 AS bigint);
+2025-04-07 08:47:36 [Information] Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+CREATE INDEX [IX_Client_ClassificationId] ON [Client] ([ClassificationId]);
+2025-04-07 08:47:36 [Error] Failed executing DbCommand (26ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [Client] ADD CONSTRAINT [FK_Client_Classification_ClassificationId] FOREIGN KEY ([ClassificationId]) REFERENCES [Classification] ([Id]) ON DELETE CASCADE;
+2025-04-07 09:05:10 [Information] Executed DbCommand (19ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+2025-04-07 09:05:10 [Information] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-07 09:05:10 [Information] Executed DbCommand (18ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-07 09:05:10 [Information] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-07 09:05:10 [Information] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+2025-04-07 09:05:10 [Information] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-07 09:05:10 [Information] Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-07 09:05:10 [Information] Applying migration '20250407114721_Update3ClientStruct'.
+2025-04-07 09:05:10 [Information] Executed DbCommand (10ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [Client] ADD [ClassificationId] bigint NOT NULL DEFAULT CAST(0 AS bigint);
+2025-04-07 09:05:10 [Information] Executed DbCommand (23ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+CREATE INDEX [IX_Client_ClassificationId] ON [Client] ([ClassificationId]);
+2025-04-07 09:05:10 [Error] Failed executing DbCommand (10ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [Client] ADD CONSTRAINT [FK_Client_Classification_ClassificationId] FOREIGN KEY ([ClassificationId]) REFERENCES [Classification] ([Id]) ON DELETE CASCADE;
+2025-04-07 09:06:54 [Information] Executed DbCommand (27ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+2025-04-07 09:06:54 [Information] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-07 09:06:54 [Information] Executed DbCommand (23ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-07 09:06:54 [Information] Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-07 09:06:54 [Information] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+2025-04-07 09:06:54 [Information] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-07 09:06:54 [Information] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-07 09:06:54 [Information] Applying migration '20250407114721_Update3ClientStruct'.
+2025-04-07 09:06:55 [Information] Executed DbCommand (11ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [Client] ADD [ClassificationId] bigint NOT NULL DEFAULT CAST(0 AS bigint);
+2025-04-07 09:06:55 [Information] Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+CREATE INDEX [IX_Client_ClassificationId] ON [Client] ([ClassificationId]);
+2025-04-07 09:06:55 [Error] Failed executing DbCommand (10ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [Client] ADD CONSTRAINT [FK_Client_Classification_ClassificationId] FOREIGN KEY ([ClassificationId]) REFERENCES [Classification] ([Id]) ON DELETE CASCADE;
+2025-04-07 09:09:38 [Information] Executed DbCommand (16ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+2025-04-07 09:09:38 [Information] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-07 09:09:38 [Information] Executed DbCommand (21ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-07 09:09:38 [Information] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-07 09:09:38 [Information] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+2025-04-07 09:09:38 [Information] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-07 09:09:38 [Information] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-07 09:09:38 [Information] Applying migration '20250407114721_Update3ClientStruct'.
+2025-04-07 09:09:38 [Information] Executed DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [Client] ADD [ClassificationId] bigint NOT NULL DEFAULT CAST(0 AS bigint);
+2025-04-07 09:09:38 [Information] Executed DbCommand (6ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+CREATE INDEX [IX_Client_ClassificationId] ON [Client] ([ClassificationId]);
+2025-04-07 09:09:38 [Error] Failed executing DbCommand (10ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [Client] ADD CONSTRAINT [FK_Client_Classification_ClassificationId] FOREIGN KEY ([ClassificationId]) REFERENCES [Classification] ([Id]) ON DELETE CASCADE;
+2025-04-07 09:11:17 [Information] Executed DbCommand (16ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+2025-04-07 09:11:17 [Information] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-04-07 09:11:17 [Information] Executed DbCommand (17ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-04-07 09:11:17 [Information] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-04-07 09:11:17 [Information] Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT 1
+2025-04-07 09:11:17 [Information] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-04-07 09:11:17 [Information] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-04-07 09:11:17 [Information] Applying migration '20250407114721_Update3ClientStruct'.
+2025-04-07 09:11:18 [Information] Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [Client] ADD [ClassificationId] bigint NOT NULL DEFAULT CAST(0 AS bigint);
+2025-04-07 09:11:18 [Information] Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+CREATE INDEX [IX_Client_ClassificationId] ON [Client] ([ClassificationId]);
+2025-04-07 09:11:18 [Information] Executed DbCommand (7ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [Client] ADD CONSTRAINT [FK_Client_Classification_ClassificationId] FOREIGN KEY ([ClassificationId]) REFERENCES [Classification] ([Id]) ON DELETE CASCADE;
+2025-04-07 09:11:18 [Information] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20250407114721_Update3ClientStruct', N'9.0.3');
+2025-04-07 09:11:18 [Information] Applying migration '20250407120626_Update4ClientStruct'.
+2025-04-07 09:11:18 [Information] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20250407120626_Update4ClientStruct', N'9.0.3');
+2025-04-07 09:11:18 [Information] Applying migration '20250407120923_Update5ClientStruct'.
+2025-04-07 09:11:18 [Information] Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [Client] DROP CONSTRAINT [FK_Client_Classification_ClassificationId];
+2025-04-07 09:11:18 [Information] Executed DbCommand (50ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DECLARE @var sysname;
+SELECT @var = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Client]') AND [c].[name] = N'ClassificationId');
+IF @var IS NOT NULL EXEC(N'ALTER TABLE [Client] DROP CONSTRAINT [' + @var + '];');
+ALTER TABLE [Client] ALTER COLUMN [ClassificationId] bigint NULL;
+2025-04-07 09:11:18 [Information] Executed DbCommand (5ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+ALTER TABLE [Client] ADD CONSTRAINT [FK_Client_Classification_ClassificationId] FOREIGN KEY ([ClassificationId]) REFERENCES [Classification] ([Id]);
+2025-04-07 09:11:18 [Information] Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20250407120923_Update5ClientStruct', N'9.0.3');
+2025-04-07 09:11:18 [Information] Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
+2025-04-07 09:20:54 [Information] Now listening on: https://localhost:7191
+2025-04-07 09:20:54 [Information] Now listening on: http://localhost:5191
+2025-04-07 09:20:54 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-07 09:20:54 [Information] Hosting environment: Development
+2025-04-07 09:20:54 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-07 09:22:14 [Information] Starting the Object to Entity Conversion in the Method Create.
+2025-04-07 09:22:14 [Information] Converting the Object to the Entity Successfully Performed in the Method Create.
+2025-04-07 09:22:18 [Information] CreateAsync: Client - 0  - Client - SaveChangesAsync
+2025-04-07 09:22:20 [Information] Executed DbCommand (190ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (Size = 50), @p2='?' (DbType = DateTime2), @p3='?' (Size = 100), @p4='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Person] ([Active], [ComplementName], [InclusionDate], [Name], [PersonType])
+OUTPUT INSERTED.[Id]
+VALUES (@p0, @p1, @p2, @p3, @p4);
+2025-04-07 09:22:20 [Information] Executed DbCommand (31ms) [Parameters=[@p5='?' (DbType = Int64), @p6='?' (DbType = Int64), @p7='?' (Size = 2000), @p8='?' (Size = 70), @p9='?' (DbType = Int64), @p10='?' (DbType = Int64), @p11='?' (DbType = Date), @p12='?' (Size = 14)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Client] ([ClientId], [ClassificationId], [Note])
+VALUES (@p5, @p6, @p7);
+INSERT INTO [EmailPerson] ([Mail], [PersonId])
+OUTPUT INSERTED.[Id]
+VALUES (@p8, @p9);
+INSERT INTO [PhysicsPerson] ([Id], [DateBirth], [DocumentNumber])
+VALUES (@p10, @p11, @p12);
+2025-04-07 09:22:20 [Information] 'Client' successfully added!
+2025-04-07 09:25:11 [Information] Starting the Object to Entity Conversion in the Method Create.
+2025-04-07 09:25:11 [Information] Converting the Object to the Entity Successfully Performed in the Method Create.
+2025-04-07 09:25:11 [Information] CreateAsync: Client - 0  - Client - SaveChangesAsync
+2025-04-07 09:25:11 [Error] An exception occurred in the database while saving changes for context type 'PersistenceNet.Test.Domain.ContextTest'.
+System.InvalidOperationException: The value of 'Client.ClientId' is unknown when attempting to save changes. This is because the property is also part of a foreign key for which the principal entity in the relationship is not known.
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.InternalEntityEntry.PrepareToSave()
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.GetEntriesToSave(Boolean cascadeChanges)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal.SqlServerExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2025-04-07 09:25:12 [Error] ERROR (03): The value of 'Client.ClientId' is unknown when attempting to save changes. This is because the property is also part of a foreign key for which the principal entity in the relationship is not known
+2025-04-07 09:25:12 [Error] An unexpected error occurred.
+2025-04-07 09:29:22 [Information] Starting the Object to Entity Conversion in the Method Create.
+2025-04-07 09:29:22 [Information] Converting the Object to the Entity Successfully Performed in the Method Create.
+2025-04-07 09:31:00 [Information] Now listening on: https://localhost:7191
+2025-04-07 09:31:00 [Information] Now listening on: http://localhost:5191
+2025-04-07 09:31:01 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-07 09:31:01 [Information] Hosting environment: Development
+2025-04-07 09:31:01 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-07 09:32:03 [Information] Starting the Object to Entity Conversion in the Method Create.
+2025-04-07 09:35:51 [Information] Now listening on: https://localhost:7191
+2025-04-07 09:35:51 [Information] Now listening on: http://localhost:5191
+2025-04-07 09:35:51 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-07 09:35:51 [Information] Hosting environment: Development
+2025-04-07 09:35:51 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-07 09:36:22 [Information] Starting the Object to Entity Conversion in the Method Create.
+2025-04-07 09:43:16 [Information] Now listening on: https://localhost:7191
+2025-04-07 09:43:16 [Information] Now listening on: http://localhost:5191
+2025-04-07 09:43:17 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-07 09:43:17 [Information] Hosting environment: Development
+2025-04-07 09:43:17 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-07 09:43:46 [Information] Starting the Object to Entity Conversion in the Method Create.
+2025-04-07 09:44:21 [Information] Converting the Object to the Entity Successfully Performed in the Method Create.
+2025-04-07 09:44:26 [Information] CreateAsync: Client - 0  - Client - SaveChangesAsync
+2025-04-07 09:44:27 [Information] Executed DbCommand (64ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (Size = 50), @p2='?' (DbType = DateTime2), @p3='?' (Size = 100), @p4='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Person] ([Active], [ComplementName], [InclusionDate], [Name], [PersonType])
+OUTPUT INSERTED.[Id]
+VALUES (@p0, @p1, @p2, @p3, @p4);
+2025-04-07 09:44:27 [Information] Executed DbCommand (25ms) [Parameters=[@p5='?' (DbType = Int64), @p6='?' (DbType = Int64), @p7='?' (Size = 2000), @p8='?' (Size = 70), @p9='?' (DbType = Int64), @p10='?' (DbType = Int64), @p11='?' (Size = 18), @p12='?' (Size = 20)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+INSERT INTO [Client] ([ClientId], [ClassificationId], [Note])
+VALUES (@p5, @p6, @p7);
+INSERT INTO [EmailPerson] ([Mail], [PersonId])
+OUTPUT INSERTED.[Id]
+VALUES (@p8, @p9);
+INSERT INTO [LegalPerson] ([Id], [DocumentNumber], [MunicipalRegistration])
+VALUES (@p10, @p11, @p12);
+2025-04-07 09:44:27 [Information] 'Client' successfully added!
+2025-04-07 10:00:55 [Information] Now listening on: https://localhost:7191
+2025-04-07 10:00:55 [Information] Now listening on: http://localhost:5191
+2025-04-07 10:00:56 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-07 10:00:56 [Information] Hosting environment: Development
+2025-04-07 10:00:56 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-07 10:05:11 [Information] Now listening on: https://localhost:7191
+2025-04-07 10:05:11 [Information] Now listening on: http://localhost:5191
+2025-04-07 10:05:12 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-07 10:05:12 [Information] Hosting environment: Development
+2025-04-07 10:05:12 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-07 10:09:08 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-07 10:09:08 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-07 10:09:08 [Information] Executed DbCommand (74ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [s0].[ClientId], [s0].[ClassificationId], [s0].[Note], [s0].[Id], [s0].[Active], [s0].[ComplementName], [s0].[InclusionDate], [s0].[Name], [s0].[PersonType], [s0].[DocumentNumber], [s0].[MunicipalRegistration], [s0].[DateBirth], [s0].[DocumentNumber0], [s0].[Discriminator], [c0].[Id], [e].[Id], [e].[Mail], [e].[PersonId], [c0].[Active], [c0].[Name]
+FROM (
+    SELECT [c].[ClientId], [c].[ClassificationId], [c].[Note], [s].[Id], [s].[Active], [s].[ComplementName], [s].[InclusionDate], [s].[Name], [s].[PersonType], [s].[DocumentNumber], [s].[MunicipalRegistration], [s].[DateBirth], [s].[DocumentNumber0], [s].[Discriminator]
+    FROM [Client] AS [c]
+    INNER JOIN (
+        SELECT [p].[Id], [p].[Active], [p].[ComplementName], [p].[InclusionDate], [p].[Name], [p].[PersonType], [l].[DocumentNumber], [l].[MunicipalRegistration], [p0].[DateBirth], [p0].[DocumentNumber] AS [DocumentNumber0], CASE
+            WHEN [p0].[Id] IS NOT NULL THEN N'PhysicsPerson'
+            WHEN [l].[Id] IS NOT NULL THEN N'LegalPerson'
+        END AS [Discriminator]
+        FROM [Person] AS [p]
+        LEFT JOIN [LegalPerson] AS [l] ON [p].[Id] = [l].[Id]
+        LEFT JOIN [PhysicsPerson] AS [p0] ON [p].[Id] = [p0].[Id]
+    ) AS [s] ON [c].[ClientId] = [s].[Id]
+    WHERE [s].[InclusionDate] >= '2025-04-06T00:00:00.0000000' AND [s].[InclusionDate] <= '2025-04-06T00:00:00.0000000'
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+LEFT JOIN [Classification] AS [c0] ON [s0].[ClassificationId] = [c0].[Id]
+LEFT JOIN [EmailPerson] AS [e] ON [s0].[Id] = [e].[PersonId]
+ORDER BY [s0].[ClientId], [s0].[Id], [c0].[Id]
+2025-04-07 10:09:22 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-07 10:09:22 [Warning] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-04-07 10:09:23 [Information] Executed DbCommand (14ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [s0].[ClientId], [s0].[ClassificationId], [s0].[Note], [s0].[Id], [s0].[Active], [s0].[ComplementName], [s0].[InclusionDate], [s0].[Name], [s0].[PersonType], [s0].[DocumentNumber], [s0].[MunicipalRegistration], [s0].[DateBirth], [s0].[DocumentNumber0], [s0].[Discriminator], [c0].[Id], [e].[Id], [e].[Mail], [e].[PersonId], [c0].[Active], [c0].[Name]
+FROM (
+    SELECT [c].[ClientId], [c].[ClassificationId], [c].[Note], [s].[Id], [s].[Active], [s].[ComplementName], [s].[InclusionDate], [s].[Name], [s].[PersonType], [s].[DocumentNumber], [s].[MunicipalRegistration], [s].[DateBirth], [s].[DocumentNumber0], [s].[Discriminator]
+    FROM [Client] AS [c]
+    INNER JOIN (
+        SELECT [p].[Id], [p].[Active], [p].[ComplementName], [p].[InclusionDate], [p].[Name], [p].[PersonType], [l].[DocumentNumber], [l].[MunicipalRegistration], [p0].[DateBirth], [p0].[DocumentNumber] AS [DocumentNumber0], CASE
+            WHEN [p0].[Id] IS NOT NULL THEN N'PhysicsPerson'
+            WHEN [l].[Id] IS NOT NULL THEN N'LegalPerson'
+        END AS [Discriminator]
+        FROM [Person] AS [p]
+        LEFT JOIN [LegalPerson] AS [l] ON [p].[Id] = [l].[Id]
+        LEFT JOIN [PhysicsPerson] AS [p0] ON [p].[Id] = [p0].[Id]
+    ) AS [s] ON [c].[ClientId] = [s].[Id]
+    WHERE [s].[InclusionDate] >= '2025-04-06T00:00:00.0000000' AND [s].[InclusionDate] <= '2025-04-07T00:00:00.0000000'
+    ORDER BY (SELECT 1)
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [s0]
+LEFT JOIN [Classification] AS [c0] ON [s0].[ClassificationId] = [c0].[Id]
+LEFT JOIN [EmailPerson] AS [e] ON [s0].[Id] = [e].[PersonId]
+ORDER BY [s0].[ClientId], [s0].[Id], [c0].[Id]

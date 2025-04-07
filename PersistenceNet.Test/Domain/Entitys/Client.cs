@@ -21,7 +21,13 @@ namespace PersistenceNet.Test.Domain.Entitys
         [Column("Note")]
         public string? Note { get; set; }
 
+        [Column("ClassificationId")]
+        public long? ClassificationId { get; set; }
+
         [ForeignKey("ClientId")]
         public virtual required Person Person { get; set; }
+
+        [ForeignKey("ClassificationId")]
+        public virtual Classification? Classification { get; set; }
     }
 }

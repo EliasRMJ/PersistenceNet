@@ -422,6 +422,80 @@
           }
         }
       }
+    },
+    "/clients/{page}/{pageSize}/{begin}/{end}/period": {
+      "get": {
+        "tags": [
+          "Clients"
+        ],
+        "operationId": "GetClientForPeriod",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "begin",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "end",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClientViewModel"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationReturn"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -569,6 +643,11 @@
             "type": "integer",
             "format": "int64"
           },
+          "classificationId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
           "name": {
             "type": "string",
             "nullable": true
@@ -603,6 +682,9 @@
           },
           "active": {
             "$ref": "#/components/schemas/ActiveEnum"
+          },
+          "classification": {
+            "$ref": "#/components/schemas/ClassificationViewModel"
           },
           "emails": {
             "type": "array",

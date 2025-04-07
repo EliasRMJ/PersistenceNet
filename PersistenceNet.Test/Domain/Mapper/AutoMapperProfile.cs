@@ -15,6 +15,7 @@ namespace PersistenceNet.Test.Domain.Mapper
 
             CreateMap<Client, ClientViewModel>()
                 .ForMember(d => d.ClientId, opt => opt.MapFrom(src => src.Person.Id))
+                .ForMember(d => d.ClassificationId, opt => opt.MapFrom(src => src.ClassificationId))
                 .ForMember(d => d.Name, opt => opt.MapFrom(src => src.Person.Name))
                 .ForMember(d => d.ComplementName, opt => opt.MapFrom(src => src.Person.ComplementName))
                 .ForMember(d => d.InclusionDate, opt => opt.MapFrom(src => src.Person.InclusionDate))
@@ -24,42 +25,11 @@ namespace PersistenceNet.Test.Domain.Mapper
                 .ForMember(d => d.DocumentNumber, opt => opt.MapFrom(src => src.Person.PersonType == PersonTypeEnum.Phisic ? ((PhysicsPerson)src.Person).DocumentNumber : ((LegalPerson)src.Person).DocumentNumber))
                 .ForMember(d => d.MunicipalRegistration, opt => opt.MapFrom(src => src.Person.PersonType == PersonTypeEnum.Phisic ? null : ((LegalPerson)src.Person).MunicipalRegistration))
                 .ForMember(d => d.DateBirth, opt => opt.MapFrom(src => src.Person.PersonType == PersonTypeEnum.Phisic ? ((PhysicsPerson)src.Person).DateBirth : null))
+                .ForMember(d => d.Classification, opt => opt.MapFrom(src => src.Classification))
                 .ForMember(d => d.Emails, opt => opt.MapFrom(src => src.Person.Emails));
 
             CreateMap<ClientViewModel, Client>()
-                .ForMember(d => d.Person, opt => opt.MapFrom(map => map.PersonType == PersonTypeEnum.Legal ? new LegalPerson
-                {
-                    Id = map.ClientId,
-                    Name = map.Name,
-                    ComplementName = map.ComplementName,
-                    InclusionDate = map.InclusionDate,
-                    PersonType = map.PersonType,
-                    Active = map.Active,
-                    DocumentNumber = map.DocumentNumber,
-                    MunicipalRegistration = map.MunicipalRegistration,
-                    Emails = map.Emails != null ? map.Emails!.Select(email => new EmailPerson
-                    {
-                        Id = email.Id,
-                        Mail = email.Mail,
-                        PersonId = map.ClientId
-                    }).ToCollection() : null,
-                } : null))
-                .ForMember(d => d.Person, opt => opt.MapFrom(map => map.PersonType == PersonTypeEnum.Phisic ? new PhysicsPerson
-                {
-                    Id = map.ClientId,
-                    Name = map.Name,
-                    ComplementName = map.ComplementName,
-                    InclusionDate = map.InclusionDate,
-                    PersonType = map.PersonType,
-                    Active = map.Active,
-                    DocumentNumber = map.DocumentNumber,
-                    Emails = map.Emails != null ? map.Emails!.Select(email => new EmailPerson
-                    {
-                        Id = email.Id,
-                        Mail = email.Mail,
-                        PersonId = map.ClientId
-                    }).ToCollection() : null,
-                } : null));
+                .ForMember(d => d.Person, opt => opt.MapFrom<CustomPersonResolver>());
 
             CreateMap<EmailViewModel, EmailPerson>();
             CreateMap<EmailPerson, EmailViewModel>();

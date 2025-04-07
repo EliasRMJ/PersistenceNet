@@ -245,6 +245,34 @@ app.MapGet("clients/{page}/{pageSize}/names/{name}", async (
 .Produces(StatusCodes.Status500InternalServerError)
 .WithName("GetClientForName")
 .WithTags("Clients");
+
+app.MapGet("clients/{page}/{pageSize}/{begin}/{end}/period", async (
+    int page,
+    int pageSize,
+    DateTime begin,
+    DateTime end,
+    IClientAppService clientAppService) =>
+{
+    OperationReturn operationReturn = new() { EntityName = "Client", ReturnType = ReturnTypeEnum.Empty, Key = $"{begin} e {end}", Field = "begin|end" };
+
+    try
+    {
+        return Results.Ok(await clientAppService.Filter(find => find.InclusionDate >= begin && 
+                                                                find.InclusionDate <= end
+                                                        , page, pageSize));
+    }
+    catch (Exception ex)
+    {
+        operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Empty, Code = Codes._WARNING, Text = ex.Message });
+    }
+
+    return Results.BadRequest(operationReturn);
+})
+.Produces<ClientViewModel[]>(StatusCodes.Status200OK)
+.Produces<OperationReturn>(StatusCodes.Status400BadRequest)
+.Produces(StatusCodes.Status500InternalServerError)
+.WithName("GetClientForPeriod")
+.WithTags("Clients");
 #endregion
 
 app.Run();

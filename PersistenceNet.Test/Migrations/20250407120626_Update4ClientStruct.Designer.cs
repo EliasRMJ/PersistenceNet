@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PersistenceNet.Test.Domain;
 
@@ -11,9 +12,11 @@ using PersistenceNet.Test.Domain;
 namespace PersistenceNet.Test.Migrations
 {
     [DbContext(typeof(ContextTest))]
-    partial class ContextTestModelSnapshot : ModelSnapshot
+    [Migration("20250407120626_Update4ClientStruct")]
+    partial class Update4ClientStruct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,7 +57,7 @@ namespace PersistenceNet.Test.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("ClientId");
 
-                    b.Property<long?>("ClassificationId")
+                    b.Property<long>("ClassificationId")
                         .HasColumnType("bigint")
                         .HasColumnName("ClassificationId");
 
@@ -178,7 +181,9 @@ namespace PersistenceNet.Test.Migrations
                 {
                     b.HasOne("PersistenceNet.Test.Domain.Entitys.Classification", "Classification")
                         .WithMany()
-                        .HasForeignKey("ClassificationId");
+                        .HasForeignKey("ClassificationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PersistenceNet.Test.Domain.Entitys.Person", "Person")
                         .WithMany()

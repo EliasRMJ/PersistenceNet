@@ -20,6 +20,7 @@ namespace PersistenceNet.Test.Domain.Repositorys
             return await contextTest.Clients
                 .AsNoTrackingWithIdentityResolution()
                 .Include(inc => inc.Person)
+                .Include(inc => inc.Classification)
                 .Include(inc => inc.Person.Emails)
                 .FirstOrDefaultAsync(find => find.ClientId == id);
         }

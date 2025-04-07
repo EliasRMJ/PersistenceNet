@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using PersistenceNet.AppServices;
 using PersistenceNet.Constants;
-using PersistenceNet.Extensions;
 using PersistenceNet.Enuns;
 using PersistenceNet.Interfaces;
 using PersistenceNet.Structs;
@@ -44,6 +43,7 @@ namespace PersistenceNet.Test.Domain.AppServices
             var filterConvert = ExpressionFuncConvert.Builder<ClientViewModel, Client>(filter, "Person");
             var resultList = await clientService.Filter(filterConvert, pageNumber, pageSize
                                                       , inc => inc.Person
+                                                      , inc => inc.Classification
                                                       , inc => inc.Person.Emails);
 
             if (resultList is null || !resultList.Any())

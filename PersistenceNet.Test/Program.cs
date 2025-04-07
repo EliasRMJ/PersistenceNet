@@ -30,12 +30,18 @@ builder.Services.AddSingleton(typeof(IDatabaseContext), typeof(ContextTest));
 builder.Services.AddHttpClient();
 
 builder.Services.AddScoped(typeof(ITransactionWork), typeof(TransactionWork));
+
 builder.Services.AddScoped(typeof(IClassificationRepository), typeof(ClassificationRepository));
 builder.Services.AddScoped(typeof(IClassificationService), typeof(ClassificationService));
 builder.Services.AddScoped(typeof(IClassificationAppService), typeof(ClassificationAppService));
 
+builder.Services.AddScoped(typeof(IClientRepository), typeof(ClientRepository));
+builder.Services.AddScoped(typeof(IClientService), typeof(ClientService));
+builder.Services.AddScoped(typeof(IClientAppService), typeof(ClientAppService));
+
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
+builder.Logging.ClearProviders();
 builder.Logging.AddProvider(new FileLoggerProvider("Logs"));
 
 builder.Services.AddEndpointsApiExplorer();
@@ -75,7 +81,8 @@ else
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 
-app.MapPost("/classifications/createorreplace", async (
+#region Swagger - Simple Test - Classification  
+app.MapPost("classifications/createorreplace", async (
     IClassificationAppService classificationAppService,
     ClassificationViewModel classification) =>
 {
@@ -89,7 +96,7 @@ app.MapPost("/classifications/createorreplace", async (
 .WithName("PostClassification")
 .WithTags("Classification");
 
-app.MapGet("/classifications/{id}", async (
+app.MapGet("classifications/{id}", async (
     int id,
     IClassificationAppService classificationAppService) =>
 {
@@ -112,7 +119,7 @@ app.MapGet("/classifications/{id}", async (
 .WithName("GetClassification")
 .WithTags("Classification");
 
-app.MapGet("/classifications/{page}/{pageSize}/descriptions/{name}", async (
+app.MapGet("classifications/{page}/{pageSize}/descriptions/{name}", async (
     int page,
     int pageSize,
     string name,
@@ -137,7 +144,7 @@ app.MapGet("/classifications/{page}/{pageSize}/descriptions/{name}", async (
 .WithName("GetClassificationForName")
 .WithTags("Classification");
 
-app.MapGet("/classifications/{page}/{pageSize}", async (
+app.MapGet("classifications/{page}/{pageSize}", async (
     int page,
     int pageSize,
     IClassificationAppService classificationAppService) =>
@@ -160,5 +167,84 @@ app.MapGet("/classifications/{page}/{pageSize}", async (
 .Produces(StatusCodes.Status500InternalServerError)
 .WithName("GetClassificationAll")
 .WithTags("Classification");
+#endregion
+
+#region Swagger - Complex Test - Client
+app.MapPost("clients/create", async (
+    IClientAppService cliebtAppService,
+    ClientViewModel clientViewModel) =>
+{
+    var operationReturn = await cliebtAppService.CreateAsync(clientViewModel);
+    return operationReturn.IsSuccess ? Results.Ok(operationReturn) : Results.BadRequest(operationReturn);
+})
+.Produces<OperationReturn>(StatusCodes.Status200OK)
+.Produces<OperationReturn>(StatusCodes.Status400BadRequest)
+.Produces(StatusCodes.Status500InternalServerError)
+.WithName("PostClient")
+.WithTags("Clients");
+
+app.MapPut("{id}/clients/update", async (
+    long id,
+    IClientAppService cliebtAppService,
+    ClientViewModel clientViewModel) =>
+{
+    clientViewModel.ClientId = id;
+    var operationReturn = await cliebtAppService.UpdateAsync(clientViewModel);
+    return operationReturn.IsSuccess ? Results.Ok(operationReturn) : Results.BadRequest(operationReturn);
+})
+.Produces<OperationReturn>(StatusCodes.Status200OK)
+.Produces<OperationReturn>(StatusCodes.Status400BadRequest)
+.Produces(StatusCodes.Status500InternalServerError)
+.WithName("PutClient")
+.WithTags("Clients");
+
+app.MapGet("clients/{id}", async (
+    int id,
+    IClientAppService clientAppService) =>
+{
+    OperationReturn operationReturn = new() { EntityName = "Client", ReturnType = ReturnTypeEnum.Empty, Key = $"{id}", Field = "id" };
+
+    try
+    {
+        return Results.Ok(await clientAppService.GetEntityByIdAsync(id));
+    }
+    catch (Exception ex)
+    {
+        operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Empty, Code = Codes._WARNING, Text = ex.Message });
+    }
+
+    return Results.BadRequest(operationReturn);
+})
+.Produces<ClientViewModel>(StatusCodes.Status200OK)
+.Produces<OperationReturn>(StatusCodes.Status400BadRequest)
+.Produces(StatusCodes.Status500InternalServerError)
+.WithName("GetClient")
+.WithTags("Clients");
+
+app.MapGet("clients/{page}/{pageSize}/names/{name}", async (
+    int page,
+    int pageSize,
+    string name,
+    IClientAppService clientAppService) =>
+{
+    OperationReturn operationReturn = new() { EntityName = "Client", ReturnType = ReturnTypeEnum.Empty, Key = $"{name}", Field = "name" };
+
+    try
+    {
+        return Results.Ok(await clientAppService.Filter(find => find.Name!.Contains(name) && find.Active == ActiveEnum.S, page, pageSize));
+    }
+    catch (Exception ex)
+    {
+        operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Empty, Code = Codes._WARNING, Text = ex.Message });
+    }
+
+    return Results.BadRequest(operationReturn);
+})
+.Produces<ClientViewModel[]>(StatusCodes.Status200OK)
+.Produces<OperationReturn>(StatusCodes.Status400BadRequest)
+.Produces(StatusCodes.Status500InternalServerError)
+.WithName("GetClientForName")
+.WithTags("Clients");
+#endregion
 
 app.Run();

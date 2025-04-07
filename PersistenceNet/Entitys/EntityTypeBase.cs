@@ -12,6 +12,7 @@ namespace PersistenceNet.Entitys
         public virtual string? Name { get; set; }
 
         [Required(ErrorMessage = "The status ('S or N') of the entity must be reported!")]
+        [MaxLength(1, ErrorMessage = "Active cannot contain more than 1 character!")]
         [Column("Active")]
         public virtual ActiveEnum Active { get; set; }
     }

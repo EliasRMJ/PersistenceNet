@@ -40,11 +40,9 @@ namespace PersistenceNet.Repositorys
             _return = await EntityValidation(element);
             if (_return.Messages.Count > 0)
             {
-                logger.LogWarning($"NewAsync: {element.GetType().Name} - {GetKeyValue(element)} - {_return.FormatMessage}");
+                logger.LogWarning($"CreateAsync: {element.GetType().Name} - {GetKeyValue(element)} - {_return.FormatMessage}");
                 return _return;
             }
-
-            var nameEntity = GetDisplayName(element);
 
             _return.EntityName = element.GetType().Name;
             _return.Key = GetKeyValue(element);
@@ -56,20 +54,20 @@ namespace PersistenceNet.Repositorys
 
                 persistenceContext.Entry(element).State = EntityState.Added;
 
-                logger.LogInformation($"NewAsync: {element.GetType().Name} - {GetKeyValue(element)} - {nameEntity} - SaveChangesAsync");
+                logger.LogInformation($"CreateAsync: {element.GetType().Name} - {GetKeyValue(element)} - {_return.EntityName} - SaveChangesAsync");
                 int retorno = await persistenceContext.SaveChangesAsync();
 
                 if (retorno > 0)
                 {
-                    logger.LogInformation($"'{nameEntity}' successfully added!");
+                    logger.LogInformation($"'{_return.EntityName}' successfully added!");
                     _return.ReturnType = ReturnTypeEnum.Success;
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Success, Code = Codes._SUCCESS, Text = $"'{nameEntity}' successfully added!" });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Success, Code = Codes._SUCCESS, Text = $"'{_return.EntityName}' successfully added!" });
                 }
                 else
                 {
-                    logger.LogWarning($"Ops, something went wrong by including the entity '{nameEntity}'!");
+                    logger.LogWarning($"Ops, something went wrong by including the entity '{_return.EntityName}'!");
                     _return.ReturnType = ReturnTypeEnum.Error;
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = $"Ops, something went wrong by including the entity '{nameEntity}'!" });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = $"Ops, something went wrong by including the entity '{_return.EntityName}'!" });
                 }
             }
             catch (DbUpdateConcurrencyException ex)
@@ -146,8 +144,6 @@ namespace PersistenceNet.Repositorys
                 return _return;
             }
 
-            var nameEntity = GetDisplayName(element);
-
             _return.EntityName = element.GetType().Name;
             _return.Key = GetKeyValue(element);
             _return.Field = GetKeyName(element);
@@ -159,19 +155,19 @@ namespace PersistenceNet.Repositorys
                 persistenceContext.Attach(element);
                 persistenceContext.Entry(element).State = EntityState.Modified;
 
-                logger.LogInformation($"UpdateAsync: {element.GetType().Name} - {GetKeyValue(element)} - {nameEntity} - SaveChangesAsync");
+                logger.LogInformation($"UpdateAsync: {element.GetType().Name} - {GetKeyValue(element)} - {_return.EntityName} - SaveChangesAsync");
                 var returnSave = await persistenceContext.SaveChangesAsync();
 
                 if (returnSave > 0)
                 {
-                    logger.LogInformation($"'{nameEntity}' successfully added!");
+                    logger.LogInformation($"'{_return.EntityName}' successfully added!");
                     _return.ReturnType = ReturnTypeEnum.Success;
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Success, Code = Codes._SUCCESS, Text = $"'{nameEntity}' updated successfully!" });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Success, Code = Codes._SUCCESS, Text = $"'{_return.EntityName}' updated successfully!" });
                 }
                 else
                 {
-                    logger.LogWarning($"Ops, something went wrong by including the entity '{nameEntity}'!");
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = $"Ops, something went wrong updating the entity '{nameEntity}'!" });
+                    logger.LogWarning($"Ops, something went wrong by including the entity '{_return.EntityName}'!");
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = $"Ops, something went wrong updating the entity '{_return.EntityName}'!" });
                 }
             }
             catch (DbUpdateConcurrencyException ex)

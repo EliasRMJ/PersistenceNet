@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using PersistenceNet.Enuns;
-using PersistenceNet.Extensions;
 using PersistenceNet.Test.Domain.Entitys;
 using PersistenceNet.Test.Domain.ViewModels;
 

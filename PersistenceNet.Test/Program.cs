@@ -24,7 +24,6 @@ builder.Services.AddDbContextPool<ContextTest>(options => {
         b => b.MigrationsAssembly("PersistenceNet.Test")
     );
 });
-
 builder.Services.AddSingleton(typeof(IDatabaseContext), typeof(ContextTest));
 
 builder.Services.AddHttpClient();

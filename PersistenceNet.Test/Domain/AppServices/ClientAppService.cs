@@ -40,6 +40,7 @@ namespace PersistenceNet.Test.Domain.AppServices
         public override async Task<IEnumerable<ClientViewModel>> Filter(Expression<Func<ClientViewModel, bool>> filter
             , int pageNumber, int pageSize)
         {
+            logger.LogInformation("Starting the filter method in 'ClientAppService'.");
             var filterConvert = ExpressionFuncConvert.Builder<ClientViewModel, Client>(filter, "Person");
             var resultList = await clientService.Filter(filterConvert, pageNumber, pageSize
                                                       , inc => inc.Person
@@ -47,8 +48,12 @@ namespace PersistenceNet.Test.Domain.AppServices
                                                       , inc => inc.Person.Emails);
 
             if (resultList is null || !resultList.Any())
+            {
+                logger.LogWarning("No records found at this time with the filters provided.");
                 throw new Exception("No records found at this time with the filters provided.");
+            }
 
+            logger.LogInformation("Converting the entity to the object successfully performed in the filter method.");
             return mapper.Map<IEnumerable<ClientViewModel>>(resultList);
         }
     }

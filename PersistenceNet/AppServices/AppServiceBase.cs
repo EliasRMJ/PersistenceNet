@@ -56,7 +56,7 @@ namespace PersistenceNet.AppServices
             var resultList = await serviceBase.Filter(filterConvert, includesConvert);
 
             if (resultList is null || !resultList.Any())
-                throw new Exception("Nenhum registro encontrado no momento com os filtros informados.");
+                throw new Exception("No records found at this time with the filters provided!");
 
             return mapper.Map<IEnumerable<T>>(resultList);
         }
@@ -67,7 +67,7 @@ namespace PersistenceNet.AppServices
             var resultList = await serviceBase.Filter(filterConvert);
 
             if (resultList is null || !resultList.Any())
-                throw new Exception("Nenhum registro encontrado no momento com os filtros informados.");
+                throw new Exception("No records found at this time with the filters provided!");
 
             return mapper.Map<IEnumerable<T>>(resultList);
         }
@@ -79,7 +79,7 @@ namespace PersistenceNet.AppServices
             var resultList = await serviceBase.Filter(filterConvert, pageNumber, pageSize, includesConvert);
 
             if (resultList is null || !resultList.Any())
-                throw new Exception("Nenhum registro encontrado no momento com os filtros informados.");
+                throw new Exception("No records found at this time with the filters provided!");
 
             return mapper.Map<IEnumerable<T>>(resultList);
         }
@@ -90,7 +90,7 @@ namespace PersistenceNet.AppServices
             var resultList = await serviceBase.Filter(filterConvert, pageNumber, pageSize);
 
             if (resultList is null || !resultList.Any())
-                throw new Exception("Nenhum registro encontrado no momento com os filtros informados.");
+                throw new Exception("No records found at this time with the filters provided!");
 
             return mapper.Map<IEnumerable<T>>(resultList);
         }
@@ -101,7 +101,7 @@ namespace PersistenceNet.AppServices
             var resultList = await serviceBase.Paginate(pageNumber, pageSize, includesConvert);
 
             if (resultList is null || !resultList.Any())
-                throw new Exception("Nenhum registro encontrado no momento.");
+                throw new Exception("No records found at this time with the filters provided!");
 
             return mapper.Map<IEnumerable<T>>(resultList);
         }
@@ -111,7 +111,7 @@ namespace PersistenceNet.AppServices
             var resultList = await serviceBase.Paginate(pageNumber, pageSize);
 
             if (resultList is null || !resultList.Any())
-                throw new Exception("Nenhum registro encontrado no momento.");
+                throw new Exception("No records found at this time with the filters provided!");
 
             return mapper.Map<IEnumerable<T>>(resultList);
         }
@@ -120,7 +120,7 @@ namespace PersistenceNet.AppServices
         {
             var entity = await serviceBase.GetEntityByIdAsync(id);
             return entity is null
-                ? throw new Exception($"Registro com identificador '{id}' não encontrado no momento.")
+                ? throw new Exception($"Record with identifier '{id}' not currently found!")
                 : mapper.Map<T>(entity);
         }
 
@@ -130,7 +130,7 @@ namespace PersistenceNet.AppServices
             var entity = await serviceBase.GetEntityByIdAsync(id, includesConvert);
 
             return entity is null
-                ? throw new Exception($"Registro com identificador '{id}' não encontrado no momento.")
+                ? throw new Exception($"Record with identifier '{id}' not currently found!")
                 : mapper.Map<T>(entity);
         }
     }

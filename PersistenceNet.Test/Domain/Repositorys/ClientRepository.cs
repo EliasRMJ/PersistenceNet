@@ -1,11 +1,14 @@
 ﻿using PersistenceNet.Test.Domain.Entitys;
 using PersistenceNet.Repositorys;
 using Microsoft.EntityFrameworkCore;
+using PersistenceNet.Interfaces;
 
 namespace PersistenceNet.Test.Domain.Repositorys
 {
-    public class ClientRepository(ContextTest contextTest, ILogger<PersistenceData<ContextTest, Client>> logger)
-        : PersistenceData<ContextTest, Client>(contextTest, logger), IClientRepository
+    public class ClientRepository(ContextTest contextTest
+                                , ILogger<PersistenceData<ContextTest, Client>> logger
+                                , IMessagesProvider provider)
+        : PersistenceData<ContextTest, Client>(contextTest, logger, provider), IClientRepository
     {
         public override async Task EntityHierarchy(Client element)
         {

@@ -12,7 +12,8 @@ using System.Reflection;
 namespace PersistenceNet.Repositorys
 {
     public class PersistenceData<TDatabaseContext, TEntity>(TDatabaseContext persistenceContext
-                                                          , ILogger<PersistenceData<TDatabaseContext, TEntity>> logger) 
+                                                          , ILogger<PersistenceData<TDatabaseContext, TEntity>> logger
+                                                          , IMessagesProvider provider) 
         : IRepositoryBase<TEntity>
         where TEntity : EntityBase
         where TDatabaseContext : PersistenceContext
@@ -33,7 +34,7 @@ namespace PersistenceNet.Repositorys
             if (element == null)
             {
                 _return.ReturnType = ReturnTypeEnum.Error;
-                _return.Messages.Add(new() { ReturnType = _return.ReturnType, Code = Codes._ERROR, Text = "The entity is void!" });
+                _return.Messages.Add(new() { ReturnType = _return.ReturnType, Code = provider.Current.Error, Text = provider.Current.EntityNull });
                 return _return;
             }
 
@@ -58,69 +59,69 @@ namespace PersistenceNet.Repositorys
 
                 if (retorno > 0)
                 {
-                    logger.LogInformation($"'{_return.EntityName}' successfully added!");
+                    logger.LogInformation($"'{_return.EntityName}' {provider.Current.AddSuccess}");
 
                     _return.Key = $"{persistenceContext.Entry(element).Entity.Id}";
                     _return.ReturnType = ReturnTypeEnum.Success;
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Success, Code = Codes._SUCCESS, Text = $"Registration of '{_return.EntityName}' successfully performed!" });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Success, Code = provider.Current.Success, Text = $"[{_return.EntityName}] {provider.Current.RegisterSuccess}" });
                 }
                 else
                 {
-                    logger.LogWarning($"Ops, something went wrong by including the entity '{_return.EntityName}'!");
+                    logger.LogWarning($"{provider.Current.IncludeProblem} '{_return.EntityName}'!");
                     _return.ReturnType = ReturnTypeEnum.Error;
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = $"Ops, something went wrong by including the entity '{_return.EntityName}'!" });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = $"{provider.Current.IncludeProblem} '{_return.EntityName}'!" });
                 }
             }
             catch (DbUpdateConcurrencyException ex)
             {
                 _return.ReturnType = ReturnTypeEnum.Error;
-                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = ex.Message });
+                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = ex.Message });
 
                 bool possuiInnerException = ex.InnerException != null;
                 var ex2 = ex.InnerException;
 
                 while (possuiInnerException)
                 {
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = ex2?.Message });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = ex2?.Message });
                     possuiInnerException = ex2?.InnerException != null;
                     ex2 = ex2?.InnerException;
                 }
 
-                logger.LogError($"ERROR (01): {_return.FormatMessage}");
+                logger.LogError($"{provider.Current.Error} (01): {_return.FormatMessage}");
             }
             catch (DbUpdateException ex)
             {
                 _return.ReturnType = ReturnTypeEnum.Error;
-                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = ex.Message });
+                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = ex.Message });
 
                 bool possuiInnerException = ex.InnerException != null;
                 var ex2 = ex.InnerException;
 
                 while (possuiInnerException)
                 {
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = ex2?.Message });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = ex2?.Message });
                     possuiInnerException = ex2?.InnerException != null;
                     ex2 = ex2?.InnerException;
                 }
 
-                logger.LogError($"ERROR (02): {_return.FormatMessage}");
+                logger.LogError($"{provider.Current.Error} (02): {_return.FormatMessage}");
             }
             catch (Exception ex)
             {
                 _return.ReturnType = ReturnTypeEnum.Error;
-                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = ex.Message, Exception = ex });
+                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = ex.Message, Exception = ex });
 
                 bool possuiInnerException = ex.InnerException != null;
                 var ex2 = ex.InnerException;
 
                 while (possuiInnerException)
                 {
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = ex2?.Message, Exception = ex2 });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = ex2?.Message, Exception = ex2 });
                     possuiInnerException = ex2?.InnerException != null;
                     ex2 = ex2?.InnerException;
                 }
 
-                logger.LogError($"ERROR (03): {_return.FormatMessage}");
+                logger.LogError($"{provider.Current.Error} (03): {_return.FormatMessage}");
             }
 
             return _return;
@@ -133,7 +134,7 @@ namespace PersistenceNet.Repositorys
             if (element == null)
             {
                 _return.ReturnType = ReturnTypeEnum.Error;
-                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = "The entity is void!" });
+                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = provider.Current.EntityNull });
 
                 return _return;
             }
@@ -161,66 +162,66 @@ namespace PersistenceNet.Repositorys
 
                 if (returnSave > 0)
                 {
-                    logger.LogInformation($"'{_return.EntityName}' successfully added!");
+                    logger.LogInformation($"'{_return.EntityName}' {provider.Current.AddSuccess}");
                     _return.ReturnType = ReturnTypeEnum.Success;
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Success, Code = Codes._SUCCESS, Text = $"Updated the '{_return.EntityName}' successfully accomplished!" });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Success, Code = provider.Current.Success, Text = $"[{_return.EntityName}] {provider.Current.UpdateSuccess}" });
                 }
                 else
                 {
-                    logger.LogWarning($"Ops, something went wrong by including the entity '{_return.EntityName}'!");
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = $"Ops, something went wrong updating the entity '{_return.EntityName}'!" });
+                    logger.LogWarning($"{provider.Current.UpdateProblem} '{_return.EntityName}'!");
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = $"{provider.Current.UpdateProblem} '{_return.EntityName}'!" });
                 }
             }
             catch (DbUpdateConcurrencyException ex)
             {
                 _return.ReturnType = ReturnTypeEnum.Error;
-                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = ex.Message });
+                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = ex.Message });
 
                 bool possuiInnerException = ex.InnerException != null;
                 var ex2 = ex.InnerException;
 
                 while (possuiInnerException)
                 {
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = ex2?.Message });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = ex2?.Message });
                     possuiInnerException = ex2?.InnerException != null;
                     ex2 = ex2?.InnerException;
                 }
 
-                logger.LogError($"ERROR (01): {_return.FormatMessage}");
+                logger.LogError($"{provider.Current.Error} (01): {_return.FormatMessage}");
             }
             catch (DbUpdateException ex)
             {
                 _return.ReturnType = ReturnTypeEnum.Error;
-                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = ex.Message });
+                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = ex.Message });
 
                 bool possuiInnerException = ex.InnerException != null;
                 var ex2 = ex.InnerException;
 
                 while (possuiInnerException)
                 {
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = ex2?.Message });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = ex2?.Message });
                     possuiInnerException = ex2?.InnerException != null;
                     ex2 = ex2?.InnerException;
                 }
 
-                logger.LogError($"ERROR (02): {_return.FormatMessage}");
+                logger.LogError($"{provider.Current.Error} (02): {_return.FormatMessage}");
             }
             catch (Exception ex)
             {
                 _return.ReturnType = ReturnTypeEnum.Error;
-                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = ex.Message, Exception = ex });
+                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = ex.Message, Exception = ex });
 
                 bool possuiInnerException = ex.InnerException != null;
                 var ex2 = ex.InnerException;
 
                 while (possuiInnerException)
                 {
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = ex2?.Message, Exception = ex2 });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = ex2?.Message, Exception = ex2 });
                     possuiInnerException = ex2?.InnerException != null;
                     ex2 = ex2?.InnerException;
                 }
 
-                logger.LogError($"ERROR (03): {_return.FormatMessage}");
+                logger.LogError($"{provider.Current.Error} (03): {_return.FormatMessage}");
             }
 
             return _return;
@@ -233,7 +234,7 @@ namespace PersistenceNet.Repositorys
             if (element == null)
             {
                 _return.ReturnType = ReturnTypeEnum.Error;
-                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = "The entity is void!" });
+                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = provider.Current.EntityNull });
 
                 return _return;
             }
@@ -252,45 +253,45 @@ namespace PersistenceNet.Repositorys
                 if (retorno > 0)
                 {
                     _return.ReturnType = ReturnTypeEnum.Success;
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Success, Code = Codes._SUCCESS, Text = $"'{nameEntity}' successfully deleted!" });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Success, Code = provider.Current.Success, Text = $"[{nameEntity}] {provider.Current.DeleteSuccess}" });
                 }
                 else
                 {
                     _return.ReturnType = ReturnTypeEnum.Error;
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = $"Ops, something went wrong deleting the entity '{nameEntity}'!" });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = $"{provider.Current.DeleteProblem} '{nameEntity}'!" });
                 }
             }
             catch (DbUpdateConcurrencyException ex)
             {
                 _return.ReturnType = ReturnTypeEnum.Error;
-                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = ex.Message });
+                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = ex.Message });
 
                 bool possuiInnerException = ex.InnerException != null;
                 var ex2 = ex?.InnerException;
 
                 while (possuiInnerException)
                 {
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = ex2?.Message });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = ex2?.Message });
                     possuiInnerException = ex2?.InnerException != null;
                     ex2 = ex2?.InnerException;
                 }
-                logger.LogError($"ERROR (01): {_return.FormatMessage}");
+                logger.LogError($"{provider.Current.Error} (01): {_return.FormatMessage}");
             }
             catch (DbUpdateException ex)
             {
                 _return.ReturnType = ReturnTypeEnum.Error;
-                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = ex.Message });
+                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = ex.Message });
 
                 bool possuiInnerException = ex.InnerException != null;
                 var ex2 = ex.InnerException;
 
                 while (possuiInnerException)
                 {
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = ex2?.Message });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = ex2?.Message });
                     possuiInnerException = ex2?.InnerException != null;
                     ex2 = ex2?.InnerException;
                 }
-                logger.LogError($"ERROR (02): {_return.FormatMessage}");
+                logger.LogError($"{provider.Current.Error} (02): {_return.FormatMessage}");
             }
             catch (Exception ex)
             {
@@ -298,21 +299,21 @@ namespace PersistenceNet.Repositorys
                 _return.Messages.Add(new()
                 {
                     ReturnType = ReturnTypeEnum.Error,
-                    Code = Codes._ERROR,
-                    Text = $"An unexpected error occurred in the deletion of the entity '{nameEntity}'."
+                    Code = provider.Current.Error,
+                    Text = $"{provider.Current.UnexpectedError} '{nameEntity}'."
                 });
-                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = ex.Message });
+                _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = ex.Message });
 
                 bool possuiInnerException = ex.InnerException != null;
                 var ex2 = ex?.InnerException;
 
                 while (possuiInnerException)
                 {
-                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = Codes._ERROR, Text = ex2?.Message });
+                    _return.Messages.Add(new() { ReturnType = ReturnTypeEnum.Error, Code = provider.Current.Error, Text = ex2?.Message });
                     possuiInnerException = ex2?.InnerException != null;
                     ex2 = ex2?.InnerException;
                 }
-                logger.LogError($"ERROR (03): {_return.FormatMessage}");
+                logger.LogError($"{provider.Current.Error} (03): {_return.FormatMessage}");
             }
 
             return _return;
@@ -333,7 +334,7 @@ namespace PersistenceNet.Repositorys
 
             foreach (var property in properties)
             {
-                logger.LogInformation($"Checks if property '{property}' it's a first or foreign key!");
+                logger.LogInformation($"[{property}] {provider.Current.CheckProperty}");
                 if (property.IsPrimaryKey() && property.IsForeignKey())
                 {
                     var foreignKey = property.GetContainingForeignKeys().FirstOrDefault();
@@ -527,13 +528,13 @@ namespace PersistenceNet.Repositorys
             if (element is null)
             {
                 operationReturn.Key = "0";
-                operationReturn.EntityName = "[unknown]";
+                operationReturn.EntityName = provider.Current.Unknown;
                 operationReturn.ReturnType = ReturnTypeEnum.Error;
                 operationReturn.Messages.Add(new()
                 {
                     ReturnType = operationReturn.ReturnType,
-                    Code = Codes._ERROR,
-                    Text = "Entity cannot be null!"
+                    Code = provider.Current.Error,
+                    Text = provider.Current.EntityNull
                 });
 
                 return operationReturn;
@@ -589,7 +590,7 @@ namespace PersistenceNet.Repositorys
                                 operationReturn.Messages.Add(new()
                                 {
                                     ReturnType = ReturnTypeEnum.Warning,
-                                    Code = Codes._WARNING,
+                                    Code = provider.Current.Warning,
                                     Text = message
                                 });
                             }
@@ -598,8 +599,8 @@ namespace PersistenceNet.Repositorys
                                 operationReturn.Messages.Add(new()
                                 {
                                     ReturnType = ReturnTypeEnum.Warning,
-                                    Code = Codes._WARNING,
-                                    Text = $"'{property.Name}' required, but no message configured on the entity!"
+                                    Code = provider.Current.Warning,
+                                    Text = $"'{property.Name}' {provider.Current.PropertyRequired}"
                                 });
                             }
                         }
@@ -615,7 +616,7 @@ namespace PersistenceNet.Repositorys
                                 if (argument.MemberName == Codes._ERRORMESSAGE)
                                 {
                                     var message = argument.TypedValue.Value?.ToString();
-                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = provider.Current.Warning, Text = message });
                                 }
                             }
                             else
@@ -623,8 +624,8 @@ namespace PersistenceNet.Repositorys
                                 operationReturn.Messages.Add(new()
                                 {
                                     ReturnType = ReturnTypeEnum.Warning,
-                                    Code = Codes._WARNING,
-                                    Text = $"'{property.Name}' required, but no message configured on the entity!"
+                                    Code = provider.Current.Warning,
+                                    Text = $"'{property.Name}' {provider.Current.PropertyRequired}"
                                 });
                             }
                         }
@@ -640,7 +641,7 @@ namespace PersistenceNet.Repositorys
                                 if (argument.MemberName == Codes._ERRORMESSAGE)
                                 {
                                     var message = argument.TypedValue.Value?.ToString();
-                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = provider.Current.Warning, Text = message });
                                 }
                             }
                             else
@@ -648,8 +649,8 @@ namespace PersistenceNet.Repositorys
                                 operationReturn.Messages.Add(new()
                                 {
                                     ReturnType = ReturnTypeEnum.Warning,
-                                    Code = Codes._WARNING,
-                                    Text = $"'{property.Name}' required, but no message configured on the entity!"
+                                    Code = provider.Current.Warning,
+                                    Text = $"'{property.Name}' {provider.Current.PropertyRequired}"
                                 });
                             }
                         }
@@ -665,7 +666,7 @@ namespace PersistenceNet.Repositorys
                                 if (argument.MemberName == Codes._ERRORMESSAGE)
                                 {
                                     var message = argument.TypedValue.Value?.ToString();
-                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = provider.Current.Warning, Text = message });
                                 }
                             }
                             else
@@ -673,8 +674,8 @@ namespace PersistenceNet.Repositorys
                                 operationReturn.Messages.Add(new()
                                 {
                                     ReturnType = ReturnTypeEnum.Warning,
-                                    Code = Codes._WARNING,
-                                    Text = $"'{property.Name}' required, but no message configured on the entity!"
+                                    Code = provider.Current.Warning,
+                                    Text = $"'{property.Name}' {provider.Current.PropertyRequired}"
                                 });
                             }
                         }
@@ -690,7 +691,7 @@ namespace PersistenceNet.Repositorys
                                 if (argument.MemberName == Codes._ERRORMESSAGE)
                                 {
                                     var message = argument.TypedValue.Value?.ToString();
-                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = provider.Current.Warning, Text = message });
                                 }
                             }
                             else
@@ -698,8 +699,8 @@ namespace PersistenceNet.Repositorys
                                 operationReturn.Messages.Add(new()
                                 {
                                     ReturnType = ReturnTypeEnum.Warning,
-                                    Code = Codes._WARNING,
-                                    Text = $"'{property.Name}' required, but no message configured on the entity!"
+                                    Code = provider.Current.Warning,
+                                    Text = $"'{property.Name}' {provider.Current.PropertyRequired}"
                                 });
                             }
                         }
@@ -715,7 +716,7 @@ namespace PersistenceNet.Repositorys
                                 if (argument.MemberName == Codes._ERRORMESSAGE)
                                 {
                                     var message = argument.TypedValue.Value?.ToString();
-                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = provider.Current.Warning, Text = message });
                                 }
                             }
                             else
@@ -723,8 +724,8 @@ namespace PersistenceNet.Repositorys
                                 operationReturn.Messages.Add(new()
                                 {
                                     ReturnType = ReturnTypeEnum.Warning,
-                                    Code = Codes._WARNING,
-                                    Text = $"'{property.Name}' required, but no message configured on the entity!"
+                                    Code = provider.Current.Warning,
+                                    Text = $"'{property.Name}' {provider.Current.PropertyRequired}"
                                 });
                             }
                         }
@@ -740,7 +741,7 @@ namespace PersistenceNet.Repositorys
                                 if (argument.MemberName == Codes._ERRORMESSAGE)
                                 {
                                     var message = argument.TypedValue.Value?.ToString();
-                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = provider.Current.Warning, Text = message });
                                 }
                             }
                             else
@@ -748,8 +749,8 @@ namespace PersistenceNet.Repositorys
                                 operationReturn.Messages.Add(new()
                                 {
                                     ReturnType = ReturnTypeEnum.Warning,
-                                    Code = Codes._WARNING,
-                                    Text = $"'{property.Name}' required, but no message configured on the entity!"
+                                    Code = provider.Current.Warning,
+                                    Text = $"'{property.Name}' {provider.Current.PropertyRequired}"
                                 });
                             }
                         }
@@ -765,7 +766,7 @@ namespace PersistenceNet.Repositorys
                                 if (argument.MemberName == Codes._ERRORMESSAGE)
                                 {
                                     var message = argument.TypedValue.Value?.ToString();
-                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = provider.Current.Warning, Text = message });
                                 }
                             }
                             else
@@ -773,8 +774,8 @@ namespace PersistenceNet.Repositorys
                                 operationReturn.Messages.Add(new()
                                 {
                                     ReturnType = ReturnTypeEnum.Warning,
-                                    Code = Codes._WARNING,
-                                    Text = $"'{property.Name}' required, but no message configured on the entity!"
+                                    Code = provider.Current.Warning,
+                                    Text = $"'{property.Name}' {provider.Current.PropertyRequired}"
                                 });
                             }
                         }
@@ -790,7 +791,7 @@ namespace PersistenceNet.Repositorys
                                 if (argument.MemberName == Codes._ERRORMESSAGE)
                                 {
                                     var message = argument.TypedValue.Value?.ToString();
-                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = provider.Current.Warning, Text = message });
                                 }
                             }
                             else
@@ -798,8 +799,8 @@ namespace PersistenceNet.Repositorys
                                 operationReturn.Messages.Add(new()
                                 {
                                     ReturnType = ReturnTypeEnum.Warning,
-                                    Code = Codes._WARNING,
-                                    Text = $"'{property.Name}' required, but no message configured on the entity!"
+                                    Code = provider.Current.Warning,
+                                    Text = $"'{property.Name}' {provider.Current.PropertyRequired}"
                                 });
                             }
                         }
@@ -818,14 +819,14 @@ namespace PersistenceNet.Repositorys
                                 if (argument1.MemberName == Codes._ERRORMESSAGE)
                                 {
                                     var message = argument1.TypedValue.Value?.ToString();
-                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = provider.Current.Warning, Text = message });
                                 }
 
                                 var argument2 = property.PropertyInfo.CustomAttributes.ElementAt(1).NamedArguments.ElementAt(0);
                                 if (argument2.MemberName == Codes._ERRORMESSAGE)
                                 {
                                     var message = argument2.TypedValue.Value?.ToString();
-                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = Codes._WARNING, Text = message });
+                                    operationReturn.Messages.Add(new() { ReturnType = ReturnTypeEnum.Warning, Code = provider.Current.Warning, Text = message });
                                 }
                             }
                         }
@@ -837,8 +838,8 @@ namespace PersistenceNet.Repositorys
                 operationReturn.Messages.Add(new()
                 {
                     ReturnType = ReturnTypeEnum.Warning,
-                    Code = Codes._WARNING,
-                    Text = $"Entity '{element.GetType()}' not found!"
+                    Code = provider.Current.Warning,
+                    Text = $"[{element.GetType()}] {provider.Current.EntityFound}"
                 });
             }
 

@@ -15,6 +15,8 @@ using PersistenceNet.Interfaces;
 using PersistenceNet.Test.Domain.Transaction;
 using Asp.Versioning;
 using Microsoft.Extensions.Caching.Memory;
+using PersistenceNet.MessagesProvider.Locations;
+using PersistenceNet.MessagesProvider;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,13 @@ builder.Services.AddDbContextPool<ContextTest>(options => {
 builder.Services.AddSingleton(typeof(IDatabaseContext), typeof(ContextTest));
 
 builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddSingleton<Messages, MessagesEnUs>();
+builder.Services.AddSingleton<MessagesEnUs>();
+builder.Services.AddSingleton<MessagesPtBr>();
+
+builder.Services.AddSingleton<IMessagesProvider, MessagesProvider>();
 
 builder.Services.AddScoped(typeof(ITransactionWork), typeof(TransactionWork));
 

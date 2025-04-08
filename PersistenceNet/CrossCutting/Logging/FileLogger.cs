@@ -2,15 +2,21 @@
 
 namespace PersistenceNet.CrossCutting.Logging
 {
+#pragma warning disable CS9113 
     public class FileLogger(string logDirectory) : ILogger
+#pragma warning restore CS9113
     {
         private static readonly Lock _lock = new();
 
+#pragma warning disable CS8633 
         public IDisposable? BeginScope<TState>(TState state) => null;
+#pragma warning restore CS8633 
 
         public bool IsEnabled(LogLevel logLevel) => true;
 
+#pragma warning disable CS8767 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception
+#pragma warning restore CS8767 
             , Func<TState, Exception, string> formatter)
         {
             if (!IsEnabled(logLevel)) return;

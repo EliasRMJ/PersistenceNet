@@ -10,42 +10,43 @@ namespace PersistenceNet.AppServices
     public abstract class AppServiceBase<T, P>(IServiceBase<P> serviceBase
                                              , ITransactionWork transactionWork
                                              , IMapper mapper
-                                             , ILogger<T> logger)
+                                             , ILogger<T> logger
+                                             , IMessagesProvider provider)
         : IAppServiceBase<T> where T : class where P : class
     {
         public virtual async Task<OperationReturn> CreateOrUpdateAsync(T element)
         {
-            logger.LogInformation("Starting the Object to Entity Conversion in the Method CreateOrUpdate.");
+            logger.LogInformation($"{provider.Current.EntityConversion} 'CreateOrUpdate'.");
             P convertedEntity = mapper.Map<P>(element);
 
-            logger.LogInformation("Converting the Object to the Entity Successfully Performed in the Method CreateOrUpdate.");
+            logger.LogInformation($"{provider.Current.StartCallMethod} 'CreateOrUpdate'.");
             return await serviceBase.CreateOrUpdateAsync(convertedEntity);
         }
 
         public virtual async Task<OperationReturn> CreateAsync(T element)
         {
-            logger.LogInformation("Starting the Object to Entity Conversion in the Method Create.");
+            logger.LogInformation($"{provider.Current.EntityConversion} 'Create'.");
             P convertedEntity = mapper.Map<P>(element);
 
-            logger.LogInformation("Converting the Object to the Entity Successfully Performed in the Method Create.");
+            logger.LogInformation($"{provider.Current.StartCallMethod} 'Create'.");
             return await serviceBase.CreateAsync(convertedEntity);
         }
 
         public virtual async Task<OperationReturn> UpdateAsync(T element)
         {
-            logger.LogInformation("Starting the Object to Entity Conversion in the Method Update.");
+            logger.LogInformation($"{provider.Current.EntityConversion} 'Update'.");
             P convertedEntity = mapper.Map<P>(element);
 
-            logger.LogInformation("Converting the Object to the Entity Successfully Performed in the Method Update.");
+            logger.LogInformation($"{provider.Current.StartCallMethod} 'Update'.");
             return await serviceBase.UpdateAsync(convertedEntity);
         }
 
         public virtual async Task<OperationReturn> DeleteAsync(T element)
         {
-            logger.LogInformation("Starting the Object to Entity Conversion in the Method Delete.");
+            logger.LogInformation($"{provider.Current.EntityConversion} 'Delete'.");
             P convertedEntity = mapper.Map<P>(element);
 
-            logger.LogInformation("Converting the Object to the Entity Successfully Performed in the Method Delete.");
+            logger.LogInformation($"{provider.Current.StartCallMethod} 'Delete'.");
             return await serviceBase.DeleteAsync(convertedEntity);
         }
 
@@ -56,7 +57,7 @@ namespace PersistenceNet.AppServices
             var resultList = await serviceBase.Filter(filterConvert, includesConvert);
 
             if (resultList is null || !resultList.Any())
-                throw new Exception("No records found at this time with the filters provided!");
+                throw new Exception($"{provider.Current.NoResultList}");
 
             return mapper.Map<IEnumerable<T>>(resultList);
         }
@@ -67,7 +68,7 @@ namespace PersistenceNet.AppServices
             var resultList = await serviceBase.Filter(filterConvert);
 
             if (resultList is null || !resultList.Any())
-                throw new Exception("No records found at this time with the filters provided!");
+                throw new Exception($"{provider.Current.NoResultList}");
 
             return mapper.Map<IEnumerable<T>>(resultList);
         }
@@ -79,7 +80,7 @@ namespace PersistenceNet.AppServices
             var resultList = await serviceBase.Filter(filterConvert, pageNumber, pageSize, includesConvert);
 
             if (resultList is null || !resultList.Any())
-                throw new Exception("No records found at this time with the filters provided!");
+                throw new Exception($"{provider.Current.NoResultList}");
 
             return mapper.Map<IEnumerable<T>>(resultList);
         }
@@ -90,7 +91,7 @@ namespace PersistenceNet.AppServices
             var resultList = await serviceBase.Filter(filterConvert, pageNumber, pageSize);
 
             if (resultList is null || !resultList.Any())
-                throw new Exception("No records found at this time with the filters provided!");
+                throw new Exception($"{provider.Current.NoResultList}");
 
             return mapper.Map<IEnumerable<T>>(resultList);
         }
@@ -101,7 +102,7 @@ namespace PersistenceNet.AppServices
             var resultList = await serviceBase.Paginate(pageNumber, pageSize, includesConvert);
 
             if (resultList is null || !resultList.Any())
-                throw new Exception("No records found at this time with the filters provided!");
+                throw new Exception($"{provider.Current.NoResultList}");
 
             return mapper.Map<IEnumerable<T>>(resultList);
         }
@@ -111,7 +112,7 @@ namespace PersistenceNet.AppServices
             var resultList = await serviceBase.Paginate(pageNumber, pageSize);
 
             if (resultList is null || !resultList.Any())
-                throw new Exception("No records found at this time with the filters provided!");
+                throw new Exception($"{provider.Current.NoResultList}");
 
             return mapper.Map<IEnumerable<T>>(resultList);
         }
@@ -120,7 +121,7 @@ namespace PersistenceNet.AppServices
         {
             var entity = await serviceBase.GetEntityByIdAsync(id);
             return entity is null
-                ? throw new Exception($"Record with identifier '{id}' not currently found!")
+                ? throw new Exception($"[{id}] {provider.Current.NoResult}")
                 : mapper.Map<T>(entity);
         }
 
@@ -130,7 +131,7 @@ namespace PersistenceNet.AppServices
             var entity = await serviceBase.GetEntityByIdAsync(id, includesConvert);
 
             return entity is null
-                ? throw new Exception($"Record with identifier '{id}' not currently found!")
+                ? throw new Exception($"[{id}] {provider.Current.NoResult}")
                 : mapper.Map<T>(entity);
         }
     }

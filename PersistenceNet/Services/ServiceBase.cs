@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace PersistenceNet.Services
 {
-    public class ServiceBase<TEntity>(IRepositoryBase<TEntity> repository)
+    public class ServiceBase<TEntity>(IRepositoryBase<TEntity> repository, IMessagesProvider provider)
          : Notifiable<Notification>, IServiceBase<TEntity> where TEntity : EntityBase
     {
         public virtual async Task<OperationReturn> CreateOrUpdateAsync(TEntity element)

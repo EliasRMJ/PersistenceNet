@@ -5,7 +5,7 @@ using PersistenceNet.Interfaces;
 
 namespace PersistenceNet.Transactions
 {
-    public abstract class TransactionWorkBase(PersistenceContext context)
+    public abstract class TransactionWorkBase(PersistenceContext context, IMessagesProvider provider)
         : Notifiable<Notification>, ITransactionWork, IDisposable
     {
         private IDbContextTransaction? _transaction;
@@ -26,7 +26,7 @@ namespace PersistenceNet.Transactions
             {
                 _countTransaction = 0;
 
-                throw new Exception("Error initiating transaction! "
+                throw new Exception($"{provider.Current.TransactionError}"
                     , ex);
             }
         }
@@ -36,7 +36,7 @@ namespace PersistenceNet.Transactions
             try
             {
                 if (this._transaction == null)
-                    throw new Exception("The 'CommitAsync' action needs an active transaction. Try to start the method first 'BeginTransactionAsync'.");
+                    throw new Exception($"{provider.Current.TransactionNoStarting}");
 
                 if (_countTransaction.Equals(1))
                 {
@@ -53,7 +53,7 @@ namespace PersistenceNet.Transactions
             catch (Exception ex)
             {
                 this._countTransaction = 0;
-                AddNotification("Commit", $"Unexpected error when completing transaction: {ex.AggregateMessage()}");
+                AddNotification("Commit", $"{provider.Current.TransactionErrorUnexpected}: {ex.AggregateMessage()}");
                 throw;
             }
         }
@@ -73,9 +73,9 @@ namespace PersistenceNet.Transactions
                 Interlocked.Decrement(ref _countTransaction);
         }
 
-#pragma warning disable CA1816 // Os métodos Dispose devem chamar SuppressFinalize
+#pragma warning disable CA1816 
         public void Dispose()
-#pragma warning restore CA1816 // Os métodos Dispose devem chamar SuppressFinalize
+#pragma warning restore CA1816 
         {
             this._transaction?.Dispose();
         }

@@ -10,7 +10,8 @@ namespace PersistenceNet.Test.Domain.AppServices
     public class ClassificationAppService(IClassificationService classificationService
                                         , ITransactionWork transactionWork
                                         , IMapper mapper
-                                        , ILogger<ClassificationViewModel> logger)
-        : AppServiceBase<ClassificationViewModel, Classification>(classificationService, transactionWork, mapper, logger), IClassificationAppService
-    {  }
+                                        , ILogger<ClassificationViewModel> logger
+                                        , IMessagesProvider provider)
+        : AppServiceBase<ClassificationViewModel, Classification>(classificationService, transactionWork, mapper, logger, provider)
+        , IClassificationAppService { }
 }

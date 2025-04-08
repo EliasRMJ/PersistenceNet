@@ -1,9 +1,12 @@
-﻿using System.Net;
+﻿using PersistenceNet.Interfaces;
+using System.Net;
 using System.Text.Json;
 
 namespace PersistenceNet.Test.Middleware
 {
-    public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
+    public class ExceptionHandlingMiddleware(RequestDelegate next
+                                           , ILogger<ExceptionHandlingMiddleware> logger
+                                           , IMessagesProvider provider)
     {
         private readonly RequestDelegate _next = next;
         private readonly ILogger<ExceptionHandlingMiddleware> _logger = logger;
@@ -22,14 +25,14 @@ namespace PersistenceNet.Test.Middleware
 
         private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            _logger.LogError(exception, "An unexpected error occurred.");
+            _logger.LogError(exception, provider.Current.UnexpectedOccurred);
 
             var response = exception switch
             {
-                ApplicationException => new ExceptionResponse(HttpStatusCode.BadRequest, "Application exception occurred."),
-                KeyNotFoundException => new ExceptionResponse(HttpStatusCode.NotFound, "The requested key was not found."),
-                UnauthorizedAccessException => new ExceptionResponse(HttpStatusCode.Unauthorized, "Unauthorized access."),
-                _ => new ExceptionResponse(HttpStatusCode.InternalServerError, "Internal server error. Please try again later.")
+                ApplicationException => new ExceptionResponse(HttpStatusCode.BadRequest, provider.Current.BadRequest),
+                KeyNotFoundException => new ExceptionResponse(HttpStatusCode.NotFound, provider.Current.NotFound),
+                UnauthorizedAccessException => new ExceptionResponse(HttpStatusCode.Unauthorized, provider.Current.Unauthorized),
+                _ => new ExceptionResponse(HttpStatusCode.InternalServerError, provider.Current.InternalServerError)
             };
 
             context.Response.ContentType = "application/json";

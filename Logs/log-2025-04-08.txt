@@ -1,0 +1,104 @@
+2025-04-08 16:16:40 [Critical] Application startup exception
+2025-04-08 16:16:40 [Error] Hosting failed to start
+2025-04-08 16:22:41 [Critical] Application startup exception
+2025-04-08 16:22:41 [Error] Hosting failed to start
+2025-04-08 16:23:07 [Critical] Application startup exception
+2025-04-08 16:23:07 [Error] Hosting failed to start
+2025-04-08 16:24:57 [Critical] Application startup exception
+2025-04-08 16:24:57 [Error] Hosting failed to start
+2025-04-08 16:27:24 [Information] Now listening on: https://localhost:7191
+2025-04-08 16:27:24 [Information] Now listening on: http://localhost:5191
+2025-04-08 16:27:25 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-08 16:27:25 [Information] Hosting environment: Development
+2025-04-08 16:27:25 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-08 16:27:57 [Information] Executed DbCommand (142ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+SELECT [s0].[ClientId], [s0].[ClassificationId], [s0].[Note], [s0].[Id], [s0].[Active], [s0].[ComplementName], [s0].[InclusionDate], [s0].[Name], [s0].[PersonType], [s0].[DocumentNumber], [s0].[MunicipalRegistration], [s0].[DateBirth], [s0].[DocumentNumber0], [s0].[Discriminator], [s0].[Id0], [e].[Id], [e].[Mail], [e].[PersonId], [s0].[Active0], [s0].[Name0]
+FROM (
+    SELECT TOP(1) [c].[ClientId], [c].[ClassificationId], [c].[Note], [s].[Id], [s].[Active], [s].[ComplementName], [s].[InclusionDate], [s].[Name], [s].[PersonType], [s].[DocumentNumber], [s].[MunicipalRegistration], [s].[DateBirth], [s].[DocumentNumber0], [s].[Discriminator], [c0].[Id] AS [Id0], [c0].[Active] AS [Active0], [c0].[Name] AS [Name0]
+    FROM [Client] AS [c]
+    INNER JOIN (
+        SELECT [p].[Id], [p].[Active], [p].[ComplementName], [p].[InclusionDate], [p].[Name], [p].[PersonType], [l].[DocumentNumber], [l].[MunicipalRegistration], [p0].[DateBirth], [p0].[DocumentNumber] AS [DocumentNumber0], CASE
+            WHEN [p0].[Id] IS NOT NULL THEN N'PhysicsPerson'
+            WHEN [l].[Id] IS NOT NULL THEN N'LegalPerson'
+        END AS [Discriminator]
+        FROM [Person] AS [p]
+        LEFT JOIN [LegalPerson] AS [l] ON [p].[Id] = [l].[Id]
+        LEFT JOIN [PhysicsPerson] AS [p0] ON [p].[Id] = [p0].[Id]
+    ) AS [s] ON [c].[ClientId] = [s].[Id]
+    LEFT JOIN [Classification] AS [c0] ON [c].[ClassificationId] = [c0].[Id]
+    WHERE [c].[ClientId] = @__id_0
+) AS [s0]
+LEFT JOIN [EmailPerson] AS [e] ON [s0].[Id] = [e].[PersonId]
+ORDER BY [s0].[ClientId], [s0].[Id], [s0].[Id0]
+2025-04-08 16:29:33 [Information] Now listening on: https://localhost:7191
+2025-04-08 16:29:33 [Information] Now listening on: http://localhost:5191
+2025-04-08 16:29:33 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-08 16:29:33 [Information] Hosting environment: Development
+2025-04-08 16:29:33 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-08 16:29:49 [Information] Executed DbCommand (62ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+SELECT [s0].[ClientId], [s0].[ClassificationId], [s0].[Note], [s0].[Id], [s0].[Active], [s0].[ComplementName], [s0].[InclusionDate], [s0].[Name], [s0].[PersonType], [s0].[DocumentNumber], [s0].[MunicipalRegistration], [s0].[DateBirth], [s0].[DocumentNumber0], [s0].[Discriminator], [s0].[Id0], [e].[Id], [e].[Mail], [e].[PersonId], [s0].[Active0], [s0].[Name0]
+FROM (
+    SELECT TOP(1) [c].[ClientId], [c].[ClassificationId], [c].[Note], [s].[Id], [s].[Active], [s].[ComplementName], [s].[InclusionDate], [s].[Name], [s].[PersonType], [s].[DocumentNumber], [s].[MunicipalRegistration], [s].[DateBirth], [s].[DocumentNumber0], [s].[Discriminator], [c0].[Id] AS [Id0], [c0].[Active] AS [Active0], [c0].[Name] AS [Name0]
+    FROM [Client] AS [c]
+    INNER JOIN (
+        SELECT [p].[Id], [p].[Active], [p].[ComplementName], [p].[InclusionDate], [p].[Name], [p].[PersonType], [l].[DocumentNumber], [l].[MunicipalRegistration], [p0].[DateBirth], [p0].[DocumentNumber] AS [DocumentNumber0], CASE
+            WHEN [p0].[Id] IS NOT NULL THEN N'PhysicsPerson'
+            WHEN [l].[Id] IS NOT NULL THEN N'LegalPerson'
+        END AS [Discriminator]
+        FROM [Person] AS [p]
+        LEFT JOIN [LegalPerson] AS [l] ON [p].[Id] = [l].[Id]
+        LEFT JOIN [PhysicsPerson] AS [p0] ON [p].[Id] = [p0].[Id]
+    ) AS [s] ON [c].[ClientId] = [s].[Id]
+    LEFT JOIN [Classification] AS [c0] ON [c].[ClassificationId] = [c0].[Id]
+    WHERE [c].[ClientId] = @__id_0
+) AS [s0]
+LEFT JOIN [EmailPerson] AS [e] ON [s0].[Id] = [e].[PersonId]
+ORDER BY [s0].[ClientId], [s0].[Id], [s0].[Id0]
+2025-04-08 16:30:59 [Information] Now listening on: https://localhost:7191
+2025-04-08 16:30:59 [Information] Now listening on: http://localhost:5191
+2025-04-08 16:30:59 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-08 16:30:59 [Information] Hosting environment: Development
+2025-04-08 16:30:59 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-08 16:31:16 [Information] Executed DbCommand (106ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+SELECT [s0].[ClientId], [s0].[ClassificationId], [s0].[Note], [s0].[Id], [s0].[Active], [s0].[ComplementName], [s0].[InclusionDate], [s0].[Name], [s0].[PersonType], [s0].[DocumentNumber], [s0].[MunicipalRegistration], [s0].[DateBirth], [s0].[DocumentNumber0], [s0].[Discriminator], [s0].[Id0], [e].[Id], [e].[Mail], [e].[PersonId], [s0].[Active0], [s0].[Name0]
+FROM (
+    SELECT TOP(1) [c].[ClientId], [c].[ClassificationId], [c].[Note], [s].[Id], [s].[Active], [s].[ComplementName], [s].[InclusionDate], [s].[Name], [s].[PersonType], [s].[DocumentNumber], [s].[MunicipalRegistration], [s].[DateBirth], [s].[DocumentNumber0], [s].[Discriminator], [c0].[Id] AS [Id0], [c0].[Active] AS [Active0], [c0].[Name] AS [Name0]
+    FROM [Client] AS [c]
+    INNER JOIN (
+        SELECT [p].[Id], [p].[Active], [p].[ComplementName], [p].[InclusionDate], [p].[Name], [p].[PersonType], [l].[DocumentNumber], [l].[MunicipalRegistration], [p0].[DateBirth], [p0].[DocumentNumber] AS [DocumentNumber0], CASE
+            WHEN [p0].[Id] IS NOT NULL THEN N'PhysicsPerson'
+            WHEN [l].[Id] IS NOT NULL THEN N'LegalPerson'
+        END AS [Discriminator]
+        FROM [Person] AS [p]
+        LEFT JOIN [LegalPerson] AS [l] ON [p].[Id] = [l].[Id]
+        LEFT JOIN [PhysicsPerson] AS [p0] ON [p].[Id] = [p0].[Id]
+    ) AS [s] ON [c].[ClientId] = [s].[Id]
+    LEFT JOIN [Classification] AS [c0] ON [c].[ClassificationId] = [c0].[Id]
+    WHERE [c].[ClientId] = @__id_0
+) AS [s0]
+LEFT JOIN [EmailPerson] AS [e] ON [s0].[Id] = [e].[PersonId]
+ORDER BY [s0].[ClientId], [s0].[Id], [s0].[Id0]
+2025-04-08 16:31:52 [Information] Now listening on: https://localhost:7191
+2025-04-08 16:31:52 [Information] Now listening on: http://localhost:5191
+2025-04-08 16:31:52 [Information] Application started. Press Ctrl+C to shut down.
+2025-04-08 16:31:52 [Information] Hosting environment: Development
+2025-04-08 16:31:52 [Information] Content root path: C:\Meus Projetos GUI\SGS V_W\PersistenceNet\PersistenceNet.Test
+2025-04-08 16:32:07 [Information] Executed DbCommand (86ms) [Parameters=[@__id_0='?' (DbType = Int64)], CommandType='Text', CommandTimeout='30']
+SELECT [s0].[ClientId], [s0].[ClassificationId], [s0].[Note], [s0].[Id], [s0].[Active], [s0].[ComplementName], [s0].[InclusionDate], [s0].[Name], [s0].[PersonType], [s0].[DocumentNumber], [s0].[MunicipalRegistration], [s0].[DateBirth], [s0].[DocumentNumber0], [s0].[Discriminator], [s0].[Id0], [e].[Id], [e].[Mail], [e].[PersonId], [s0].[Active0], [s0].[Name0]
+FROM (
+    SELECT TOP(1) [c].[ClientId], [c].[ClassificationId], [c].[Note], [s].[Id], [s].[Active], [s].[ComplementName], [s].[InclusionDate], [s].[Name], [s].[PersonType], [s].[DocumentNumber], [s].[MunicipalRegistration], [s].[DateBirth], [s].[DocumentNumber0], [s].[Discriminator], [c0].[Id] AS [Id0], [c0].[Active] AS [Active0], [c0].[Name] AS [Name0]
+    FROM [Client] AS [c]
+    INNER JOIN (
+        SELECT [p].[Id], [p].[Active], [p].[ComplementName], [p].[InclusionDate], [p].[Name], [p].[PersonType], [l].[DocumentNumber], [l].[MunicipalRegistration], [p0].[DateBirth], [p0].[DocumentNumber] AS [DocumentNumber0], CASE
+            WHEN [p0].[Id] IS NOT NULL THEN N'PhysicsPerson'
+            WHEN [l].[Id] IS NOT NULL THEN N'LegalPerson'
+        END AS [Discriminator]
+        FROM [Person] AS [p]
+        LEFT JOIN [LegalPerson] AS [l] ON [p].[Id] = [l].[Id]
+        LEFT JOIN [PhysicsPerson] AS [p0] ON [p].[Id] = [p0].[Id]
+    ) AS [s] ON [c].[ClientId] = [s].[Id]
+    LEFT JOIN [Classification] AS [c0] ON [c].[ClassificationId] = [c0].[Id]
+    WHERE [c].[ClientId] = @__id_0
+) AS [s0]
+LEFT JOIN [EmailPerson] AS [e] ON [s0].[Id] = [e].[PersonId]
+ORDER BY [s0].[ClientId], [s0].[Id], [s0].[Id0]

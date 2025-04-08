@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using PersistenceNet.AppServices;
-using PersistenceNet.Constants;
 using PersistenceNet.Enuns;
 using PersistenceNet.Interfaces;
 using PersistenceNet.Structs;
@@ -15,8 +14,9 @@ namespace PersistenceNet.Test.Domain.AppServices
     public class ClientAppService(IClientService clientService
                                 , ITransactionWork transactionWork
                                 , IMapper mapper
-                                , ILogger<ClientViewModel> logger)
-        : AppServiceBase<ClientViewModel, Client>(clientService, transactionWork, mapper, logger), IClientAppService
+                                , ILogger<ClientViewModel> logger
+                                , IMessagesProvider provider)
+        : AppServiceBase<ClientViewModel, Client>(clientService, transactionWork, mapper, logger, provider), IClientAppService
     {
         public override async Task<OperationReturn> UpdateAsync(ClientViewModel element)
         {
@@ -29,7 +29,7 @@ namespace PersistenceNet.Test.Domain.AppServices
                     Field = "ClientId",
                     Key = element.ClientId.ToString(),
                     ReturnType = ReturnTypeEnum.Empty,
-                    Messages = [ new() { Code = Codes._WARNING, Text = $"Client {element.ClientId} not found!" } ]
+                    Messages = [ new() { Code = provider.Current.Warning, Text = $"Client {element.ClientId} not found!" } ]
                 };
                 return operationResult;
             }
@@ -40,7 +40,7 @@ namespace PersistenceNet.Test.Domain.AppServices
         public override async Task<IEnumerable<ClientViewModel>> Filter(Expression<Func<ClientViewModel, bool>> filter
             , int pageNumber, int pageSize)
         {
-            logger.LogInformation("Starting the filter method in 'ClientAppService'.");
+            logger.LogInformation($"{provider.Current.FilterMethod} 'ClientAppService'.");
             var filterConvert = ExpressionFuncConvert.Builder<ClientViewModel, Client>(filter, "Person");
             var resultList = await clientService.Filter(filterConvert, pageNumber, pageSize
                                                       , inc => inc.Person
@@ -49,11 +49,11 @@ namespace PersistenceNet.Test.Domain.AppServices
 
             if (resultList is null || !resultList.Any())
             {
-                logger.LogWarning("No records found at this time with the filters provided.");
-                throw new Exception("No records found at this time with the filters provided.");
+                logger.LogWarning(provider.Current.NoResultList);
+                throw new Exception(provider.Current.NoResultList);
             }
 
-            logger.LogInformation("Converting the entity to the object successfully performed in the filter method.");
+            logger.LogInformation(provider.Current.ConvertMethodFilter);
             return mapper.Map<IEnumerable<ClientViewModel>>(resultList);
         }
     }
